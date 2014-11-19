@@ -21,7 +21,7 @@ public class EternalStarlight {
 		cards.add(mapPanel, "mapPanel");
 		cardLayout.show(cards, "gamePanel");
 		
-		gameScreen.setSize(800, 600);
+		gameScreen.setSize(1280, 720);
 		gameScreen.setTitle("Game");
 		gameScreen.setLocationRelativeTo(null);
 		gameScreen.setResizable(false);
