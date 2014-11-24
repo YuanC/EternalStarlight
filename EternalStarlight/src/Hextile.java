@@ -37,10 +37,10 @@ public class Hextile {
 		for (int i = 0; i < size; i++) {
 			line = br.readLine().split(" ");
 			for (int j = 0; j < size; j++) {
-				if (line[j].equals("O")){
-					hextiles[i][j]= new Hextile(0,0);
+				if (line[j].equals("O")) {
+					hextiles[i][j] = new Hextile(i - size / 2, j - size / 2);
 				} else {
-					
+
 				}
 			}
 		}
