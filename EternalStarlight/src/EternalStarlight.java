@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.io.IOException;
 
 import javax.swing.*;
 
@@ -6,7 +7,7 @@ public class EternalStarlight {
 	private static JPanel cards;
 	private static CardLayout cardLayout;
 
-	public static void main(String args[]) {
+	public static void main(String args[]) throws IOException {
 
 		JFrame gameScreen = new JFrame();
 		GamePanel gamePanel = new GamePanel();

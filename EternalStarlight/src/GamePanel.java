@@ -1,5 +1,7 @@
 import javax.swing.*;
+
 import java.awt.*;
+import java.io.IOException;
 
 public class GamePanel extends JPanel {
 	private boolean gameRunning = true;
@@ -42,9 +44,9 @@ public class GamePanel extends JPanel {
 
 	}
 
-	public GamePanel() {
-		hexTiles = new Hextile[11][11];
-		Hextile.fillHexGrid(1);
+	public GamePanel() throws IOException {
+		hexTiles = Hextile.fillHexGrid(1);
+		
 
 	}
 
