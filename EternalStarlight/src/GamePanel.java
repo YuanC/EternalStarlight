@@ -5,7 +5,7 @@ import java.io.IOException;
 
 public class GamePanel extends JPanel {
 	private boolean gameRunning = true;
-	private Hextile[][] hexTiles;
+	private Hextile[][] hextiles;
 
 	public void runGameLoop() {
 		long lastTime = System.nanoTime(), fpsTimer = 0, currentTime, updateLength;
@@ -45,9 +45,17 @@ public class GamePanel extends JPanel {
 	}
 
 	public GamePanel() throws IOException {
-		hexTiles = Hextile.fillHexGrid(1);
-		
-
+		hextiles = Hextile.fillHexGrid(1);
+		for (int i = 0; i < hextiles.length; i++) {
+			for (int j = 0; j < hextiles[i].length; j++) {
+				if (hextiles[i][j] == null) {
+					System.out.print("X");
+				} else {
+					System.out.print("O");
+				}
+			}
+			System.out.println();
+		}
 	}
 
 	public void paintComponent(Graphics g) {

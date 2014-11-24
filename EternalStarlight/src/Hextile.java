@@ -40,7 +40,7 @@ public class Hextile {
 				if (line[j].equals("O")) {
 					hextiles[i][j] = new Hextile(i - size / 2, j - size / 2);
 				} else {
-
+					hextiles[i][j] = null;
 				}
 			}
 		}
