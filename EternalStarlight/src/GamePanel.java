@@ -3,6 +3,7 @@ import java.awt.*;
 
 public class GamePanel extends JPanel {
 	private boolean gameRunning = true;
+	private Hextile[][] hexTiles;
 
 	public void runGameLoop() {
 		long lastTime = System.nanoTime(), fpsTimer = 0, currentTime, updateLength;
@@ -42,11 +43,13 @@ public class GamePanel extends JPanel {
 	}
 
 	public GamePanel() {
+		hexTiles = new Hextile[11][11];
+		Hextile.fillHexGrid(1);
 
 	}
 
 	public void paintComponent(Graphics g) {
-		//super.paint(g);
+		// super.paint(g);
 		g.drawLine(10, 10, 50, 50);
 	}
 
