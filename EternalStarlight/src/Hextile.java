@@ -1,3 +1,4 @@
+import java.awt.Graphics;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -5,12 +6,11 @@ import java.io.IOException;
 
 public class Hextile {
 	private int q, r;
-	private boolean playerOn;
+	private static int height, northpadding, southpadding, hpadding;
 
 	public Hextile(int q, int r) {
 		this.setQ(q);
 		this.setR(r);
-		setPlayerOn(false);
 
 	}
 
@@ -20,7 +20,6 @@ public class Hextile {
 		BufferedReader br;
 		String filename = "";
 		String[] line;
-		;
 		int size = 1;
 
 		switch (lvl) {
@@ -66,11 +65,7 @@ public class Hextile {
 		this.r = r;
 	}
 
-	public boolean isPlayerOn() {
-		return playerOn;
-	}
+	public void draw(Graphics g) {
 
-	public void setPlayerOn(boolean playerOn) {
-		this.playerOn = playerOn;
 	}
 }
