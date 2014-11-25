@@ -1,12 +1,12 @@
 import java.awt.Graphics;
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
 public class Hextile {
 	private int q, r;
-	private static int height, northpadding, southpadding, hpadding;
+	public static final int n_padding = 140, s_padding = 40, h_padding = 100;
+	public static int tile_h, tile_w, tile_l;
 
 	public Hextile(int q, int r) {
 		this.setQ(q);
@@ -22,6 +22,7 @@ public class Hextile {
 		String[] line;
 		int size = 1;
 
+		// Determines the level properties
 		switch (lvl) {
 		case 1:
 			size = 11;
@@ -29,6 +30,7 @@ public class Hextile {
 			break;
 		}
 
+		// Reads the text file and fills the grid
 		br = new BufferedReader(new FileReader(filename));
 
 		hextiles = new Hextile[size][size];
@@ -43,6 +45,7 @@ public class Hextile {
 				}
 			}
 		}
+
 		br.close();
 		return hextiles;
 	}

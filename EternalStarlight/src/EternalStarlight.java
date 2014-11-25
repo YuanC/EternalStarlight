@@ -9,11 +9,13 @@ public class EternalStarlight {
 
 	public static void main(String args[]) throws IOException {
 
+		// Initializes the JFrame and the JPanels
 		JFrame gameScreen = new JFrame();
 		GamePanel gamePanel = new GamePanel();
 		MenuPanel menuPanel = new MenuPanel();
 		MapPanel mapPanel = new MapPanel();
 
+		// Adds the panels to the cardlayout
 		cards = new JPanel(new CardLayout());
 		cardLayout = (CardLayout) cards.getLayout();
 
@@ -21,7 +23,8 @@ public class EternalStarlight {
 		cards.add(gamePanel, "gamePanel");
 		cards.add(mapPanel, "mapPanel");
 		cardLayout.show(cards, "gamePanel");
-		
+
+		// Sets up the JFrame
 		gameScreen.setSize(1280, 720);
 		gameScreen.setTitle("Game");
 		gameScreen.setLocationRelativeTo(null);
@@ -29,7 +32,7 @@ public class EternalStarlight {
 		gameScreen.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		gameScreen.add(cards);
 		gameScreen.setVisible(true);
-		
+
 		gamePanel.runGameLoop();
 	}
 }

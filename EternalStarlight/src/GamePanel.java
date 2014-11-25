@@ -7,7 +7,7 @@ public class GamePanel extends JPanel {
 	private boolean gameRunning = true;
 	private Hextile[][] hextiles;
 
-	//The main game loop capped at ~120 fps
+	// The main game loop capped at ~120 fps
 	public void runGameLoop() {
 		long lastTime = System.nanoTime(), fpsTimer = 0, currentTime, updateLength;
 		final int optimalFPS = 120;
@@ -30,7 +30,7 @@ public class GamePanel extends JPanel {
 				fpsCnt = 0;
 			}
 
-			//delta is change in time in 
+			// delta is change in time in
 			updateGame(delta);
 			repaint();
 
@@ -49,10 +49,10 @@ public class GamePanel extends JPanel {
 
 	public GamePanel() throws IOException {
 
-		//Fills the grid up
+		// Fills the grid up
 		hextiles = Hextile.fillHexGrid(1);
-		
-		//debug code for saving the grid data
+
+		// debug code for saving the grid data
 		for (int i = 0; i < hextiles.length; i++) {
 			for (int j = 0; j < hextiles[i].length; j++) {
 				if (hextiles[i][j] == null) {
@@ -70,7 +70,7 @@ public class GamePanel extends JPanel {
 
 		for (Hextile[] hr : hextiles) {
 			for (Hextile ht : hr) {
-				
+
 			}
 		}
 	}
