@@ -30,7 +30,7 @@ public class GamePanel extends JPanel {
 				fpsCnt = 0;
 			}
 
-			// delta is change in time in
+			// delta is change in time in nanoseconds
 			updateGame(delta);
 			repaint();
 
