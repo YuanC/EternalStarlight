@@ -6,7 +6,7 @@ import java.io.IOException;
 public class Hextile {
 	private int q, r;
 	public static final int n_padding = 140, s_padding = 40, h_padding = 100;
-	public static int tile_h, tile_w, tile_l;
+	public static int tiles_h, tiles_w, tiles_l, size;
 
 	public Hextile(int q, int r) {
 		this.setQ(q);
@@ -20,7 +20,6 @@ public class Hextile {
 		BufferedReader br;
 		String filename = "";
 		String[] line;
-		int size = 1;
 
 		// Determines the level properties
 		switch (lvl) {
@@ -40,6 +39,8 @@ public class Hextile {
 			for (int j = 0; j < size; j++) {
 				if (line[j].equals("O")) {
 					hextiles[i][j] = new Hextile(i - size / 2, j - size / 2);
+				} else if (line[j].equals("B")) {
+					hextiles[i][j] = null;
 				} else {
 					hextiles[i][j] = null;
 				}
@@ -69,6 +70,6 @@ public class Hextile {
 	}
 
 	public void draw(Graphics g) {
-
+		// g.draw
 	}
 }

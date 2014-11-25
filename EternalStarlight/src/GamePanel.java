@@ -70,7 +70,7 @@ public class GamePanel extends JPanel {
 
 		for (Hextile[] hr : hextiles) {
 			for (Hextile ht : hr) {
-
+				ht.draw(g);
 			}
 		}
 	}
