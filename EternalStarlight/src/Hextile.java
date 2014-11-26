@@ -4,14 +4,13 @@ import java.io.FileReader;
 import java.io.IOException;
 
 public class Hextile {
-	private int q, r;
+	private int q, r, x, y;
 	public static final int n_padding = 140, s_padding = 40, h_padding = 100;
 	public static int tiles_h, tiles_w, tiles_l, size;
 
 	public Hextile(int q, int r) {
 		this.setQ(q);
 		this.setR(r);
-
 	}
 
 	public static Hextile[][] fillHexGrid(int lvl) throws IOException {
