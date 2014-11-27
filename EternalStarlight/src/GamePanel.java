@@ -66,11 +66,14 @@ public class GamePanel extends JPanel {
 	}
 
 	public void paintComponent(Graphics g) {
-		// super.paint(g);
+
+		super.paintComponent(g);
+		Graphics2D g2d = (Graphics2D) g;
 
 		for (Hextile[] hr : hextiles) {
 			for (Hextile ht : hr) {
-				//ht.draw(g);
+				if (ht != null)
+					ht.draw(g2d);
 			}
 		}
 	}
