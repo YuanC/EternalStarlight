@@ -70,10 +70,13 @@ public class GamePanel extends JPanel {
 		super.paintComponent(g);
 		Graphics2D g2d = (Graphics2D) g;
 
-		for (Hextile[] hr : hextiles) {
-			for (Hextile ht : hr) {
-				if (ht != null)
-					ht.draw(g2d);
+		g2d.fillRect(0, 0, 1280, 720);
+		g2d.setColor(Color.WHITE);
+
+		for (int i = 0; i < hextiles.length; i++) {
+			for (int j = 0; j < hextiles[i].length; j++) {
+				if (hextiles[i][j] != null)
+					hextiles[i][j].draw(g2d);
 			}
 		}
 	}

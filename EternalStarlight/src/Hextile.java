@@ -9,16 +9,20 @@ public class Hextile {
 	public static final int n_padding = 140, s_padding = 40, h_padding = 100,
 			screen_x = 1280, screen_y = 720;
 	private static double tiles_h, tiles_w;
-	private static int size;
+	public static int size;
 
-	public Hextile(int q, int r) {
-		this.setQ(q);
-		this.setR(r);
+	public Hextile(int i, int j) {
+		setQ(i - size / 2);
+		setR(j - size / 2);
 		int mapx = screen_x - h_padding * 2;
 		int mapy = screen_y - n_padding - s_padding;
 
-		x = (int) ((q + size / 2.0) * tiles_h * 3 / 4.0 + tiles_h / 2.0);
-		y = (int) (Math.abs(q + r) * tiles_h / 2.0 + tiles_h / 2.0);
+		x = (int) ((q + size / 2) * tiles_w * 3 / 4.0 + tiles_w / 2.0)
+				+ h_padding;
+		y = (int) ((Math.abs(q) + (r + Math.min(0, q) + size / 2) * 2)
+				* tiles_h / 2.0 + tiles_h / 2.0)
+				+ n_padding;
+		System.out.println(q + " " + r);
 	}
 
 	public static Hextile[][] fillHexGrid(int lvl) throws IOException {
@@ -33,10 +37,12 @@ public class Hextile {
 		case 1:
 			size = 11;
 			filename = "levels/1.txt";
-			tiles_w = (screen_x - h_padding * 2) / 34.0;
-			tiles_h = (screen_y - n_padding - s_padding) / 11;
 			break;
 		}
+
+		// Calculates the width and height of a single tile
+		tiles_w = (screen_x - h_padding * 2) / (size * 3 + 1.0) * 4;
+		tiles_h = (screen_y - n_padding - s_padding) / ((double) size);
 
 		// Reads the text file and fills the grid
 		br = new BufferedReader(new FileReader(filename));
@@ -47,8 +53,10 @@ public class Hextile {
 			line = br.readLine().split(" ");
 			for (int j = 0; j < size; j++) {
 				if (line[j].equals("O")) {
-					hextiles[i][j] = new Hextile(i - size / 2, j - size / 2);
+					hextiles[i][j] = new Hextile(i, j);
 				} else if (line[j].equals("B")) {
+					hextiles[i][j] = null;
+				} else {
 					hextiles[i][j] = null;
 				}
 			}
@@ -77,6 +85,6 @@ public class Hextile {
 	}
 
 	public void draw(Graphics2D g) {
-		g.drawString("swag", x, y);
+		g.drawString("s", x, y);
 	}
 }
