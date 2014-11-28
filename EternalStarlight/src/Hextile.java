@@ -6,7 +6,7 @@ import java.io.IOException;
 
 public class Hextile {
 	private int q, r, x, y;
-	public static final int n_padding = 140, s_padding = 40, h_padding = 100,
+	public static final int n_padding = 130, s_padding = 50, h_padding = 100,
 			screen_x = 1280, screen_y = 720;
 	private static double tiles_h, tiles_w;
 	public static int size;
@@ -89,6 +89,6 @@ public class Hextile {
 
 	public void draw(Graphics2D g) {
 		// TODO draw methods (sprite? polygon?)
-		g.drawString("s", x, y);
+		g.drawString("$", x, y);
 	}
 }

@@ -34,11 +34,12 @@ public class GamePanel extends JPanel {
 			updateGame(delta);
 			repaint();
 
-			try {
-				Thread.sleep((optimalDelta - (lastTime - System.nanoTime())) / 1000000);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+			// limits the framerate
+			/*
+			 * try { Thread.sleep((optimalDelta - (lastTime -
+			 * System.nanoTime())) / 1000000); } catch (Exception e) {
+			 * e.printStackTrace(); }
+			 */
 		}
 	}
 
@@ -81,6 +82,7 @@ public class GamePanel extends JPanel {
 					hextiles[i][j].draw(g2d);
 			}
 		}
+		// g2d.drawString(, 5, 5);
 	}
 
 	// To stop the game loop
