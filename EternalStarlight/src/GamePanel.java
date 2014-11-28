@@ -7,7 +7,7 @@ public class GamePanel extends JPanel {
 	private boolean gameRunning = true;
 	private Hextile[][] hextiles;
 
-	// The main game loop capped at ~120 fps
+	// The main game loop capped at ~120 frames/second
 	public void runGameLoop() {
 		long lastTime = System.nanoTime(), fpsTimer = 0, currentTime, updateLength;
 		final int optimalFPS = 120;
@@ -65,6 +65,7 @@ public class GamePanel extends JPanel {
 		}
 	}
 
+	// Paints everything
 	public void paintComponent(Graphics g) {
 
 		super.paintComponent(g);
@@ -73,6 +74,7 @@ public class GamePanel extends JPanel {
 		g2d.fillRect(0, 0, 1280, 720);
 		g2d.setColor(Color.WHITE);
 
+		// Draws all the tiles in the grid
 		for (int i = 0; i < hextiles.length; i++) {
 			for (int j = 0; j < hextiles[i].length; j++) {
 				if (hextiles[i][j] != null)
@@ -81,6 +83,7 @@ public class GamePanel extends JPanel {
 		}
 	}
 
+	// To stop the game loop
 	public void setGameRunningFalse() {
 		gameRunning = false;
 	}

@@ -14,15 +14,15 @@ public class Hextile {
 	public Hextile(int i, int j) {
 		setQ(i - size / 2);
 		setR(j - size / 2);
-		int mapx = screen_x - h_padding * 2;
-		int mapy = screen_y - n_padding - s_padding;
 
+		// This part took so long >.> Calculates the coordinates
 		x = (int) ((q + size / 2) * tiles_w * 3 / 4.0 + tiles_w / 2.0)
 				+ h_padding;
 		y = (int) ((Math.abs(q) + (r + Math.min(0, q) + size / 2) * 2)
 				* tiles_h / 2.0 + tiles_h / 2.0)
 				+ n_padding;
-		System.out.println(q + " " + r);
+
+		// System.out.println(q + " " + r);
 	}
 
 	public static Hextile[][] fillHexGrid(int lvl) throws IOException {
@@ -32,7 +32,7 @@ public class Hextile {
 		String filename = "";
 		String[] line;
 
-		// Determines the level properties
+		// Determines the level properties based on the number
 		switch (lvl) {
 		case 1:
 			size = 11;
@@ -46,18 +46,21 @@ public class Hextile {
 
 		// Reads the text file and fills the grid
 		br = new BufferedReader(new FileReader(filename));
-
 		hextiles = new Hextile[size][size];
 
 		for (int i = 0; i < size; i++) {
 			line = br.readLine().split(" ");
+
 			for (int j = 0; j < size; j++) {
-				if (line[j].equals("O")) {
+				if (line[j].equals("O")) { // The space is a tile
 					hextiles[i][j] = new Hextile(i, j);
+
 				} else if (line[j].equals("B")) {
-					hextiles[i][j] = null;
+					hextiles[i][j] = null; // TODO add barrier tiles
+
 				} else {
-					hextiles[i][j] = null;
+					hextiles[i][j] = null; // The space is empty
+
 				}
 			}
 		}
@@ -85,6 +88,7 @@ public class Hextile {
 	}
 
 	public void draw(Graphics2D g) {
+		// TODO draw methods (sprite? polygon?)
 		g.drawString("s", x, y);
 	}
 }
