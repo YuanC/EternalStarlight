@@ -26,7 +26,7 @@ public class EternalStarlight {
 
 		// Sets up the JFrame
 		gameScreen.setSize(1280, 720);
-		gameScreen.setTitle("Game");
+		gameScreen.setTitle("Eternal Starlight");
 		gameScreen.setLocationRelativeTo(null);
 		gameScreen.setResizable(false);
 		gameScreen.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);

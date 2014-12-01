@@ -1,5 +1,7 @@
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Point;
+import java.awt.Polygon;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -7,10 +9,11 @@ import java.io.IOException;
 public class Hextile {
 	private int q, r, x, y;
 	public static final int n_padding = 130, s_padding = 50, h_padding = 100,
-			screen_x = 1280, screen_y = 720, tileGap = 3;
+			screen_x = 1280, screen_y = 720, tileHGap = 5, tileVGap = 3;
 	private static double tiles_h, tiles_w;
 	public static int size;
 	private int[][] verts;
+	private Polygon hexagon;
 
 	public Hextile(int i, int j) {
 		setQ(i - size / 2);
@@ -31,7 +34,7 @@ public class Hextile {
 	}
 
 	private void fillverts() {
-		double h = tiles_h / 2 - tileGap, w = tiles_w / 2 - tileGap;
+		double h = tiles_h / 2 - tileVGap, w = tiles_w / 2 - tileHGap;
 
 		verts[0][0] = (int) (x + w);
 		verts[1][0] = (int) (y);
@@ -50,6 +53,7 @@ public class Hextile {
 
 		verts[0][5] = (int) (x + w / 2);
 		verts[1][5] = (int) (y + h);
+		hexagon = new Polygon(verts[0], verts[1], 6);
 	}
 
 	public static Hextile[][] fillHexGrid(int lvl) throws IOException {
@@ -116,7 +120,25 @@ public class Hextile {
 
 	public void draw(Graphics2D g) {
 		// TODO draw methods (sprite? polygon?)
-		g.drawPolygon(verts[0], verts[1], 6);
-		// g.drawString("$", x, y);
+		g.drawPolygon(hexagon);
 	}
+
+	public static int[] hexContainCal(Hextile[][] hextiles, int mx, int my) {
+		for (int i = 0; i < hextiles.length; i++) {
+			for (int j = 0; j < hextiles[i].length; j++) {
+				if (hextiles[i][j] != null
+						&& hextiles[i][j].getHexagon().contains(mx, my)) {
+					System.out.println(hextiles[i][j].getQ() + ","
+							+ hextiles[i][j].getQ());
+				}
+
+			}
+		}
+		return null;
+	}
+
+	public Polygon getHexagon() {
+		return hexagon;
+	}
+
 }
