@@ -35,11 +35,13 @@ public class GamePanel extends JPanel {
 			repaint();
 
 			// limits the framerate
-			/*
-			 * try { Thread.sleep((optimalDelta - (lastTime -
-			 * System.nanoTime())) / 1000000); } catch (Exception e) {
-			 * e.printStackTrace(); }
-			 */
+
+			try {
+				Thread.sleep((optimalDelta - (lastTime - System.nanoTime())) / 1000000);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
 		}
 	}
 

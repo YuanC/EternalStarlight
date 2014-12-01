@@ -7,9 +7,10 @@ import java.io.IOException;
 public class Hextile {
 	private int q, r, x, y;
 	public static final int n_padding = 130, s_padding = 50, h_padding = 100,
-			screen_x = 1280, screen_y = 720;
+			screen_x = 1280, screen_y = 720, tileGap = 3;
 	private static double tiles_h, tiles_w;
 	public static int size;
+	private int[][] verts;
 
 	public Hextile(int i, int j) {
 		setQ(i - size / 2);
@@ -22,7 +23,33 @@ public class Hextile {
 				* tiles_h / 2.0 + tiles_h / 2.0)
 				+ n_padding;
 
+		verts = new int[6][6];
+
+		fillverts();
+
 		// System.out.println(q + " " + r);
+	}
+
+	private void fillverts() {
+		double h = tiles_h / 2 - tileGap, w = tiles_w / 2 - tileGap;
+
+		verts[0][0] = (int) (x + w);
+		verts[1][0] = (int) (y);
+
+		verts[0][1] = (int) (x + w / 2);
+		verts[1][1] = (int) (y - h);
+
+		verts[0][2] = (int) (x - w / 2);
+		verts[1][2] = (int) (y - h);
+
+		verts[0][3] = (int) (x - w);
+		verts[1][3] = (int) (y);
+
+		verts[0][4] = (int) (x - w / 2);
+		verts[1][4] = (int) (y + h);
+
+		verts[0][5] = (int) (x + w / 2);
+		verts[1][5] = (int) (y + h);
 	}
 
 	public static Hextile[][] fillHexGrid(int lvl) throws IOException {
@@ -89,6 +116,7 @@ public class Hextile {
 
 	public void draw(Graphics2D g) {
 		// TODO draw methods (sprite? polygon?)
-		g.drawString("$", x, y);
+		g.drawPolygon(verts[0], verts[1], 6);
+		// g.drawString("$", x, y);
 	}
 }
