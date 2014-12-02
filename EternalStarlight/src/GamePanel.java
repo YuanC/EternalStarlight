@@ -1,16 +1,15 @@
 import javax.swing.*;
-
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.io.IOException;
 
-public class GamePanel extends JPanel implements MouseListener,
-		MouseMotionListener {
+public class GamePanel extends JPanel {
 	private boolean gameRunning = true;
 	private Hextile[][] hextiles;
-	private int fps;
+	private int fps, mx, my;
+	private MouseStatus mouse = new MouseStatus();
 
 	// The main game loop capped at ~120 frames/second
 	public void runGameLoop() {
@@ -30,7 +29,7 @@ public class GamePanel extends JPanel implements MouseListener,
 			fpsCnt++;
 
 			if (fpsTimer >= 1000000000) {
-				System.out.println("(FPS: " + fpsCnt + ")");
+				// System.out.println("(FPS: " + fpsCnt + ")");
 				fps = fpsCnt;
 				fpsTimer = 0;
 				fpsCnt = 0;
@@ -42,25 +41,25 @@ public class GamePanel extends JPanel implements MouseListener,
 
 			// limits the framerate
 
-			try {
-				Thread.sleep((optimalDelta - (lastTime - System.nanoTime())) / 1000000);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+			/*
+			 * try { Thread.sleep((optimalDelta - (lastTime -
+			 * System.nanoTime())) / 1000000); } catch (Exception e) {
+			 * e.printStackTrace(); }
+			 */
 
 		}
 	}
 
 	//
 	private void updateGame(double delta) {
-
+		Hextile.setMouseTile(mouse.getMx(), mouse.getMy(), hextiles);
 	}
 
 	public GamePanel() throws IOException {
-		
-		addMouseListener(this);
-		addMouseMotionListener(this);
-		
+
+		addMouseListener(mouse);
+		addMouseMotionListener(mouse);
+
 		// Fills the grid up
 		hextiles = Hextile.fillHexGrid(1);
 
@@ -101,35 +100,5 @@ public class GamePanel extends JPanel implements MouseListener,
 	// To stop the game loop
 	public void setGameRunningFalse() {
 		gameRunning = false;
-	}
-
-	// MouseListener event handlers
-	public void mouseClicked(MouseEvent e) {
-		System.out.println("Clicked at [" + e.getX() + ", " + e.getY() + "]");
-	}
-
-	public void mousePressed(MouseEvent e) {
-		System.out.println("Pressed at [" + e.getX() + ", " + e.getY() + "]");
-	}
-
-	public void mouseReleased(MouseEvent e) {
-		System.out.println("Released at [" + e.getX() + ", " + e.getY() + "]");
-	}
-
-	public void mouseEntered(MouseEvent e) {
-		System.out.println("Mouse in window");
-	}
-
-	public void mouseExited(MouseEvent e) {
-		System.out.println("Mouse outside window");
-	}
-
-	// MouseMotionListener event handlers
-	public void mouseDragged(MouseEvent e) {
-		System.out.println("Dragged at [" + e.getX() + ", " + e.getY() + "]");
-	}
-
-	public void mouseMoved(MouseEvent e) {
-		System.out.println("Moved at [" + e.getX() + ", " + e.getY() + "]");
 	}
 }

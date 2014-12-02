@@ -9,9 +9,10 @@ import java.io.IOException;
 public class Hextile {
 	private int q, r, x, y;
 	public static final int n_padding = 130, s_padding = 50, h_padding = 100,
-			screen_x = 1280, screen_y = 720, tileHGap = 5, tileVGap = 3;
+			screen_x = 1280, screen_y = 720, tileHGap = 2, tileVGap = 1;
 	private static double tiles_h, tiles_w;
 	public static int size;
+	public static int[] mouseTile;
 	private int[][] verts;
 	private Polygon hexagon;
 
@@ -66,7 +67,7 @@ public class Hextile {
 		// Determines the level properties based on the number
 		switch (lvl) {
 		case 1:
-			size = 11;
+			size = 21;
 			filename = "levels/1.txt";
 			break;
 		}
@@ -101,7 +102,6 @@ public class Hextile {
 	}
 
 	// The setter/getter methods
-
 	public int getQ() {
 		return q;
 	}
@@ -120,21 +120,39 @@ public class Hextile {
 
 	public void draw(Graphics2D g) {
 		// TODO draw methods (sprite? polygon?)
-		g.drawPolygon(hexagon);
+		if (mouseTile != null && q == mouseTile[0] && r == mouseTile[1])
+			g.fillPolygon(hexagon);
+		else
+			g.drawPolygon(hexagon);
 	}
 
 	public static int[] hexContainCal(Hextile[][] hextiles, int mx, int my) {
+
+		int[] qr = new int[2];
+		
+		
 		for (int i = 0; i < hextiles.length; i++) {
 			for (int j = 0; j < hextiles[i].length; j++) {
 				if (hextiles[i][j] != null
 						&& hextiles[i][j].getHexagon().contains(mx, my)) {
-					System.out.println(hextiles[i][j].getQ() + ","
-							+ hextiles[i][j].getQ());
-				}
 
+					qr[0] = hextiles[i][j].getQ();
+					qr[1] = hextiles[i][j].getR();
+					return qr;
+				}
 			}
 		}
 		return null;
+	}
+
+	public static void setMouseTile(int mx, int my, Hextile[][] hextiles) {
+
+		int[] qr = hexContainCal(hextiles, mx, my);
+
+		if (qr != null)
+			mouseTile = qr;
+		else
+			mouseTile = null;
 	}
 
 	public Polygon getHexagon() {
