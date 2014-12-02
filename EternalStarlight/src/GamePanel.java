@@ -57,7 +57,10 @@ public class GamePanel extends JPanel implements MouseListener,
 	}
 
 	public GamePanel() throws IOException {
-
+		
+		addMouseListener(this);
+		addMouseMotionListener(this);
+		
 		// Fills the grid up
 		hextiles = Hextile.fillHexGrid(1);
 
