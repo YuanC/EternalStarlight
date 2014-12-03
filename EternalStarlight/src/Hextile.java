@@ -126,15 +126,18 @@ public class Hextile {
 			g.drawPolygon(hexagon);
 	}
 
-	public static int[] hexContainCal(Hextile[][] hextiles, int mx, int my) {
+	public static int[] hexContainCal(Hextile[][] hextiles, int x, int y) {
 
 		int[] qr = new int[2];
-		
-		
-		for (int i = 0; i < hextiles.length; i++) {
+
+		int c;
+
+		c = (int) ((x - h_padding) / tiles_w);
+
+		for (int i = Math.max(0, c - 1); i < Math.min(c + 2, hextiles.length); i++) {
 			for (int j = 0; j < hextiles[i].length; j++) {
 				if (hextiles[i][j] != null
-						&& hextiles[i][j].getHexagon().contains(mx, my)) {
+						&& hextiles[i][j].getHexagon().contains(x, y)) {
 
 					qr[0] = hextiles[i][j].getQ();
 					qr[1] = hextiles[i][j].getR();
