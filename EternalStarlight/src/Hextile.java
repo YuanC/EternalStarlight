@@ -126,22 +126,44 @@ public class Hextile {
 			g.drawPolygon(hexagon);
 	}
 
+	// Calculates where the point is on the grid. Null if not on grid
 	public static int[] hexContainCal(Hextile[][] hextiles, int x, int y) {
 
 		int[] qr = new int[2];
 
 		int c;
 
-		c = (int) ((x - h_padding) / tiles_w);
+		c = (int) ((x - h_padding) / (tiles_w / 4));
 
-		for (int i = Math.max(0, c - 1); i < Math.min(c + 2, hextiles.length); i++) {
-			for (int j = 0; j < hextiles[i].length; j++) {
-				if (hextiles[i][j] != null
-						&& hextiles[i][j].getHexagon().contains(x, y)) {
+		System.out.println(c);
 
-					qr[0] = hextiles[i][j].getQ();
-					qr[1] = hextiles[i][j].getR();
-					return qr;
+		int p = Math.min(c / 3, size - 1);
+
+		if (c < size * 3 + 1 && c >= 0) {
+			if (c % 3 == 0) {
+
+				for (int i = Math.max(p - 1, 0); i < p + 1; i++) {
+					for (int j = 0; j < hextiles[i].length; j++) {
+						if (hextiles[i][j] != null
+								&& hextiles[i][j].getHexagon().contains(x, y)) {
+
+							qr[0] = hextiles[i][j].getQ();
+							qr[1] = hextiles[i][j].getR();
+							return qr;
+						}
+					}
+				}
+
+			} else {
+
+				for (int j = 0; j < hextiles[p].length; j++) {
+					if (hextiles[p][j] != null
+							&& hextiles[p][j].getHexagon().contains(x, y)) {
+
+						qr[0] = hextiles[p][j].getQ();
+						qr[1] = hextiles[p][j].getR();
+						return qr;
+					}
 				}
 			}
 		}
