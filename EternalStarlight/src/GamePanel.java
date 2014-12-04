@@ -1,8 +1,5 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
 import java.io.IOException;
 
 public class GamePanel extends JPanel {
@@ -41,12 +38,11 @@ public class GamePanel extends JPanel {
 
 			// limits the framerate
 
-			/*try {
-				Thread.sleep((optimalDelta - (lastTime - System.nanoTime())) / 1000000);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-*/
+			/*
+			 * try { Thread.sleep((optimalDelta - (lastTime -
+			 * System.nanoTime())) / 1000000); } catch (Exception e) {
+			 * e.printStackTrace(); }
+			 */
 		}
 	}
 
