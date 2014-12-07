@@ -131,11 +131,9 @@ public class Hextile {
 		c = (int) ((x - h_padding) / (tiles_w / 4));
 		int p = Math.min(c / 3, size - 1);
 
-		if (c < size * 3 + 1 && c >= 0 /*
-										 * && y > n_padding && y > screen_y -
-										 * s_padding && x > h_padding && x <
-										 * screen_x - h_padding
-										 */) {
+		if (c < size * 3 + 1 && c >= 0 && y > n_padding
+				&& y < screen_y - s_padding && x > h_padding
+				&& x < screen_x - h_padding) {
 			if (c % 3 == 0) {
 
 				for (int i = Math.max(p - 1, 0); i < p + 1; i++) {
