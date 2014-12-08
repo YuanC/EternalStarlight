@@ -5,8 +5,10 @@ import java.io.IOException;
 public class GamePanel extends JPanel {
 	private boolean gameRunning = true;
 	private Hextile[][] hextiles;
-	private int fps, mx, my;
-	private MouseStatus mouse = new MouseStatus();
+	private int mx, my;
+	private double fps;
+	private MouseStatus mouse;
+	private Battle_Player player;
 
 	// The main game loop capped at ~120 frames/second
 	public void runGameLoop() {
@@ -20,7 +22,7 @@ public class GamePanel extends JPanel {
 			currentTime = System.nanoTime();
 			updateLength = currentTime - lastTime;
 			lastTime = currentTime;
-			delta = updateLength / ((double) optimalFPS);
+			delta = updateLength / 1000000000.0;
 
 			fpsTimer += updateLength;
 			fpsCnt++;
@@ -43,16 +45,18 @@ public class GamePanel extends JPanel {
 			 * System.nanoTime())) / 1000000); } catch (Exception e) {
 			 * e.printStackTrace(); }
 			 */
+
 		}
 	}
 
 	//
 	private void updateGame(double delta) {
-		Hextile.setMouseTile(mouse.getMx(), mouse.getMy(), hextiles);
+		mouse.setMouseTile(mouse.getMx(), mouse.getMy(), hextiles);
+		player.update(mouse, hextiles, delta);
 	}
 
 	public GamePanel() throws IOException {
-
+		mouse = new MouseStatus();
 		addMouseListener(mouse);
 		addMouseMotionListener(mouse);
 
@@ -70,6 +74,9 @@ public class GamePanel extends JPanel {
 			}
 			System.out.println();
 		}
+
+		player = new Battle_Player();
+
 	}
 
 	// Paints everything
@@ -79,15 +86,24 @@ public class GamePanel extends JPanel {
 		Graphics2D g2d = (Graphics2D) g;
 
 		g2d.fillRect(0, 0, 1280, 720);
-		g2d.setColor(Color.lightGray);
+		g2d.setColor(Color.gray);
 
 		// Draws all the tiles in the grid
 		for (int i = 0; i < hextiles.length; i++) {
 			for (int j = 0; j < hextiles[i].length; j++) {
-				if (hextiles[i][j] != null)
+				if (hextiles[i][j] != null) {
 					hextiles[i][j].draw(g2d);
+
+					if (hextiles[i][j].getQ() == player.getQ()
+							&& hextiles[i][j].getR() == player.getR()) {
+						hextiles[i][j].drawFilled(g);
+					}
+				}
 			}
 		}
+
+		g2d.setColor(Color.white);
+		player.draw(g2d);
 
 		// Draws the frames per second
 		g2d.drawString("FPS: " + fps, 2, 12);

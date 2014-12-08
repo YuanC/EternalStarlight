@@ -1,3 +1,4 @@
+import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Polygon;
 import java.io.BufferedReader;
@@ -10,25 +11,13 @@ public class Hextile {
 			screen_x = 1280, screen_y = 720, tileHGap = 2, tileVGap = 1;
 	private static double tiles_h, tiles_w;
 	public static int size;
-	public static int[] mouseTile;
 	private int[][] verts;
 	private Polygon hexagon;
+	private static Polygon bigContainHex;
 
-	public Hextile(int i, int j) {
-		setQ(i - size / 2);
-		setR(j - size / 2);
-
-		// This part took so long >.> Calculates the coordinates
-		x = (int) ((q + size / 2) * tiles_w * 3 / 4.0 + tiles_w / 2.0)
-				+ h_padding;
-		y = (int) ((Math.abs(q) + (r + Math.min(0, q) + size / 2) * 2)
-				* tiles_h / 2.0 + tiles_h / 2.0)
-				+ n_padding;
-
-		verts = new int[6][6];
-
-		fillverts();
-
+	public static Polygon getBigContainHex() {
+		// TODO make thing
+		return bigContainHex;
 	}
 
 	private void fillverts() {
@@ -98,29 +87,31 @@ public class Hextile {
 		return hextiles;
 	}
 
-	// The setter/getter methods
-	public int getQ() {
-		return q;
-	}
-
-	public void setQ(int q) {
-		this.q = q;
-	}
-
-	public int getR() {
-		return r;
-	}
-
-	public void setR(int r) {
-		this.r = r;
-	}
-
 	public void draw(Graphics2D g) {
-		// TODO draw methods (sprite? polygon?)
-		if (mouseTile != null && q == mouseTile[0] && r == mouseTile[1])
-			g.fillPolygon(hexagon);
-		else
-			g.drawPolygon(hexagon);
+		g.drawPolygon(hexagon);
+	}
+
+	public void drawFilled(Graphics g) {
+
+		g.fillPolygon(hexagon);
+
+	}
+
+	public Hextile(int i, int j) {
+		setQ(i - size / 2);
+		setR(j - size / 2);
+
+		// This part took so long >.> Calculates the coordinates
+		x = (int) ((q + size / 2) * tiles_w * 3 / 4.0 + tiles_w / 2.0)
+				+ h_padding;
+		y = (int) ((Math.abs(q) + (r + Math.min(0, q) + size / 2) * 2)
+				* tiles_h / 2.0 + tiles_h / 2.0)
+				+ n_padding;
+
+		verts = new int[6][6];
+
+		fillverts();
+
 	}
 
 	// Calculates where the point is on the grid. Null if not on grid
@@ -164,18 +155,31 @@ public class Hextile {
 		return null;
 	}
 
-	public static void setMouseTile(int mx, int my, Hextile[][] hextiles) {
-
-		int[] qr = hexContainCal(hextiles, mx, my);
-
-		if (qr != null)
-			mouseTile = qr;
-		else
-			mouseTile = null;
-	}
-
 	public Polygon getHexagon() {
 		return hexagon;
+	}
+
+	public static boolean pointInGrid(Hextile[][] hextiles, double newx,
+			double newy) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	// The setter/getter methods
+	public int getQ() {
+		return q;
+	}
+
+	public void setQ(int q) {
+		this.q = q;
+	}
+
+	public int getR() {
+		return r;
+	}
+
+	public void setR(int r) {
+		this.r = r;
 	}
 
 }

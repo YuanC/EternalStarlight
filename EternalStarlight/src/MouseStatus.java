@@ -1,16 +1,23 @@
+import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.util.ArrayList;
 
 public class MouseStatus implements MouseListener, MouseMotionListener {
-	private boolean clicked, inPanel;
-	private int mx, my;
+	private boolean pressed, inPanel;
+	private int mx, my, q, r;
+	private ArrayList<Double> clicklist = new ArrayList<Double>();
 
 	public MouseStatus() {
-		clicked = false;
+		pressed = false;
 		inPanel = true;
-		mx = 0;
-		my = 0;
+		my = Hextile.n_padding
+				+ (Hextile.screen_y - Hextile.n_padding - Hextile.s_padding)
+				/ 2;
+		mx = Hextile.h_padding + (Hextile.screen_x - Hextile.h_padding * 2) / 2;
+		q = 0;
+		r = 0;
 	}
 
 	@Override
@@ -55,13 +62,31 @@ public class MouseStatus implements MouseListener, MouseMotionListener {
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
+		pressed = true;
 
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
+		pressed = false;
+
+	}
+
+	public boolean isPressed() {
+		return pressed;
+	}
+
+	public void drawClicks(Graphics2D g) {
+		// TODO: Draw the clicks
+	}
+
+	public void setMouseTile(int mx, int my, Hextile[][] hextiles) {
+
+		int[] mouseTile = Hextile.hexContainCal(hextiles, mx, my);
+		if (mouseTile != null) {
+			q = mouseTile[0];
+			r = mouseTile[1];
+		}
 
 	}
 }
