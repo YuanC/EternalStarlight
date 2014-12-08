@@ -4,7 +4,7 @@ import java.io.IOException;
 
 public class GamePanel extends JPanel {
 	private boolean gameRunning = true;
-	private Hextile[][] hextiles;
+	private Hextile[][] hextiles, displayTiles;
 	private int mx, my;
 	private double fps;
 	private MouseStatus mouse;
@@ -13,7 +13,7 @@ public class GamePanel extends JPanel {
 	// The main game loop capped at ~120 frames/second
 	public void runGameLoop() {
 		long lastTime = System.nanoTime(), fpsTimer = 0, currentTime, updateLength;
-		final int optimalFPS = 120;
+		final int optimalFPS = 144;
 		final long optimalDelta = 1000000000 / optimalFPS;
 		double delta;
 		int fpsCnt = 0;
@@ -40,11 +40,11 @@ public class GamePanel extends JPanel {
 
 			// limits the framerate
 
-			/*
-			 * try { Thread.sleep((optimalDelta - (lastTime -
-			 * System.nanoTime())) / 1000000); } catch (Exception e) {
-			 * e.printStackTrace(); }
-			 */
+			try {
+				Thread.sleep((optimalDelta - (lastTime - System.nanoTime())) / 1000000);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 
 		}
 	}

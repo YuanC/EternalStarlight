@@ -2,7 +2,7 @@ import java.awt.Graphics2D;
 
 public class Battle_Player {
 	private int q, r, mx, my;
-	private double angle, speed, x, y;
+	private double angle, adjangle, speed, x, y;
 
 	public Battle_Player() {
 		q = 0;
@@ -11,21 +11,24 @@ public class Battle_Player {
 				+ (Hextile.screen_y - Hextile.n_padding - Hextile.s_padding)
 				/ 2;
 		x = Hextile.h_padding + (Hextile.screen_x - Hextile.h_padding * 2) / 2;
-		angle = Math.PI / 2;
-		speed = 100;
+		angle = 0;
+		speed = 80;
+		mx = (int) x;
+		my = (int) y;
 
 	}
 
 	public void update(MouseStatus mouse, Hextile[][] hextiles, double delta) {
-		if (mouse.isPressed()) {
+		if (mouse.isPressed() && my != mouse.getMy() && mx != mouse.getMx()) {
 			mx = mouse.getMx();
 			my = mouse.getMy();
 			angle = angleCal((int) x, (int) y, mx, my);
 		}
 
-		double newx = x + Math.cos(angle) * speed * delta;
 		double newy = y + Math.sin(angle) * speed * delta;
-		if (2 <= Math.sqrt(Math.pow(mx - x, 2) + Math.pow(my - y, 2))) {
+		double newx = x + Math.cos(angle) * speed * delta;
+
+		if (2 <= Math.sqrt(Math.pow(mx - x, 2) + Math.pow((my - y), 2))) {
 			x = newx;
 			y = newy;
 			updateTilePos(hextiles);

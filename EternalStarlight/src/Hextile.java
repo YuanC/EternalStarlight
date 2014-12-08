@@ -11,8 +11,8 @@ public class Hextile {
 			screen_x = 1280, screen_y = 720, tileHGap = 2, tileVGap = 1;
 	private static double tiles_h, tiles_w;
 	public static int size;
-	private int[][] verts;
-	private Polygon hexagon;
+	private int[][] displayVerts, realVerts;
+	private Polygon displayhex, hexagon;
 	private static Polygon bigContainHex;
 
 	public static Polygon getBigContainHex() {
@@ -20,27 +20,53 @@ public class Hextile {
 		return bigContainHex;
 	}
 
+	public static void createBigContainHex() {
+		
+	}
+
 	private void fillverts() {
 		double h = tiles_h / 2 - tileVGap, w = tiles_w / 2 - tileHGap;
 
-		verts[0][0] = (int) (x + w);
-		verts[1][0] = (int) (y);
+		displayVerts[0][0] = (int) (x + w);
+		displayVerts[1][0] = (int) (y);
 
-		verts[0][1] = (int) (x + w / 2);
-		verts[1][1] = (int) (y - h);
+		displayVerts[0][1] = (int) (x + w / 2);
+		displayVerts[1][1] = (int) (y - h);
 
-		verts[0][2] = (int) (x - w / 2);
-		verts[1][2] = (int) (y - h);
+		displayVerts[0][2] = (int) (x - w / 2);
+		displayVerts[1][2] = (int) (y - h);
 
-		verts[0][3] = (int) (x - w);
-		verts[1][3] = (int) (y);
+		displayVerts[0][3] = (int) (x - w);
+		displayVerts[1][3] = (int) (y);
 
-		verts[0][4] = (int) (x - w / 2);
-		verts[1][4] = (int) (y + h);
+		displayVerts[0][4] = (int) (x - w / 2);
+		displayVerts[1][4] = (int) (y + h);
 
-		verts[0][5] = (int) (x + w / 2);
-		verts[1][5] = (int) (y + h);
-		hexagon = new Polygon(verts[0], verts[1], 6);
+		displayVerts[0][5] = (int) (x + w / 2);
+		displayVerts[1][5] = (int) (y + h);
+		displayhex = new Polygon(displayVerts[0], displayVerts[1], 6);
+
+		h = tiles_h / 2;
+		w = tiles_w / 2;
+
+		realVerts[0][0] = (int) (x + w);
+		realVerts[1][0] = (int) (y);
+
+		realVerts[0][1] = (int) (x + w / 2);
+		realVerts[1][1] = (int) (y - h);
+
+		realVerts[0][2] = (int) (x - w / 2);
+		realVerts[1][2] = (int) (y - h);
+
+		realVerts[0][3] = (int) (x - w);
+		realVerts[1][3] = (int) (y);
+
+		realVerts[0][4] = (int) (x - w / 2);
+		realVerts[1][4] = (int) (y + h);
+
+		realVerts[0][5] = (int) (x + w / 2);
+		realVerts[1][5] = (int) (y + h);
+		hexagon = new Polygon(realVerts[0], realVerts[1], 6);
 	}
 
 	public static Hextile[][] fillHexGrid(int lvl) throws IOException {
@@ -57,6 +83,8 @@ public class Hextile {
 			filename = "levels/1.txt";
 			break;
 		}
+
+		createBigContainHex();
 
 		// Calculates the width and height of a single tile
 		tiles_w = (screen_x - h_padding * 2) / (size * 3 + 1.0) * 4;
@@ -88,12 +116,12 @@ public class Hextile {
 	}
 
 	public void draw(Graphics2D g) {
-		g.drawPolygon(hexagon);
+		g.drawPolygon(displayhex);
 	}
 
 	public void drawFilled(Graphics g) {
 
-		g.fillPolygon(hexagon);
+		g.fillPolygon(displayhex);
 
 	}
 
@@ -108,7 +136,8 @@ public class Hextile {
 				* tiles_h / 2.0 + tiles_h / 2.0)
 				+ n_padding;
 
-		verts = new int[6][6];
+		displayVerts = new int[6][6];
+		realVerts = new int[6][6];
 
 		fillverts();
 
