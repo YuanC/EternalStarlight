@@ -4,6 +4,8 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
 
+import javax.swing.SwingUtilities;
+
 public class MouseStatus implements MouseListener, MouseMotionListener {
 	private boolean pressed, inPanel;
 	private int mx, my, q, r;
@@ -36,31 +38,31 @@ public class MouseStatus implements MouseListener, MouseMotionListener {
 
 	// Drawing the clicks
 	public void drawClicks(Graphics2D g) {
-	
+
 		double[] t;
 		double r;
-	
+
 		if (pressed) {
 			g.drawOval((int) mx - 10, (int) my - 5, 20, 10);
 		}
-	
+
 		for (int i = 0; i < clicklist.size(); i++) {
 			t = clicklist.get(i);
 			r = clickrad * t[2];
 			g.drawOval((int) (t[0] - r), (int) (t[1] - r / 2), (int) (r * 2),
 					(int) r);
 		}
-	
+
 	}
 
 	public void setMouseTile(int mx, int my, Hextile[][] hextiles) {
-	
+
 		int[] mouseTile = Hextile.hexContainCal(hextiles, mx, my);
 		if (mouseTile != null) {
 			q = mouseTile[0];
 			r = mouseTile[1];
 		}
-	
+
 	}
 
 	@Override
@@ -97,20 +99,23 @@ public class MouseStatus implements MouseListener, MouseMotionListener {
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		pressed = true;
+		if (SwingUtilities.isRightMouseButton(e)) {
+			pressed = true;
+		}
 
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		pressed = false;
+		if (SwingUtilities.isRightMouseButton(e)) {
+			pressed = false;
+			double[] i = new double[3];
 
-		double[] i = new double[3];
-
-		i[0] = mx;
-		i[1] = my;
-		i[2] = 1;
-		clicklist.add(i);
+			i[0] = mx;
+			i[1] = my;
+			i[2] = 1;
+			clicklist.add(i);
+		}
 	}
 
 	public boolean isPressed() {
