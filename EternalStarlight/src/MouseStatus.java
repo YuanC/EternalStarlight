@@ -7,7 +7,8 @@ import java.util.ArrayList;
 public class MouseStatus implements MouseListener, MouseMotionListener {
 	private boolean pressed, inPanel;
 	private int mx, my, q, r;
-	private ArrayList<Double> clicklist = new ArrayList<Double>();
+	private ArrayList<double[]> clicklist;
+	private double clickrad;
 
 	public MouseStatus() {
 		pressed = false;
@@ -18,6 +19,8 @@ public class MouseStatus implements MouseListener, MouseMotionListener {
 		mx = Hextile.h_padding + (Hextile.screen_x - Hextile.h_padding * 2) / 2;
 		q = 0;
 		r = 0;
+		clicklist = new ArrayList<double[]>();
+		clickrad = 10;
 	}
 
 	@Override
@@ -70,14 +73,44 @@ public class MouseStatus implements MouseListener, MouseMotionListener {
 	public void mouseReleased(MouseEvent e) {
 		pressed = false;
 
+		double[] i = new double[3];
+
+		i[0] = mx;
+		i[1] = my;
+		i[2] = 1;
+		clicklist.add(i);
 	}
 
 	public boolean isPressed() {
 		return pressed;
 	}
 
+	// updates the radius of the click until it disappears
+	public void updateClicks(double delta) {
+		for (int i = 0; i < clicklist.size(); i++) {
+			clicklist.get(i)[2] -= delta * 4;
+			if (clicklist.get(i)[2] <= 0) {
+				clicklist.remove(i);
+				i--;
+			}
+		}
+	}
+
 	public void drawClicks(Graphics2D g) {
-		// TODO: Draw the clicks
+
+		double[] t;
+		double r;
+
+		if (pressed) {
+			g.drawOval((int) mx - 10, (int) my - 5, 20, 10);
+		}
+
+		for (int i = 0; i < clicklist.size(); i++) {
+			t = clicklist.get(i);
+			r = clickrad * t[2];
+			g.drawOval((int) (t[0] - r), (int) (t[1] - r / 2), (int) (r * 2),
+					(int) r);
+		}
 	}
 
 	public void setMouseTile(int mx, int my, Hextile[][] hextiles) {
