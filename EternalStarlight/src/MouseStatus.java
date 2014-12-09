@@ -23,6 +23,46 @@ public class MouseStatus implements MouseListener, MouseMotionListener {
 		clickrad = 10;
 	}
 
+	// updates the radius of the click until it disappears
+	public void updateClicks(double delta) {
+		for (int i = 0; i < clicklist.size(); i++) {
+			clicklist.get(i)[2] -= delta * 4;
+			if (clicklist.get(i)[2] <= 0) {
+				clicklist.remove(i);
+				i--;
+			}
+		}
+	}
+
+	// Drawing the clicks
+	public void drawClicks(Graphics2D g) {
+	
+		double[] t;
+		double r;
+	
+		if (pressed) {
+			g.drawOval((int) mx - 10, (int) my - 5, 20, 10);
+		}
+	
+		for (int i = 0; i < clicklist.size(); i++) {
+			t = clicklist.get(i);
+			r = clickrad * t[2];
+			g.drawOval((int) (t[0] - r), (int) (t[1] - r / 2), (int) (r * 2),
+					(int) r);
+		}
+	
+	}
+
+	public void setMouseTile(int mx, int my, Hextile[][] hextiles) {
+	
+		int[] mouseTile = Hextile.hexContainCal(hextiles, mx, my);
+		if (mouseTile != null) {
+			q = mouseTile[0];
+			r = mouseTile[1];
+		}
+	
+	}
+
 	@Override
 	public void mouseDragged(MouseEvent e) {
 		mx = e.getX();
@@ -47,14 +87,6 @@ public class MouseStatus implements MouseListener, MouseMotionListener {
 	public void mouseEntered(MouseEvent e) {
 		// TODO Auto-generated method stub
 
-	}
-
-	public int getMx() {
-		return mx;
-	}
-
-	public int getMy() {
-		return my;
 	}
 
 	@Override
@@ -85,41 +117,11 @@ public class MouseStatus implements MouseListener, MouseMotionListener {
 		return pressed;
 	}
 
-	// updates the radius of the click until it disappears
-	public void updateClicks(double delta) {
-		for (int i = 0; i < clicklist.size(); i++) {
-			clicklist.get(i)[2] -= delta * 4;
-			if (clicklist.get(i)[2] <= 0) {
-				clicklist.remove(i);
-				i--;
-			}
-		}
+	public int getMx() {
+		return mx;
 	}
 
-	public void drawClicks(Graphics2D g) {
-
-		double[] t;
-		double r;
-
-		if (pressed) {
-			g.drawOval((int) mx - 10, (int) my - 5, 20, 10);
-		}
-
-		for (int i = 0; i < clicklist.size(); i++) {
-			t = clicklist.get(i);
-			r = clickrad * t[2];
-			g.drawOval((int) (t[0] - r), (int) (t[1] - r / 2), (int) (r * 2),
-					(int) r);
-		}
-	}
-
-	public void setMouseTile(int mx, int my, Hextile[][] hextiles) {
-
-		int[] mouseTile = Hextile.hexContainCal(hextiles, mx, my);
-		if (mouseTile != null) {
-			q = mouseTile[0];
-			r = mouseTile[1];
-		}
-
+	public int getMy() {
+		return my;
 	}
 }

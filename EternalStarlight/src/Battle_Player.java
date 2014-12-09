@@ -18,6 +18,7 @@ public class Battle_Player {
 
 	}
 
+	// Updates the player object position and status
 	public void update(MouseStatus mouse, Hextile[][] hextiles, double delta) {
 
 		if (mouse.isPressed() && my != mouse.getMy() && mx != mouse.getMx()) {
@@ -34,19 +35,21 @@ public class Battle_Player {
 
 		// If the point is not in the big hexagon
 		if (!Hextile.getBigContainHex().contains((int) newx, (int) newy)) {
-			alternatePath = alternateRouteCal(newx, newy, delta);
-			/*if (alternatePath != null) {
+			alternatePath = alternateRouteCal(x, y, delta);
+
+			if (alternatePath != null) {
 				if (1.5 <= Math.sqrt(Math.pow(mx - x, 2)
 						+ Math.pow((my - y) / 2.0, 2))) {
-					x = newx;
-					y = newy;
+					x = alternatePath[0];
+					y = alternatePath[1];
 					updateTilePos(hextiles);
 				} else {
 					x = mx;
 					y = my;
 					updateTilePos(hextiles);
 				}
-			}*/
+			}
+
 		} else {
 			if (1.5 <= Math.sqrt(Math.pow(mx - x, 2)
 					+ Math.pow((my - y) / 2.0, 2))) {
@@ -62,32 +65,29 @@ public class Battle_Player {
 
 	}
 
+	// IMoving along a wall calculations
 	private double[] alternateRouteCal(double newx, double newy, double delta) {
-		double tAngle = angle;
-		for (int i = 0; i < 85; i++) {
+		double tAngle;
 
-			tAngle = angle + Math.PI / 2 * i / 90;
+		for (int i = 1; i < 90; i += 1) {
 
-			newx = x + Math.cos(tAngle) * speed * delta
-					* (1 - 0.5 * Math.abs(Math.sin(tAngle)));
-			newy = y + Math.sin(tAngle) * speed * delta
-					* (1 - 0.5 * Math.abs(Math.sin(tAngle)));
+			for (int j = 0; j < 2; j++) {
+				if (j == 0) {
+					tAngle = angle + Math.PI / 2 * i / 90;
+				} else {
+					tAngle = angle - Math.PI / 2 * i / 90;
+				}
+				newx = x + Math.cos(tAngle) * speed * delta;
+				newy = y + Math.sin(tAngle) * speed * delta;
 
-			if (Hextile.getBigContainHex().contains((int) newx, (int) newy)) {
-				double[] xy = { newx, newy };
-				return (xy);
-			}
+				if (Hextile.getBigContainHex().contains((int) newx, (int) newy)) {
+					double[] xy = new double[2];
+					xy[0] = Math.round(newx);
+					xy[1] = Math.round(newy);
+					angle = angleCal((int) xy[0], (int) xy[1], mx, my);
+					return (xy);
+				}
 
-			tAngle = angle - Math.PI / 2 * i / 90;
-
-			newx = x + Math.cos(tAngle) * speed * delta
-					* (1 - 0.5 * Math.abs(Math.sin(tAngle)));
-			newy = y + Math.sin(tAngle) * speed * delta
-					* (1 - 0.5 * Math.abs(Math.sin(tAngle)));
-
-			if (Hextile.getBigContainHex().contains((int) newx, (int) newy)) {
-				double[] xy = { newx, newy };
-				return (xy);
 			}
 		}
 		return null;
@@ -101,6 +101,7 @@ public class Battle_Player {
 		return r;
 	}
 
+	// Finds the angle the player's facing
 	private double angleCal(int x, int y, int mx, int my) {
 
 		double theta;
@@ -110,6 +111,7 @@ public class Battle_Player {
 		return theta;
 	}
 
+	// Updates the tile position of the player
 	private void updateTilePos(Hextile[][] hextiles) {
 		int[] pos;
 		pos = Hextile.hexContainCal(hextiles, (int) x, (int) y);
