@@ -2,7 +2,7 @@ import java.awt.Graphics2D;
 
 public class Battle_Player {
 	private int q, r, mx, my;
-	private double angle, adjangle, speed, x, y;
+	private double angle, speed, x, y;
 
 	public Battle_Player() {
 		q = 0;
@@ -19,6 +19,7 @@ public class Battle_Player {
 	}
 
 	public void update(MouseStatus mouse, Hextile[][] hextiles, double delta) {
+
 		if (mouse.isPressed() && my != mouse.getMy() && mx != mouse.getMx()) {
 			mx = mouse.getMx();
 			my = mouse.getMy();
@@ -29,19 +30,67 @@ public class Battle_Player {
 				* (1 - 0.5 * Math.abs(Math.sin(angle)));
 		double newy = y + Math.sin(angle) * speed * delta
 				* (1 - 0.5 * Math.abs(Math.sin(angle)));
+		double[] alternatePath;
+
+		// If the point is not in the big hexagon
 		if (!Hextile.getBigContainHex().contains((int) newx, (int) newy)) {
-			// TODO: Stay in grid
-		} else if (2 <= Math.sqrt(Math.pow(mx - x, 2)
-				+ Math.pow((my - y) / 2.0, 2))) {
-			x = newx;
-			y = newy;
-			updateTilePos(hextiles);
+			alternatePath = alternateRouteCal(newx, newy, delta);
+			/*if (alternatePath != null) {
+				if (1.5 <= Math.sqrt(Math.pow(mx - x, 2)
+						+ Math.pow((my - y) / 2.0, 2))) {
+					x = newx;
+					y = newy;
+					updateTilePos(hextiles);
+				} else {
+					x = mx;
+					y = my;
+					updateTilePos(hextiles);
+				}
+			}*/
 		} else {
-			x = mx;
-			y = my;
-			updateTilePos(hextiles);
+			if (1.5 <= Math.sqrt(Math.pow(mx - x, 2)
+					+ Math.pow((my - y) / 2.0, 2))) {
+				x = newx;
+				y = newy;
+				updateTilePos(hextiles);
+			} else {
+				x = mx;
+				y = my;
+				updateTilePos(hextiles);
+			}
 		}
 
+	}
+
+	private double[] alternateRouteCal(double newx, double newy, double delta) {
+		double tAngle = angle;
+		for (int i = 0; i < 85; i++) {
+
+			tAngle = angle + Math.PI / 2 * i / 90;
+
+			newx = x + Math.cos(tAngle) * speed * delta
+					* (1 - 0.5 * Math.abs(Math.sin(tAngle)));
+			newy = y + Math.sin(tAngle) * speed * delta
+					* (1 - 0.5 * Math.abs(Math.sin(tAngle)));
+
+			if (Hextile.getBigContainHex().contains((int) newx, (int) newy)) {
+				double[] xy = { newx, newy };
+				return (xy);
+			}
+
+			tAngle = angle - Math.PI / 2 * i / 90;
+
+			newx = x + Math.cos(tAngle) * speed * delta
+					* (1 - 0.5 * Math.abs(Math.sin(tAngle)));
+			newy = y + Math.sin(tAngle) * speed * delta
+					* (1 - 0.5 * Math.abs(Math.sin(tAngle)));
+
+			if (Hextile.getBigContainHex().contains((int) newx, (int) newy)) {
+				double[] xy = { newx, newy };
+				return (xy);
+			}
+		}
+		return null;
 	}
 
 	public int getQ() {
