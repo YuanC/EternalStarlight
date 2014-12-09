@@ -53,6 +53,7 @@ public class GamePanel extends JPanel {
 	private void updateGame(double delta) {
 		mouse.setMouseTile(mouse.getMx(), mouse.getMy(), hextiles);
 		player.update(mouse, hextiles, delta);
+		mouse.updateClicks(delta);
 	}
 
 	public GamePanel() throws IOException {
@@ -62,6 +63,8 @@ public class GamePanel extends JPanel {
 
 		// Fills the grid up
 		hextiles = Hextile.fillHexGrid(1);
+
+		Hextile.createBigContainHex(hextiles);
 
 		// debug code for saving the grid data
 		for (int i = 0; i < hextiles.length; i++) {
@@ -104,6 +107,8 @@ public class GamePanel extends JPanel {
 
 		g2d.setColor(Color.white);
 		player.draw(g2d);
+
+		mouse.drawClicks(g2d);
 
 		// Draws the frames per second
 		g2d.drawString("FPS: " + fps, 2, 12);

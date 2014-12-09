@@ -16,12 +16,42 @@ public class Hextile {
 	private static Polygon bigContainHex;
 
 	public static Polygon getBigContainHex() {
-		// TODO make thing
 		return bigContainHex;
 	}
 
-	public static void createBigContainHex() {
-		
+	public static void createBigContainHex(Hextile[][] hextiles) {
+		bigContainHex = new Polygon();
+		Polygon tempHex;
+		for (int i = 0; i < size / 2 + 1; i++) {
+			tempHex = hextiles[size / 2 - i][i].getHexagon();
+			bigContainHex.addPoint(tempHex.xpoints[2], tempHex.ypoints[2]);
+			bigContainHex.addPoint(tempHex.xpoints[3], tempHex.ypoints[3]);
+		}
+		for (int i = 0; i < size / 2; i++) {
+			tempHex = hextiles[0][size / 2 + 1 + i].getHexagon();
+			bigContainHex.addPoint(tempHex.xpoints[2], tempHex.ypoints[2]);
+			bigContainHex.addPoint(tempHex.xpoints[3], tempHex.ypoints[3]);
+		}
+		for (int i = 0; i < size / 2 + 1; i++) {
+			tempHex = hextiles[i][size - 1].getHexagon();
+			bigContainHex.addPoint(tempHex.xpoints[4], tempHex.ypoints[4]);
+			bigContainHex.addPoint(tempHex.xpoints[5], tempHex.ypoints[5]);
+		}
+		for (int i = 0; i < size / 2 + 1; i++) {
+			tempHex = hextiles[size / 2 + i][size - 1 - i].getHexagon();
+			bigContainHex.addPoint(tempHex.xpoints[4], tempHex.ypoints[4]);
+			bigContainHex.addPoint(tempHex.xpoints[5], tempHex.ypoints[5]);
+		}
+		for (int i = 0; i < size / 2 + 1; i++) {
+			tempHex = hextiles[size - 1][size / 2 - i].getHexagon();
+			bigContainHex.addPoint(tempHex.xpoints[0], tempHex.ypoints[0]);
+			bigContainHex.addPoint(tempHex.xpoints[1], tempHex.ypoints[1]);
+		}
+		for (int i = 0; i < size / 2; i++) {
+			tempHex = hextiles[size - 2 - i][0].getHexagon();
+			bigContainHex.addPoint(tempHex.xpoints[0], tempHex.ypoints[0]);
+			bigContainHex.addPoint(tempHex.xpoints[1], tempHex.ypoints[1]);
+		}
 	}
 
 	private void fillverts() {
@@ -84,8 +114,6 @@ public class Hextile {
 			break;
 		}
 
-		createBigContainHex();
-
 		// Calculates the width and height of a single tile
 		tiles_w = (screen_x - h_padding * 2) / (size * 3 + 1.0) * 4;
 		tiles_h = (screen_y - n_padding - s_padding) / ((double) size);
@@ -117,6 +145,7 @@ public class Hextile {
 
 	public void draw(Graphics2D g) {
 		g.drawPolygon(displayhex);
+		g.drawPolygon(bigContainHex);
 	}
 
 	public void drawFilled(Graphics g) {
@@ -186,12 +215,6 @@ public class Hextile {
 
 	public Polygon getHexagon() {
 		return hexagon;
-	}
-
-	public static boolean pointInGrid(Hextile[][] hextiles, double newx,
-			double newy) {
-		// TODO Auto-generated method stub
-		return false;
 	}
 
 	// The setter/getter methods

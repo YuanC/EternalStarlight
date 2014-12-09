@@ -25,15 +25,17 @@ public class Battle_Player {
 			angle = angleCal((int) x, (int) y, mx, my);
 		}
 
-		double newy = y + Math.sin(angle) * speed * delta;
-		double newx = x + Math.cos(angle) * speed * delta;
-
-		if (2 <= Math.sqrt(Math.pow(mx - x, 2) + Math.pow((my - y), 2))) {
+		double newx = x + Math.cos(angle) * speed * delta
+				* (1 - 0.5 * Math.abs(Math.sin(angle)));
+		double newy = y + Math.sin(angle) * speed * delta
+				* (1 - 0.5 * Math.abs(Math.sin(angle)));
+		if (!Hextile.getBigContainHex().contains((int) newx, (int) newy)) {
+			// TODO: Stay in grid
+		} else if (2 <= Math.sqrt(Math.pow(mx - x, 2)
+				+ Math.pow((my - y) / 2.0, 2))) {
 			x = newx;
 			y = newy;
 			updateTilePos(hextiles);
-		} else if (Hextile.pointInGrid(hextiles, newx, newy)) {
-			// TODO: Stay in grid
 		} else {
 			x = mx;
 			y = my;
