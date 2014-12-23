@@ -5,6 +5,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
+//The class representing each tile on the hexagonal map
 public class Hextile {
 	private int q, r, x, y;
 	public static final int n_padding = 130, s_padding = 50, h_padding = 100,

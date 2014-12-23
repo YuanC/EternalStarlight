@@ -1,4 +1,9 @@
+import java.awt.Graphics2D;
 
-public abstract class PlayerAbilities {
-	
+//The super class for the player's abilities
+public class PlayerAbilities {
+
+	public void displayCooldown(Graphics2D g) {
+
+	}
 }
