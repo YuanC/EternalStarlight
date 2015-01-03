@@ -20,6 +20,7 @@ public class Hextile {
 		return bigContainHex;
 	}
 
+	// Algorithm to generate the map-encompassing boundary shape
 	public static void createBigContainHex(Hextile[][] hextiles) {
 		bigContainHex = new Polygon();
 		Polygon tempHex;
@@ -55,6 +56,7 @@ public class Hextile {
 		}
 	}
 
+	// Calculates the verticies for the hextile
 	private void fillverts() {
 		double h = tiles_h / 2 - tileVGap, w = tiles_w / 2 - tileHGap;
 
@@ -146,11 +148,14 @@ public class Hextile {
 
 	public void draw(Graphics2D g) {
 		g.drawPolygon(displayhex);
-		g.drawPolygon(bigContainHex);
+
 	}
 
-	public void drawFilled(Graphics g) {
+	public static void drawBigContainHex(Graphics2D g) {
+		g.draw(bigContainHex);
+	}
 
+	public void drawFilled(Graphics2D g) {
 		g.fillPolygon(displayhex);
 
 	}
@@ -233,6 +238,11 @@ public class Hextile {
 
 	public void setR(int r) {
 		this.r = r;
+	}
+
+	public void drawPlayerOcc(Graphics2D g) {
+		drawFilled(g);
+		// TODOCreate actual animation
 	}
 
 }

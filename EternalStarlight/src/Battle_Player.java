@@ -35,7 +35,7 @@ public class Battle_Player {
 
 		// If the point is not in the big hexagon
 		if (!Hextile.getBigContainHex().contains((int) newx, (int) newy)) {
-			alternatePath = alternateRouteCal(x, y, delta);
+			alternatePath = alternateRouteCal(delta);
 
 			if (alternatePath != null) {
 				if (1.5 <= Math.sqrt(Math.pow(mx - x, 2)
@@ -65,8 +65,11 @@ public class Battle_Player {
 
 	}
 
-	// IMoving along a wall calculations
-	private double[] alternateRouteCal(double newx, double newy, double delta) {
+	// Moving along a wall calculations
+
+	private double[] alternateRouteCal(double delta) {
+
+		double newx, newy;
 		double tAngle;
 
 		for (int i = 1; i < 90; i += 1) {
@@ -80,14 +83,13 @@ public class Battle_Player {
 				newx = x + Math.cos(tAngle) * speed * delta;
 				newy = y + Math.sin(tAngle) * speed * delta;
 
-				if (Hextile.getBigContainHex().contains((int) newx, (int) newy)) {
+				if (Hextile.getBigContainHex().contains(newx, newy)) {
 					double[] xy = new double[2];
-					xy[0] = Math.round(newx);
-					xy[1] = Math.round(newy);
+					xy[0] = newx;
+					xy[1] = newy;
 					angle = angleCal((int) xy[0], (int) xy[1], mx, my);
-					return (xy);
+					return xy;
 				}
-
 			}
 		}
 		return null;
@@ -105,7 +107,6 @@ public class Battle_Player {
 	private double angleCal(int x, int y, int mx, int my) {
 
 		double theta;
-
 		theta = angle = Math.atan2(my - y, mx - x);
 
 		return theta;

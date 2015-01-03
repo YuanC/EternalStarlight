@@ -9,11 +9,12 @@ public class GamePanel extends JPanel {
 	private double fps;
 	private MouseStatus mouse;
 	private Battle_Player player;
+	private PlayerAbilities abilities;
 
-	// The main game loop capped at ~120 frames/second
+	// The main game loop capped at ~120 frames/second (variable timestep loop)
 	public void runGameLoop() {
 		long lastTime = System.nanoTime(), fpsTimer = 0, currentTime, updateLength;
-		final int optimalFPS = 144;
+		final int optimalFPS = 60;
 		final long optimalDelta = 1000000000 / optimalFPS;
 		double delta;
 		int fpsCnt = 0;
@@ -34,7 +35,7 @@ public class GamePanel extends JPanel {
 				fpsCnt = 0;
 			}
 
-			// delta is change in time in nanoseconds
+			// delta is change in time in seconds
 			updateGame(delta);
 			repaint();
 
@@ -54,6 +55,7 @@ public class GamePanel extends JPanel {
 		mouse.setMouseTile(mouse.getMx(), mouse.getMy(), hextiles);
 		player.update(mouse, hextiles, delta);
 		mouse.updateClicks(delta);
+		abilities.updateCD(delta);
 	}
 
 	public GamePanel() throws IOException {
@@ -79,7 +81,7 @@ public class GamePanel extends JPanel {
 		}
 
 		player = new Battle_Player();
-
+		abilities = new PlayerAbilities();
 	}
 
 	// Paints everything
@@ -97,13 +99,17 @@ public class GamePanel extends JPanel {
 				if (hextiles[i][j] != null) {
 					hextiles[i][j].draw(g2d);
 
+					// Draws the player indicator
 					if (hextiles[i][j].getQ() == player.getQ()
 							&& hextiles[i][j].getR() == player.getR()) {
-						hextiles[i][j].drawFilled(g);
+
+						hextiles[i][j].drawPlayerOcc(g2d);
 					}
 				}
 			}
 		}
+
+		Hextile.drawBigContainHex(g2d);
 
 		g2d.setColor(Color.white);
 		player.draw(g2d);

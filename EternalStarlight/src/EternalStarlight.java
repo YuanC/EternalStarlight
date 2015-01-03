@@ -16,7 +16,7 @@ public class EternalStarlight {
 		MapPanel mapPanel = new MapPanel();
 
 		// Adds the panels to the cardlayout
-		cards = new JPanel(new CardLayout());
+		cards = new JPanel	(new CardLayout());
 		cardLayout = (CardLayout) cards.getLayout();
 
 		cards.add(menuPanel, "menuPanel");
