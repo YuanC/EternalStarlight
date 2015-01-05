@@ -55,14 +55,13 @@ public class MouseStatus implements MouseListener, MouseMotionListener {
 
 	}
 
-	public void setMouseTile(int mx, int my, Hextile[][] hextiles) {
+	public void updateMouseTile(Hextile[][] hextiles) {
 
 		int[] mouseTile = Hextile.hexContainCal(hextiles, mx, my);
 		if (mouseTile != null) {
 			q = mouseTile[0];
 			r = mouseTile[1];
 		}
-
 	}
 
 	@Override
@@ -102,7 +101,7 @@ public class MouseStatus implements MouseListener, MouseMotionListener {
 		if (SwingUtilities.isRightMouseButton(e)) {
 			pressed = true;
 		}
-
+		PlayerAbilities.setFoc(4);
 	}
 
 	@Override
@@ -115,6 +114,7 @@ public class MouseStatus implements MouseListener, MouseMotionListener {
 			i[1] = my;
 			i[2] = 1;
 			clicklist.add(i);
+
 		}
 	}
 
@@ -128,5 +128,13 @@ public class MouseStatus implements MouseListener, MouseMotionListener {
 
 	public int getMy() {
 		return my;
+	}
+
+	public int getR() {
+		return r;
+	}
+
+	public int getQ() {
+		return q;
 	}
 }

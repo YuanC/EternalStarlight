@@ -1,8 +1,11 @@
 import javax.swing.*;
+
 import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.IOException;
 
-public class GamePanel extends JPanel {
+public class GamePanel extends JPanel implements KeyListener {
 	private boolean gameRunning = true;
 	private Hextile[][] hextiles, displayTiles;
 	private int mx, my;
@@ -52,13 +55,15 @@ public class GamePanel extends JPanel {
 
 	//
 	private void updateGame(double delta) {
-		mouse.setMouseTile(mouse.getMx(), mouse.getMy(), hextiles);
+		mouse.updateMouseTile(hextiles);
 		player.update(mouse, hextiles, delta);
 		mouse.updateClicks(delta);
 		abilities.updateCD(delta);
 	}
 
 	public GamePanel() throws IOException {
+		setFocusable(true);
+		addKeyListener(this);
 		mouse = new MouseStatus();
 		addMouseListener(mouse);
 		addMouseMotionListener(mouse);
@@ -81,7 +86,7 @@ public class GamePanel extends JPanel {
 		}
 
 		player = new Battle_Player();
-		abilities = new PlayerAbilities();
+		abilities = new GalacticianAbilities();
 	}
 
 	// Paints everything
@@ -105,6 +110,11 @@ public class GamePanel extends JPanel {
 
 						hextiles[i][j].drawPlayerOcc(g2d);
 					}
+
+					if (hextiles[i][j].getQ() == mouse.getQ()
+							&& hextiles[i][j].getR() == mouse.getR()) {
+
+					}
 				}
 			}
 		}
@@ -118,10 +128,58 @@ public class GamePanel extends JPanel {
 
 		// Draws the frames per second
 		g2d.drawString("FPS: " + fps, 2, 12);
+		abilities.drawCooldown(g2d);
 	}
 
 	// To stop the game loop
 	public void setGameRunningFalse() {
 		gameRunning = false;
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+		switch (e.getKeyCode()) {
+		case KeyEvent.VK_Q:
+			abilities.setFoc(0);
+			break;
+
+		case KeyEvent.VK_W:
+			abilities.setFoc(1);
+			break;
+
+		case KeyEvent.VK_E:
+			abilities.setFoc(2);
+			break;
+
+		case KeyEvent.VK_R:
+			abilities.setFoc(3);
+			break;
+		}
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		// TODO Auto-generated method stub
+		switch (e.getKeyCode()) {
+		case KeyEvent.VK_Q:
+			abilities.setFoc(0);
+			break;
+		case KeyEvent.VK_W:
+			abilities.setFoc(1);
+			break;
+		case KeyEvent.VK_E:
+			abilities.setFoc(2);
+			break;
+		case KeyEvent.VK_R:
+			abilities.setFoc(3);
+			break;
+		}
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
+
 	}
 }
