@@ -100,6 +100,10 @@ public class MouseStatus implements MouseListener, MouseMotionListener {
 	public void mousePressed(MouseEvent e) {
 		if (SwingUtilities.isRightMouseButton(e)) {
 			pressed = true;
+		} else if (SwingUtilities.isLeftMouseButton(e)) {
+			if (PlayerAbilities.getFoc() != 4) {
+				PlayerAbilities.startCD(PlayerAbilities.getFoc());
+			}
 		}
 		PlayerAbilities.setFoc(4);
 	}

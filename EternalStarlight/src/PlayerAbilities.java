@@ -3,7 +3,7 @@ import java.awt.Graphics2D;
 //The super class for the player's abilities
 public class PlayerAbilities {
 
-	private double qCD, wCD, eCD, rCD;
+	private static double qCD, wCD, eCD, rCD;
 	private static double[] cdTimers;
 	private static int abFocus; // The ability being used
 
@@ -24,7 +24,7 @@ public class PlayerAbilities {
 			cdTimers[i] = 0;
 	}
 
-	public void startCD(int i) {
+	public static void startCD(int i) {
 		switch (i) {
 		case 0:
 			cdTimers[0] = qCD;
@@ -90,7 +90,7 @@ public class PlayerAbilities {
 		}
 	}
 
-	public int getFoc() {
+	public static int getFoc() {
 		return abFocus;
 	}
 }
