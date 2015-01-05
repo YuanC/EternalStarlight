@@ -111,9 +111,10 @@ public class GamePanel extends JPanel implements KeyListener {
 						hextiles[i][j].drawPlayerOcc(g2d);
 					}
 
+					// Draws the ability area indicators
 					if (hextiles[i][j].getQ() == mouse.getQ()
 							&& hextiles[i][j].getR() == mouse.getR()) {
-
+						
 					}
 				}
 			}

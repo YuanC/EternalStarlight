@@ -14,7 +14,7 @@ public class GalacticianAbilities extends PlayerAbilities {
 
 	}
 
-	public void generateIndicator(int abFocus) {
+	public void generateIndicator(int abFocus, int q, int r) {
 		// TODO Use algorithms to determine the stuff
 
 		switch (abFocus) {
@@ -36,9 +36,7 @@ public class GalacticianAbilities extends PlayerAbilities {
 	public int[][] getIndicator() {
 
 		// TODO this
-		return null;
+		return indicator;
 	}
-	
-	
-	
+
 }
