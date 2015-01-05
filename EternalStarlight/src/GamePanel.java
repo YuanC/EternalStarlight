@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.IOException;
+import java.util.Arrays;
 
 public class GamePanel extends JPanel implements KeyListener {
 	private boolean gameRunning = true;
@@ -12,7 +13,7 @@ public class GamePanel extends JPanel implements KeyListener {
 	private double fps;
 	private MouseStatus mouse;
 	private Battle_Player player;
-	private PlayerAbilities abilities;
+	private GalacticianAbilities abilities;
 
 	// The main game loop capped at ~120 frames/second (variable timestep loop)
 	public void runGameLoop() {
@@ -61,7 +62,7 @@ public class GamePanel extends JPanel implements KeyListener {
 		abilities.updateCD(delta);
 	}
 
-	public GamePanel() throws IOException {
+	public GamePanel(int f) throws IOException {
 		setFocusable(true);
 		addKeyListener(this);
 		mouse = new MouseStatus();
@@ -86,7 +87,7 @@ public class GamePanel extends JPanel implements KeyListener {
 		}
 
 		player = new Battle_Player();
-		abilities = new GalacticianAbilities();
+		abilities = new GalacticianAbilities(f);
 	}
 
 	// Paints everything
@@ -111,10 +112,13 @@ public class GamePanel extends JPanel implements KeyListener {
 						hextiles[i][j].drawPlayerOcc(g2d);
 					}
 
+					int[] tArr = new int[2];
+					tArr[0] = hextiles[i][j].getQ();
+					tArr[1] = hextiles[i][j].getR();
+
 					// Draws the ability area indicators
-					if (hextiles[i][j].getQ() == mouse.getQ()
-							&& hextiles[i][j].getR() == mouse.getR()) {
-						
+					if (Arrays.binarySearch(abilities.getIndicator(), tArr) >= 0) {
+
 					}
 				}
 			}

@@ -11,12 +11,12 @@ public class EternalStarlight {
 
 		// Initializes the JFrame and the JPanels
 		JFrame gameScreen = new JFrame();
-		GamePanel gamePanel = new GamePanel();
+		GamePanel gamePanel = new GamePanel(0);
 		MenuPanel menuPanel = new MenuPanel();
 		MapPanel mapPanel = new MapPanel();
 
 		// Adds the panels to the cardlayout
-		cards = new JPanel	(new CardLayout());
+		cards = new JPanel(new CardLayout());
 		cardLayout = (CardLayout) cards.getLayout();
 
 		cards.add(menuPanel, "menuPanel");
