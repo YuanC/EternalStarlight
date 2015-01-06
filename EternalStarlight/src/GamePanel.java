@@ -13,7 +13,7 @@ public class GamePanel extends JPanel implements KeyListener {
 	private double fps;
 	private MouseStatus mouse;
 	private Battle_Player player;
-	private GalacticianAbilities abilities;
+	private StarchildAbilities abilities;
 
 	// The main game loop capped at ~120 frames/second (variable timestep loop)
 	public void runGameLoop() {
@@ -87,7 +87,7 @@ public class GamePanel extends JPanel implements KeyListener {
 		}
 
 		player = new Battle_Player();
-		abilities = new GalacticianAbilities(f);
+		abilities = new StarchildAbilities();
 	}
 
 	// Paints everything
@@ -116,9 +116,10 @@ public class GamePanel extends JPanel implements KeyListener {
 					tArr[0] = hextiles[i][j].getQ();
 					tArr[1] = hextiles[i][j].getR();
 
-					// Draws the ability area indicators
-					if (Arrays.binarySearch(abilities.getIndicator(), tArr) >= 0) {
-
+					// TODO Draws the ability area indicators
+					if (search2DArray(abilities.getIndicator(), tArr)) {
+						System.out.println("swag");
+						hextiles[i][j].drawPlayerOcc(g2d);
 					}
 				}
 			}
@@ -134,6 +135,20 @@ public class GamePanel extends JPanel implements KeyListener {
 		// Draws the frames per second
 		g2d.drawString("FPS: " + fps, 2, 12);
 		abilities.drawCooldown(g2d);
+	}
+
+	public boolean search2DArray(int[][] arr2d, int[] arr) {
+
+		if (arr2d == null || arr.length == 0)
+			return false;
+
+		for (int i = 0; i < arr2d.length; i++) {
+			if (arr2d[i][0] == arr[0] && arr2d[i][1] == arr[1])
+				return true;
+		}
+
+		return false;
+
 	}
 
 	// To stop the game loop
