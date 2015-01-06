@@ -9,7 +9,6 @@ import java.util.Arrays;
 public class GamePanel extends JPanel implements KeyListener {
 	private boolean gameRunning = true;
 	private Hextile[][] hextiles, displayTiles;
-	private int mx, my;
 	private double fps;
 	private MouseStatus mouse;
 	private Battle_Player player;
@@ -60,6 +59,8 @@ public class GamePanel extends JPanel implements KeyListener {
 		player.update(mouse, hextiles, delta);
 		mouse.updateClicks(delta);
 		abilities.updateCD(delta);
+		abilities.generateIndicator( player.getQ(), player.getR(),  mouse.getQ(),mouse.getR());
+		
 	}
 
 	public GamePanel(int f) throws IOException {
@@ -118,7 +119,7 @@ public class GamePanel extends JPanel implements KeyListener {
 
 					// TODO Draws the ability area indicators
 					if (search2DArray(abilities.getIndicator(), tArr)) {
-						System.out.println("swag");
+						
 						hextiles[i][j].drawPlayerOcc(g2d);
 					}
 				}

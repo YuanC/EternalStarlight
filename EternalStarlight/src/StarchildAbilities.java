@@ -16,20 +16,23 @@ public class StarchildAbilities extends PlayerAbilities {
 
 	}
 
-	public void generateIndicator(int abFocus, int q, int r, int mq, int mr) {
+	public void generateIndicator(int q, int r, int mq, int mr) {
 		// TODO Use algorithms to determine the stuff
 
-		switch (abFocus) {
+		switch (getAbFocus()) {
 		case 0:
 			break;
 		case 1:
 			break;
 		case 2:
+			indicator = new int[1][2];
+			indicator[0][0] = mq;
+			indicator[0][1] = mr;
 			break;
 		case 3:
 			break;
 		case 4:
-			// indicator = new int[0][0];
+			indicator = new int[0][0];
 			break;
 		}
 

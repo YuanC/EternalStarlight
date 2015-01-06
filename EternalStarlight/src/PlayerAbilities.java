@@ -10,7 +10,7 @@ public class PlayerAbilities {
 	public PlayerAbilities() {
 		cdTimers = new double[4];
 		resetCDs();
-		abFocus = 4;
+		setAbFocus(4);
 	}
 
 	// Updates the cooldown timers
@@ -62,35 +62,43 @@ public class PlayerAbilities {
 		g.drawString(cdTimers[1] + " ", 5, 40);
 		g.drawString(cdTimers[2] + " ", 5, 50);
 		g.drawString("" + cdTimers[3], 5, 60);
-		g.drawString("" + abFocus, 5, 70);
+		g.drawString("" + getAbFocus(), 5, 70);
 		// TODO draw animation and graphic;
 	}
 
 	public static void setFoc(int i) {
 		switch (i) {
 		case 0:
-			if (abFocus != 0 && cdTimers[0] == 0)
-				abFocus = i;
+			if (getAbFocus() != 0 && cdTimers[0] == 0)
+				setAbFocus(i);
 			break;
 		case 1:
-			if (abFocus != 1 && cdTimers[1] == 0)
-				abFocus = i;
+			if (getAbFocus() != 1 && cdTimers[1] == 0)
+				setAbFocus(i);
 			break;
 		case 2:
-			if (abFocus != 2 && cdTimers[2] == 0)
-				abFocus = i;
+			if (getAbFocus() != 2 && cdTimers[2] == 0)
+				setAbFocus(i);
 			break;
 		case 3:
-			if (abFocus != 3 && cdTimers[3] == 0)
-				abFocus = i;
+			if (getAbFocus() != 3 && cdTimers[3] == 0)
+				setAbFocus(i);
 			break;
 		case 4:
-			abFocus = 4;
+			setAbFocus(4);
 			break;
 		}
 	}
 
 	public static int getFoc() {
+		return getAbFocus();
+	}
+
+	public static int getAbFocus() {
 		return abFocus;
+	}
+
+	public static void setAbFocus(int abFocus) {
+		PlayerAbilities.abFocus = abFocus;
 	}
 }
