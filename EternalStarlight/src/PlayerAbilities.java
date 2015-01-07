@@ -63,6 +63,8 @@ public class PlayerAbilities {
 		g.drawString(cdTimers[2] + " ", 5, 50);
 		g.drawString("" + cdTimers[3], 5, 60);
 		g.drawString("" + getAbFocus(), 5, 70);
+		
+		
 		// TODO draw animation and graphic;
 	}
 

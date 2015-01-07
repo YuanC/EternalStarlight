@@ -8,14 +8,23 @@ import java.io.IOException;
 //The class representing each tile on the hexagonal map
 public class Hextile {
 	private int q, r, x, y;
+	private int[][] displayVerts;
+	private int[][] realVerts;
+	private Polygon displayhex;
+	private Polygon hexagon;
+	private static Polygon bigContainHex;
+	private static double tiles_h;
+	private static double tiles_w;
 	public static final int n_padding = 130, s_padding = 50, h_padding = 100,
 			screen_x = 1280, screen_y = 720, tileHGap = 2, tileVGap = 1;
-	private static double tiles_h, tiles_w;
 	public static int size;
-	private int[][] displayVerts, realVerts;
-	private Polygon displayhex, hexagon;
-	private static Polygon bigContainHex;
 
+	
+	
+	
+	
+	
+	// Returns the map-encompassing shape
 	public static Polygon getBigContainHex() {
 		return bigContainHex;
 	}
@@ -146,20 +155,6 @@ public class Hextile {
 		return hextiles;
 	}
 
-	public void draw(Graphics2D g) {
-		g.drawPolygon(displayhex);
-
-	}
-
-	public static void drawBigContainHex(Graphics2D g) {
-		g.draw(bigContainHex);
-	}
-
-	public void drawFilled(Graphics2D g) {
-		g.fillPolygon(displayhex);
-
-	}
-
 	public Hextile(int i, int j) {
 		setQ(i - size / 2);
 		setR(j - size / 2);
@@ -219,6 +214,25 @@ public class Hextile {
 		return null;
 	}
 
+	public void draw(Graphics2D g) {
+		g.drawPolygon(displayhex);
+
+	}
+
+	public static void drawBigContainHex(Graphics2D g) {
+		g.draw(bigContainHex);
+	}
+
+	public void drawFilled(Graphics2D g) {
+		g.fillPolygon(displayhex);
+
+	}
+
+	public void drawPlayerOcc(Graphics2D g) {
+		drawFilled(g);
+		// TODOCreate actual animation
+	}
+
 	public Polygon getHexagon() {
 		return hexagon;
 	}
@@ -238,11 +252,6 @@ public class Hextile {
 
 	public void setR(int r) {
 		this.r = r;
-	}
-
-	public void drawPlayerOcc(Graphics2D g) {
-		drawFilled(g);
-		// TODOCreate actual animation
 	}
 
 }

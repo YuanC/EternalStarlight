@@ -1,7 +1,7 @@
 import java.awt.Graphics2D;
 
 public class Battle_Player {
-	private int q, r, mx, my;
+	private int q, r, mx, my, health, maxHealth, CDR, strength;
 	private double angle, speed, x, y;
 
 	public Battle_Player() {
@@ -15,6 +15,7 @@ public class Battle_Player {
 		speed = 80;
 		mx = (int) x;
 		my = (int) y;
+		// TODO maxhealth, cdr, strength(damage) implementation
 
 	}
 

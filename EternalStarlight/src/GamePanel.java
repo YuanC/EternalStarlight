@@ -4,7 +4,6 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.IOException;
-import java.util.Arrays;
 
 public class GamePanel extends JPanel implements KeyListener {
 	private boolean gameRunning = true;
@@ -13,6 +12,35 @@ public class GamePanel extends JPanel implements KeyListener {
 	private MouseStatus mouse;
 	private Battle_Player player;
 	private StarchildAbilities abilities;
+	private int difficulty;
+
+	public GamePanel(int f) throws IOException {
+		setFocusable(true);
+		addKeyListener(this);
+		mouse = new MouseStatus();
+		addMouseListener(mouse);
+		addMouseMotionListener(mouse);
+
+		// Fills the grid up
+		hextiles = Hextile.fillHexGrid(1);
+
+		Hextile.createBigContainHex(hextiles);
+
+		// debug code for saving the grid data
+		for (int i = 0; i < hextiles.length; i++) {
+			for (int j = 0; j < hextiles[i].length; j++) {
+				if (hextiles[i][j] == null) {
+					System.out.print("X");
+				} else {
+					System.out.print("O");
+				}
+			}
+			System.out.println();
+		}
+
+		player = new Battle_Player();
+		abilities = new StarchildAbilities();
+	}
 
 	// The main game loop capped at ~120 frames/second (variable timestep loop)
 	public void runGameLoop() {
@@ -59,36 +87,9 @@ public class GamePanel extends JPanel implements KeyListener {
 		player.update(mouse, hextiles, delta);
 		mouse.updateClicks(delta);
 		abilities.updateCD(delta);
-		abilities.generateIndicator( player.getQ(), player.getR(),  mouse.getQ(),mouse.getR());
-		
-	}
+		abilities.generateIndicator(player.getQ(), player.getR(), mouse.getQ(),
+				mouse.getR());
 
-	public GamePanel(int f) throws IOException {
-		setFocusable(true);
-		addKeyListener(this);
-		mouse = new MouseStatus();
-		addMouseListener(mouse);
-		addMouseMotionListener(mouse);
-
-		// Fills the grid up
-		hextiles = Hextile.fillHexGrid(1);
-
-		Hextile.createBigContainHex(hextiles);
-
-		// debug code for saving the grid data
-		for (int i = 0; i < hextiles.length; i++) {
-			for (int j = 0; j < hextiles[i].length; j++) {
-				if (hextiles[i][j] == null) {
-					System.out.print("X");
-				} else {
-					System.out.print("O");
-				}
-			}
-			System.out.println();
-		}
-
-		player = new Battle_Player();
-		abilities = new StarchildAbilities();
 	}
 
 	// Paints everything
@@ -119,16 +120,15 @@ public class GamePanel extends JPanel implements KeyListener {
 
 					// TODO Draws the ability area indicators
 					if (search2DArray(abilities.getIndicator(), tArr)) {
-						
+
 						hextiles[i][j].drawPlayerOcc(g2d);
 					}
 				}
 			}
 		}
+		g2d.setColor(Color.white);
 
 		Hextile.drawBigContainHex(g2d);
-
-		g2d.setColor(Color.white);
 		player.draw(g2d);
 
 		mouse.drawClicks(g2d);
