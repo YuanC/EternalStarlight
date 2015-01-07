@@ -97,8 +97,14 @@ public class GamePanel extends JPanel implements KeyListener {
 
 		super.paintComponent(g);
 		Graphics2D g2d = (Graphics2D) g;
-
+		g2d.setColor(new Color(51,51,51));
 		g2d.fillRect(0, 0, 1280, 720);
+		
+		player.drawhealth(g2d, player.getMaxHealth(), player.getHealth());
+		
+		g2d.setColor(new Color(51,51,51));
+		Hextile.fillBigContainHex(g2d);
+		
 		g2d.setColor(Color.gray);
 
 		// Draws all the tiles in the grid

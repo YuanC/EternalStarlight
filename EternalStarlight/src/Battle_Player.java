@@ -20,8 +20,8 @@ public class Battle_Player {
 		hx = 1140;
 		hy = 100;
 
-		this.maxHealth = 10;
-		this.health = 5;
+		this.maxHealth = 8;
+		this.health = 4;
 
 		// TODO maxhealth, cdr, strength(damage) implementation
 
@@ -72,7 +72,7 @@ public class Battle_Player {
 			}
 		}
 
-		hpAngle = (hpAngle + 0.035) % (Math.PI * 2);
+		hpAngle = (hpAngle + 0.02) % (Math.PI * 2);
 
 	}
 
@@ -140,8 +140,6 @@ public class Battle_Player {
 		g.drawOval((int) x - 10, (int) y - 5, 20, 10);
 		g.drawLine((int) x, (int) y, (int) (x + Math.cos(angle) * 10),
 				(int) (y + Math.sin(angle) * 5));
-
-		drawhealth(g, maxHealth, health);
 	}
 
 	public void drawhealth(Graphics2D g, int lvl, int current) {
@@ -169,10 +167,19 @@ public class Battle_Player {
 			g.setColor(Color.white);
 			g.fillPolygon(new Polygon(xverts, yverts, lvl + 2));
 		} else {
-			g.setColor(Color.lightGray);
+			g.setColor(Color.gray);
 			g.drawPolygon(new Polygon(xverts, yverts, lvl + 2));
 		}
 
 		drawhealth(g, lvl - 1, current);
+	}
+
+	public int getMaxHealth() {
+		return maxHealth;
+	}
+
+	public int getHealth() {
+		// TODO Auto-generated method stub
+		return health;
 	}
 }

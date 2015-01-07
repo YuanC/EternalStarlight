@@ -254,4 +254,9 @@ public class Hextile {
 		this.r = r;
 	}
 
+	public static void fillBigContainHex(Graphics2D g) {
+		g.fillPolygon(bigContainHex);
+		
+	}
+
 }
