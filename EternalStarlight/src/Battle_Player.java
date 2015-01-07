@@ -1,10 +1,12 @@
+import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Polygon;
 
 public class Battle_Player {
-	private int q, r, mx, my, health, maxHealth, CDR, strength;
-	private double angle, speed, x, y;
+	private int q, r, mx, my, health, maxHealth, CDR, strength, hx, hy;
+	private double angle, speed, x, y, hpAngle;
 
-	public Battle_Player() {
+	public Battle_Player(int health) {
 		q = 0;
 		r = 0;
 		y = Hextile.n_padding
@@ -15,6 +17,12 @@ public class Battle_Player {
 		speed = 80;
 		mx = (int) x;
 		my = (int) y;
+		hx = 1140;
+		hy = 100;
+
+		this.maxHealth = 10;
+		this.health = 5;
+
 		// TODO maxhealth, cdr, strength(damage) implementation
 
 	}
@@ -63,6 +71,8 @@ public class Battle_Player {
 				updateTilePos(hextiles);
 			}
 		}
+
+		hpAngle = (hpAngle + 0.035) % (Math.PI * 2);
 
 	}
 
@@ -130,5 +140,39 @@ public class Battle_Player {
 		g.drawOval((int) x - 10, (int) y - 5, 20, 10);
 		g.drawLine((int) x, (int) y, (int) (x + Math.cos(angle) * 10),
 				(int) (y + Math.sin(angle) * 5));
+
+		drawhealth(g, maxHealth, health);
+	}
+
+	public void drawhealth(Graphics2D g, int lvl, int current) {
+		if (lvl <= 0)
+			return;
+
+		int radius = 15 * lvl;
+		double tAngle;
+		int[] xverts = new int[lvl + 2], yverts = new int[lvl + 2];
+
+		for (int i = 0; i < lvl + 2; i++) {
+			if (lvl % 2 == 0) {
+				tAngle = Math.PI * 2 / (lvl + 2) * i + hpAngle;
+			}else{
+				tAngle = Math.PI * 2 / (lvl + 2) * i - hpAngle;
+			}
+			xverts[i] = (int) (Math.cos(tAngle) * radius) + hx;
+			yverts[i] = (int) (Math.sin(tAngle) * radius) + hy;
+		}
+
+		if (lvl > current) {
+			g.setColor(Color.lightGray);
+			g.drawPolygon(new Polygon(xverts, yverts, lvl + 2));
+		} else if (lvl == current) {
+			g.setColor(Color.white);
+			g.fillPolygon(new Polygon(xverts, yverts, lvl + 2));
+		} else {
+			g.setColor(Color.lightGray);
+			g.drawPolygon(new Polygon(xverts, yverts, lvl + 2));
+		}
+
+		drawhealth(g, lvl - 1, current);
 	}
 }
