@@ -14,7 +14,7 @@ public class GamePanel extends JPanel implements KeyListener {
 	private StarchildAbilities abilities;
 	private int difficulty;
 
-	public GamePanel(int f) throws IOException {
+	public GamePanel(int health, int cdr, int attack, int difficulty) throws IOException {
 		setFocusable(true);
 		addKeyListener(this);
 		mouse = new MouseStatus();
@@ -38,7 +38,7 @@ public class GamePanel extends JPanel implements KeyListener {
 			System.out.println();
 		}
 
-		player = new Battle_Player();
+		player = new Battle_Player(health);
 		abilities = new StarchildAbilities();
 	}
 
@@ -127,10 +127,9 @@ public class GamePanel extends JPanel implements KeyListener {
 			}
 		}
 		g2d.setColor(Color.white);
-
 		Hextile.drawBigContainHex(g2d);
 		player.draw(g2d);
-
+		g2d.setColor(Color.white);
 		mouse.drawClicks(g2d);
 
 		// Draws the frames per second
