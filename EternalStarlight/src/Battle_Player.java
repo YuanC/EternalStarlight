@@ -17,10 +17,10 @@ public class Battle_Player {
 		speed = 80;
 		mx = (int) x;
 		my = (int) y;
-		hx = 1140;
-		hy = 100;
+		hx = 1220;
+		hy = 60;
 
-		this.maxHealth = 8;
+		this.maxHealth = 7;
 		this.health = 4;
 
 		// TODO maxhealth, cdr, strength(damage) implementation
@@ -72,7 +72,7 @@ public class Battle_Player {
 			}
 		}
 
-		hpAngle = (hpAngle + 0.02) % (Math.PI * 2);
+		hpAngle = (hpAngle + 0.01) % (Math.PI * 2);
 
 	}
 
@@ -146,15 +146,16 @@ public class Battle_Player {
 		if (lvl <= 0)
 			return;
 
-		int radius = 15 * lvl;
-		double tAngle;
-		int[] xverts = new int[lvl + 2], yverts = new int[lvl + 2];
+		int radius = 10 * lvl, sides = lvl + 2;
 
-		for (int i = 0; i < lvl + 2; i++) {
+		double tAngle;
+		int[] xverts = new int[sides], yverts = new int[sides];
+
+		for (int i = 0; i < sides; i++) {
 			if (lvl % 2 == 0) {
-				tAngle = Math.PI * 2 / (lvl + 2) * i + hpAngle;
-			}else{
-				tAngle = Math.PI * 2 / (lvl + 2) * i - hpAngle;
+				tAngle = Math.PI * 2 / (sides) * i + hpAngle;
+			} else {
+				tAngle = Math.PI * 2 / (sides) * i - hpAngle;
 			}
 			xverts[i] = (int) (Math.cos(tAngle) * radius) + hx;
 			yverts[i] = (int) (Math.sin(tAngle) * radius) + hy;
@@ -162,13 +163,13 @@ public class Battle_Player {
 
 		if (lvl > current) {
 			g.setColor(Color.lightGray);
-			g.drawPolygon(new Polygon(xverts, yverts, lvl + 2));
+			g.drawPolygon(new Polygon(xverts, yverts, sides));
 		} else if (lvl == current) {
 			g.setColor(Color.white);
-			g.fillPolygon(new Polygon(xverts, yverts, lvl + 2));
+			g.fillPolygon(new Polygon(xverts, yverts, sides));
 		} else {
 			g.setColor(Color.gray);
-			g.drawPolygon(new Polygon(xverts, yverts, lvl + 2));
+			g.drawPolygon(new Polygon(xverts, yverts, sides));
 		}
 
 		drawhealth(g, lvl - 1, current);
@@ -181,5 +182,14 @@ public class Battle_Player {
 	public int getHealth() {
 		// TODO Auto-generated method stub
 		return health;
+	}
+
+	public int getY() {
+		// TODO Auto-generated method stub
+		return (int) y;
+	}
+	public int getX() {
+		// TODO Auto-generated method stub
+		return (int) x;
 	}
 }
