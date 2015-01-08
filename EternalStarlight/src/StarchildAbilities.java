@@ -1,5 +1,8 @@
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Polygon;
+import java.util.ArrayList;
 
 public class StarchildAbilities extends PlayerAbilities {
 	private int[][] indicator;
@@ -50,7 +53,7 @@ public class StarchildAbilities extends PlayerAbilities {
 		case 0:
 			g.setColor(Color.white);
 			int l = 100;
-			double theta = Math.atan2((double) (my - y), (double)(mx - x));
+			double theta = Math.atan2((double) (my - y), (double) (mx - x));
 			g.drawLine(
 					x,
 					y,
@@ -58,6 +61,9 @@ public class StarchildAbilities extends PlayerAbilities {
 							* (1 - 0.5 * Math.abs(Math.sin(theta)))),
 					(int) (y + Math.sin(theta) * l
 							* (1 - 0.5 * Math.abs(Math.sin(theta)))));
+			int end[] = genLine(x, y, theta, Hextile.getBigContainHex());
+			g.drawLine(x, y, end[0], end[1]);
+			g.drawOval((int) mx - 10, (int) my - 5, 20, 10);
 			break;
 		case 1:
 			break;
@@ -74,9 +80,26 @@ public class StarchildAbilities extends PlayerAbilities {
 		}
 	}
 
+	private int[] genLine(int x, int y, double theta, Polygon bigContainHex) {
+		double endx = x, endy = y, newx = x, newy = y;
+		ArrayList<int[]> points = new ArrayList<int[]>();
+		
+		
+		while (bigContainHex.contains(newx, newy)) {
+			endx = newx;
+			endy = newy;
+
+			newx += Math.cos(theta) * 4;
+			newy += Math.sin(theta) * 4;
+		}
+
+		int end[] = { (int) endx, (int) endy };
+
+		return end;
+	}
+
 	public int[][] getIndicator() {
 
-		// TODO this
 		return indicator;
 	}
 
