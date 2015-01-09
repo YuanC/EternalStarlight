@@ -61,8 +61,9 @@ public class Hextile {
 			bigContainHex.addPoint(tempHex.xpoints[0], tempHex.ypoints[0]);
 			bigContainHex.addPoint(tempHex.xpoints[1], tempHex.ypoints[1]);
 		}
-		
-		bigShakeHex = new Polygon(bigContainHex.xpoints, bigContainHex.ypoints, bigContainHex.npoints);
+
+		bigShakeHex = new Polygon(bigContainHex.xpoints, bigContainHex.ypoints,
+				bigContainHex.npoints);
 	}
 
 	// Calculates the verticies for the hextile
@@ -280,12 +281,10 @@ public class Hextile {
 		g.fillPolygon(bigContainHex);
 	}
 
-	
-	//Draws the ability indicators
+	// Draws the ability indicators
 	public void drawIndicatorOcc(Graphics2D g) {
 		g.setColor(Color.white);
 		draw(g);
-		g.setColor(Color.gray);
 
 		int state = (int) PlayerAbilities.getAbFocState();
 
@@ -295,5 +294,24 @@ public class Hextile {
 		else
 			g.drawLine(indVerts[0][state], indVerts[1][state],
 					indVerts[0][state + 1], indVerts[1][state + 1]);
+		g.setColor(Color.gray);
+	}
+
+	public int getX() {
+		return x;
+
+	}
+
+	public int getY() {
+		return y;
+
+	}
+
+	public double getTilesh() {
+		return tiles_h;
+	}
+
+	public double getTilesw() {
+		return tiles_w;
 	}
 }

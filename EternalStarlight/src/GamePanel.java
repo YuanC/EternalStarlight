@@ -7,7 +7,7 @@ import java.io.IOException;
 
 public class GamePanel extends JPanel implements KeyListener {
 	private boolean gameRunning = true;
-	private Hextile[][] hextiles, displayTiles;
+	private Hextile[][] hextiles;
 	private double fps;
 	private MouseStatus mouse;
 	private Battle_Player player;

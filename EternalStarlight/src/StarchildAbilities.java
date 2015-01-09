@@ -30,11 +30,17 @@ public class StarchildAbilities extends PlayerAbilities {
 			break;
 		case 1:
 			break;
-		case 2:
+		case 2:// TODO
+			indicator = new int[1][2];
+			indicator[0][0] = mq;
+			indicator[0][1] = mr;
 			break;
 		case 3:
+			indicator = new int[1][2];
+			indicator[0][0] = mq;
+			indicator[0][1] = mr;
 			break;
-		case 4:
+		case 4:// TODO
 			indicator = new int[0][0];
 			break;
 		}
@@ -58,16 +64,19 @@ public class StarchildAbilities extends PlayerAbilities {
 			g.drawOval((int) mx - 10, (int) my - 5, 20, 10);
 			break;
 		case 1:
-			break;
-		case 2:
 			g.setColor(Color.white);
 
-			theta = Math.atan2((double) (my - y), (double) (mx - x));
-
-			end = genLine(x, y, theta, Hextile.getBigContainHex(), hextiles);
-
-			g.drawLine(x, y, end[0], end[1]);
 			g.drawOval((int) mx - 10, (int) my - 5, 20, 10);
+
+			int hx = hextiles[q + Hextile.size / 2][r + Hextile.size / 2]
+					.getX();
+			int hy = hextiles[q + Hextile.size / 2][r + Hextile.size / 2]
+					.getY();
+			theta = Math.atan2((double) (my - hy), (double) (mx - hx));
+			genDir(hx, hy, q, r, theta, hextiles);
+
+			break;
+		case 2:
 			break;
 		case 3:
 			break;
@@ -108,8 +117,36 @@ public class StarchildAbilities extends PlayerAbilities {
 		return end;
 	}
 
-	private int[] genDir() {
-		// TODO
+	private int[] genDir(int hx, int hy, int q, int r, double theta,
+			Hextile[][] hextiles) {
+
+		//FINISH INDICATOR
+		int i=q + Hextile.size / 2;
+		int j=r + Hextile.size / 2;
+		
+		double h = hextiles[i][j].getTilesh() / 2;
+		double w = hextiles[i][j].getTilesw() / 2;
+		
+		int tq=q;
+		int tr=r;
+
+		if (theta < Math.atan2((double) (h), (double) (w))) { //(q+)
+			while (hextiles[i][j]!=null){
+				i=tq + Hextile.size / 2;
+				j=tr + Hextile.size / 2;
+				
+			}
+		} else if (theta < Math.atan2((double) (h), (double) (-w))) {
+
+		} else if (theta < Math.atan2((double) (0), (double) (-w * 2))) {
+
+		} else if (theta < Math.atan2((double) (-h), (double) (-w))) {
+
+		} else if (theta < Math.atan2((double) (-h), (double) (w))) {
+
+		} else {
+
+		}
 
 		return null;
 
