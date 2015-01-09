@@ -128,13 +128,13 @@ public class GamePanel extends JPanel implements KeyListener {
 					// TODO Draws the ability area indicators
 					if (search2DArray(abilities.getIndicator(), tArr)) {
 
-						hextiles[i][j].drawPlayerOcc(g2d);
+						hextiles[i][j].drawIndicatorOcc(g2d);
 					}
 				}
 			}
 		}
 
-		abilities.drawIndicator(g2d, player.getQ(), player.getR(),
+		abilities.drawIndicator(g2d, hextiles, player.getQ(), player.getR(),
 				mouse.getQ(), mouse.getR(), player.getX(), player.getY(),
 				mouse.getMx(), mouse.getMy());
 

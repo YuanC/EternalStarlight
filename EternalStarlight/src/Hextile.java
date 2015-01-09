@@ -1,3 +1,5 @@
+import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Polygon;
@@ -10,20 +12,16 @@ public class Hextile {
 	private int q, r, x, y;
 	private int[][] displayVerts;
 	private int[][] realVerts;
+	private int[][] indVerts;
 	private Polygon displayhex;
 	private Polygon hexagon;
-	private static Polygon bigContainHex;
+	private static Polygon bigContainHex, bigShakeHex;
 	private static double tiles_h;
 	private static double tiles_w;
 	public static final int n_padding = 130, s_padding = 50, h_padding = 100,
 			screen_x = 1280, screen_y = 720, tileHGap = 2, tileVGap = 1;
 	public static int size;
 
-	
-	
-	
-	
-	
 	// Returns the map-encompassing shape
 	public static Polygon getBigContainHex() {
 		return bigContainHex;
@@ -63,6 +61,8 @@ public class Hextile {
 			bigContainHex.addPoint(tempHex.xpoints[0], tempHex.ypoints[0]);
 			bigContainHex.addPoint(tempHex.xpoints[1], tempHex.ypoints[1]);
 		}
+		
+		bigShakeHex = new Polygon(bigContainHex.xpoints, bigContainHex.ypoints, bigContainHex.npoints);
 	}
 
 	// Calculates the verticies for the hextile
@@ -109,6 +109,27 @@ public class Hextile {
 		realVerts[0][5] = (int) (x + w / 2);
 		realVerts[1][5] = (int) (y + h);
 		hexagon = new Polygon(realVerts[0], realVerts[1], 6);
+
+		h = tiles_h / 2 - tileVGap * 4;
+		w = tiles_w / 2 - tileHGap * 4;
+
+		indVerts[0][0] = (int) (x + w);
+		indVerts[1][0] = (int) (y);
+
+		indVerts[0][1] = (int) (x + w / 2);
+		indVerts[1][1] = (int) (y - h);
+
+		indVerts[0][2] = (int) (x - w / 2);
+		indVerts[1][2] = (int) (y - h);
+
+		indVerts[0][3] = (int) (x - w);
+		indVerts[1][3] = (int) (y);
+
+		indVerts[0][4] = (int) (x - w / 2);
+		indVerts[1][4] = (int) (y + h);
+
+		indVerts[0][5] = (int) (x + w / 2);
+		indVerts[1][5] = (int) (y + h);
 	}
 
 	public static Hextile[][] fillHexGrid(int lvl) throws IOException {
@@ -168,6 +189,7 @@ public class Hextile {
 
 		displayVerts = new int[6][6];
 		realVerts = new int[6][6];
+		indVerts = new int[6][6];
 
 		fillverts();
 
@@ -256,7 +278,22 @@ public class Hextile {
 
 	public static void fillBigContainHex(Graphics2D g) {
 		g.fillPolygon(bigContainHex);
-		
 	}
 
+	
+	//Draws the ability indicators
+	public void drawIndicatorOcc(Graphics2D g) {
+		g.setColor(Color.white);
+		draw(g);
+		g.setColor(Color.gray);
+
+		int state = (int) PlayerAbilities.getAbFocState();
+
+		if (state == 5)
+			g.drawLine(indVerts[0][state], indVerts[1][state], indVerts[0][0],
+					indVerts[1][0]);
+		else
+			g.drawLine(indVerts[0][state], indVerts[1][state],
+					indVerts[0][state + 1], indVerts[1][state + 1]);
+	}
 }

@@ -6,17 +6,20 @@ public class PlayerAbilities {
 	private static double qCD, wCD, eCD, rCD;
 	private static double[] cdTimers;
 	private static int abFocus; // The ability being used
+	private static double abFocState;
 
 	public PlayerAbilities() {
 		cdTimers = new double[4];
 		resetCDs();
 		setAbFocus(4);
+		abFocState = 0;
 	}
 
 	// Updates the cooldown timers
 	public void updateCD(double delta) {
 		for (int i = 0; i < 4; i++)
 			cdTimers[i] = Math.max(0, cdTimers[i] - delta);
+		abFocState = (abFocState + delta * 20) % 6.0;
 	}
 
 	public void resetCDs() {
@@ -58,13 +61,12 @@ public class PlayerAbilities {
 
 	// Draws the cooldowns
 	public void drawCooldown(Graphics2D g) {
-		g.drawString(cdTimers[0] + "", 5, 30);
-		g.drawString(cdTimers[1] + " ", 5, 40);
-		g.drawString(cdTimers[2] + " ", 5, 50);
-		g.drawString("" + cdTimers[3], 5, 60);
+		g.drawString("Q:\t " + Math.round(cdTimers[0] * 100) / 100.0 + " ", 5, 30);
+		g.drawString("W:\t " + Math.round(cdTimers[1] * 100) / 100.0 + " ", 5, 40);
+		g.drawString("E:\t " + Math.round(cdTimers[2] * 100) / 100.0 + " ", 5, 50);
+		g.drawString("R:\t " + "" + Math.round(cdTimers[3] * 100) / 100.0, 5, 60);
 		g.drawString("" + getAbFocus(), 5, 70);
-		
-		
+
 		// TODO draw animation and graphic;
 	}
 
@@ -103,4 +105,9 @@ public class PlayerAbilities {
 	public static void setAbFocus(int abFocus) {
 		PlayerAbilities.abFocus = abFocus;
 	}
+
+	public static double getAbFocState() {
+		return abFocState;
+	}
+
 }
