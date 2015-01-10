@@ -30,10 +30,7 @@ public class StarchildAbilities extends PlayerAbilities {
 			break;
 		case 1:
 			break;
-		case 2:// TODO
-			indicator = new int[1][2];
-			indicator[0][0] = mq;
-			indicator[0][1] = mr;
+		case 2:
 			break;
 		case 3:
 			indicator = new int[1][2];
@@ -51,13 +48,13 @@ public class StarchildAbilities extends PlayerAbilities {
 			int mq, int mr, int x, int y, int mx, int my) {
 
 		double theta;
-
 		int[] end;
 
 		switch (getAbFocus()) {
 		case 0:
 			g.setColor(Color.white);
-			theta = Math.atan2((double) (my - y), (double) (mx - x));
+			theta = Math.atan2((double) (my - y), (double) (mx - x))
+					% (Math.PI * 2);
 			end = genLine(x, y, theta, Hextile.getBigContainHex(), hextiles);
 
 			g.drawLine(x, y, end[0], end[1]);
@@ -65,18 +62,30 @@ public class StarchildAbilities extends PlayerAbilities {
 			break;
 		case 1:
 			g.setColor(Color.white);
-
 			g.drawOval((int) mx - 10, (int) my - 5, 20, 10);
 
 			int hx = hextiles[q + Hextile.size / 2][r + Hextile.size / 2]
 					.getX();
 			int hy = hextiles[q + Hextile.size / 2][r + Hextile.size / 2]
 					.getY();
-			theta = Math.atan2((double) (my - hy), (double) (mx - hx));
-			genDir(hx, hy, q, r, theta, hextiles);
 
+			theta = (Math.atan2((double) (my - hy), (double) (mx - hx)) + Math.PI * 2)
+					% (Math.PI * 2);
+
+			genDir(hx, hy, q, r, theta, hextiles);
 			break;
 		case 2:
+			g.setColor(Color.white);
+			g.drawOval((int) mx - 10, (int) my - 5, 20, 10);
+
+			ArrayList<int[]> points = genHex(hextiles, 2, mq, mr);
+
+			indicator = new int[points.size()][];
+
+			for (int i = 0; i < indicator.length; i++) {
+				indicator[i] = points.get(i);
+			}
+
 			break;
 		case 3:
 			break;
@@ -86,11 +95,76 @@ public class StarchildAbilities extends PlayerAbilities {
 		}
 	}
 
+	private ArrayList<int[]> genHex(Hextile[][] hextiles, int size, int mq,
+			int mr) {
+
+		if (size <= 0) {
+			ArrayList<int[]> centre = new ArrayList<int[]>();
+			int[] c = { mq, mr };
+			centre.add(c);
+			return centre;
+		}
+
+		ArrayList<int[]> points = new ArrayList<int[]>();
+		ArrayList<int[]> pointsToAdd = (genHex(hextiles, size - 1, mq, mr));
+
+		for (int i = 0; i < pointsToAdd.size(); i++) {
+			if (pointsToAdd.get(i) != null)
+				points.add(pointsToAdd.get(i));
+		}
+
+		int[] point;
+		int j, k;
+
+		for (int i = 0; i < 6; i++) {
+			point = new int[2];
+
+			switch (i) {
+			case 0:
+				point[0] = mq + size;
+				point[1] = mr;
+				break;
+			case 1:
+				point[0] = mq;
+				point[1] = mr + size;
+				break;
+			case 2:
+				point[0] = mq - size;
+				point[1] = mr + size;
+				break;
+			case 3:
+				point[0] = mq - size;
+				point[1] = mr;
+				break;
+			case 4:
+				point[0] = mq;
+				point[1] = mr - size;
+				break;
+			case 5:
+				point[0] = mq + size;
+				point[1] = mr - size;
+				break;
+
+			}
+
+			j = point[0] + Hextile.size / 2;
+			k = point[1] + Hextile.size / 2;
+
+			if (j >= 0 && j < Hextile.size && k >= 0 && k < Hextile.size
+					&& hextiles[j][k] != null && !points.contains(point))
+				points.add(point);
+		}
+
+		return points;
+
+	}
+
+	// Generates the line and indicator highlight hexagon list for "q" ability
 	private int[] genLine(int x, int y, double theta, Polygon bigContainHex,
 			Hextile[][] hextiles) {
 		double endx = x, endy = y, newx = x, newy = y;
 		ArrayList<int[]> points = new ArrayList<int[]>();
-
+		int[] point;
 		while (bigContainHex.contains(newx, newy)) {
 			endx = newx;
 			endy = newy;
@@ -98,8 +172,7 @@ public class StarchildAbilities extends PlayerAbilities {
 			newx += Math.cos(theta) * 5;
 			newy += Math.sin(theta) * 5;
 
-			int[] point = Hextile.hexContainCal(hextiles, (int) endx,
-					(int) endy);
+			point = Hextile.hexContainCal(hextiles, (int) endx, (int) endy);
 
 			if (point != null && !points.contains(point)) {
 				points.add(point);
@@ -117,39 +190,107 @@ public class StarchildAbilities extends PlayerAbilities {
 		return end;
 	}
 
-	private int[] genDir(int hx, int hy, int q, int r, double theta,
+	private void genDir(int hx, int hy, int q, int r, double theta,
 			Hextile[][] hextiles) {
 
-		//FINISH INDICATOR
-		int i=q + Hextile.size / 2;
-		int j=r + Hextile.size / 2;
-		
-		double h = hextiles[i][j].getTilesh() / 2;
+		int i = q + Hextile.size / 2;
+		int j = r + Hextile.size / 2;
+
+		double h = hextiles[i][j].getTilesh();
 		double w = hextiles[i][j].getTilesw() / 2;
-		
-		int tq=q;
-		int tr=r;
 
-		if (theta < Math.atan2((double) (h), (double) (w))) { //(q+)
-			while (hextiles[i][j]!=null){
-				i=tq + Hextile.size / 2;
-				j=tr + Hextile.size / 2;
-				
+		int tq = q;
+		int tr = r;
+		int[] point, point2, point3;
+
+		double[] hAngles = new double[6];
+		hAngles[0] = Math.atan2((double) (h), (double) (w));
+		hAngles[1] = Math.atan2((double) (h), (double) (-w));
+		hAngles[2] = Math.atan2((double) (0), (double) (-w * 2));
+		hAngles[3] = (Math.atan2((double) (-h), (double) (-w)) + Math.PI * 2)
+				% (Math.PI * 2);
+		hAngles[4] = (Math.atan2((double) (-h), (double) (w)) + Math.PI * 2)
+				% (Math.PI * 2);
+
+		ArrayList<int[]> points = new ArrayList<int[]>();
+
+		while (i >= 0 && i < Hextile.size && j >= 0 && j < Hextile.size
+				&& hextiles[i][j] != null) {
+
+			point = new int[2];
+			point2 = new int[2];
+			point3 = new int[2];
+
+			if (theta < hAngles[0]) {
+				point2[0] = tq + 1;
+				point2[1] = tr - 1;
+				point3[0] = tq;
+				point3[1] = tr + 1;
+				tq++;
+			} else if (theta < hAngles[1]) {
+				point2[0] = tq + 1;
+				point2[1] = tr;
+				point3[0] = tq - 1;
+				point3[1] = tr + 1;
+				tr++;
+			} else if (theta < hAngles[2]) {
+				point2[0] = tq;
+				point2[1] = tr + 1;
+				point3[0] = tq - 1;
+				point3[1] = tr;
+				tq--;
+				tr++;
+			} else if (theta < hAngles[3]) {
+				point2[0] = tq - 1;
+				point2[1] = tr + 1;
+				point3[0] = tq;
+				point3[1] = tr - 1;
+				tq--;
+			} else if (theta < hAngles[4]) {
+				point2[0] = tq + 1;
+				point2[1] = tr - 1;
+				point3[0] = tq - 1;
+				point3[1] = tr;
+				tr--;
+			} else {
+				point2[0] = tq + 1;
+				point2[1] = tr;
+				point3[0] = tq;
+				point3[1] = tr - 1;
+				tq++;
+				tr--;
 			}
-		} else if (theta < Math.atan2((double) (h), (double) (-w))) {
 
-		} else if (theta < Math.atan2((double) (0), (double) (-w * 2))) {
+			point[0] = tq;
+			point[1] = tr;
 
-		} else if (theta < Math.atan2((double) (-h), (double) (-w))) {
+			if (!points.contains(point))
+				points.add(point);
 
-		} else if (theta < Math.atan2((double) (-h), (double) (w))) {
+			i = point2[0] + Hextile.size / 2;
+			j = point2[1] + Hextile.size / 2;
 
-		} else {
+			if (i >= 0 && i < Hextile.size && j >= 0 && j < Hextile.size
+					&& hextiles[i][j] != null && !points.contains(point2))
+				points.add(point2);
+
+			i = point3[0] + Hextile.size / 2;
+			j = point3[1] + Hextile.size / 2;
+
+			if (i >= 0 && i < Hextile.size && j >= 0 && j < Hextile.size
+					&& hextiles[i][j] != null && !points.contains(point3))
+				points.add(point3);
+
+			i = tq + Hextile.size / 2;
+			j = tr + Hextile.size / 2;
 
 		}
 
-		return null;
+		indicator = new int[points.size()][];
 
+		for (int f = 0; f < indicator.length; f++) {
+			indicator[f] = points.get(f);
+		}
 	}
 
 	public int[][] getIndicator() {
