@@ -10,9 +10,13 @@ public class GamePanel extends JPanel implements KeyListener {
 	private Hextile[][] hextiles;
 	private double fps;
 	private MouseStatus mouse;
-	private Battle_Player player;
 	private StarchildAbilities abilities;
 	private int difficulty;
+	private static Battle_Player player;
+	private static ProjectileHandler projectiles;
+	private static EnemyHandler enemies;
+	private static SpawnAndCast spawncast;
+	private static PlayerSpells spells;
 
 	public GamePanel(int health, int cdr, int attack, int difficulty)
 			throws IOException {
@@ -41,6 +45,11 @@ public class GamePanel extends JPanel implements KeyListener {
 
 		player = new Battle_Player(health);
 		abilities = new StarchildAbilities();
+		projectiles = new ProjectileHandler();
+		enemies = new EnemyHandler(difficulty);
+		spawncast = new SpawnAndCast();
+		spells = new PlayerSpells(attack);
+
 	}
 
 	// The main game loop capped at ~120 frames/second (variable timestep loop)
@@ -61,7 +70,6 @@ public class GamePanel extends JPanel implements KeyListener {
 			fpsCnt++;
 
 			if (fpsTimer >= 1000000000) {
-				// System.out.println("(FPS: " + fpsCnt + ")");
 				fps = fpsCnt;
 				fpsTimer = 0;
 				fpsCnt = 0;
@@ -72,7 +80,6 @@ public class GamePanel extends JPanel implements KeyListener {
 			repaint();
 
 			// limits the framerate
-
 			try {
 				Thread.sleep((optimalDelta - (lastTime - System.nanoTime())) / 1000000);
 			} catch (Exception e) {
@@ -82,15 +89,16 @@ public class GamePanel extends JPanel implements KeyListener {
 		}
 	}
 
-	//
+	// Updates all the units in the game, where delta is change in time
 	private void updateGame(double delta) {
 		mouse.updateMouseTile(hextiles);
 		player.update(mouse, hextiles, delta);
 		mouse.updateClicks(delta);
 		abilities.updateCD(delta);
-		abilities.generateIndicator(player.getQ(), player.getR(), mouse.getQ(),
-				mouse.getR());
-
+		projectiles.update(delta, Hextile.getBigContainHex(), hextiles);
+		spawncast.update(delta);
+		spells.update(delta);
+		enemies.update(delta);
 	}
 
 	// Paints everything
@@ -125,9 +133,15 @@ public class GamePanel extends JPanel implements KeyListener {
 					tArr[0] = hextiles[i][j].getQ();
 					tArr[1] = hextiles[i][j].getR();
 
+					for (int k = 1; k < 4; k++) {
+						if (search2DArray(spawncast.getList(k), tArr)) {
+							hextiles[i][j].drawCasting(g2d,
+									spawncast.getProgress(k));
+						}
+					}
+
 					// TODO Draws the ability area indicators
 					if (search2DArray(abilities.getIndicator(), tArr)) {
-
 						hextiles[i][j].drawIndicatorOcc(g2d);
 					}
 				}
@@ -140,6 +154,9 @@ public class GamePanel extends JPanel implements KeyListener {
 
 		g2d.setColor(Color.white);
 		Hextile.drawBigContainHex(g2d);
+
+		projectiles.draw(g2d);
+
 		player.draw(g2d);
 		g2d.setColor(Color.white);
 		mouse.drawClicks(g2d);
@@ -147,12 +164,14 @@ public class GamePanel extends JPanel implements KeyListener {
 		// Draws the frames per second
 		g2d.drawString("FPS: " + fps, 2, 12);
 		abilities.drawCooldown(g2d);
+
 	}
 
 	public boolean search2DArray(int[][] arr2d, int[] arr) {
 
-		if (arr2d == null || arr.length == 0)
+		if (arr2d == null || arr.length == 0) {
 			return false;
+		}
 
 		for (int i = 0; i < arr2d.length; i++) {
 			if (arr2d[i][0] == arr[0] && arr2d[i][1] == arr[1])

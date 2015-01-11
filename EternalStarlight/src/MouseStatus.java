@@ -101,8 +101,23 @@ public class MouseStatus implements MouseListener, MouseMotionListener {
 		if (SwingUtilities.isRightMouseButton(e)) {
 			pressed = true;
 		} else if (SwingUtilities.isLeftMouseButton(e)) {
+
+			// When an ability is used
 			if (PlayerAbilities.getFoc() != 4) {
 				PlayerAbilities.startCD(PlayerAbilities.getFoc());
+
+				if (PlayerAbilities.getFoc() == 0) {
+					ProjectileHandler.addPlayerShot(Battle_Player.getX(),
+							Battle_Player.getY(),
+							StarchildAbilities.getqAngle());
+				} else {
+					int[][] indicator = StarchildAbilities.getIndicator();
+
+					for (int i = 0; i < indicator.length; i++) {
+						SpawnAndCast.addCast(PlayerAbilities.getFoc(),
+								indicator[i][0], indicator[i][1]);
+					}
+				}
 			}
 		}
 		PlayerAbilities.setFoc(4);

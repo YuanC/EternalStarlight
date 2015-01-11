@@ -5,8 +5,8 @@ import java.awt.Polygon;
 import java.util.ArrayList;
 
 public class StarchildAbilities extends PlayerAbilities {
-	private int[][] indicator;
-	private int type;
+	private static int[][] indicator;
+	private static double qAngle;
 
 	public StarchildAbilities() {
 		super();
@@ -19,29 +19,7 @@ public class StarchildAbilities extends PlayerAbilities {
 		setCDs(cdList);
 
 		indicator = new int[0][0];
-
-	}
-
-	public void generateIndicator(int q, int r, int mq, int mr) {
-		// TODO Use algorithms to determine the stuff
-
-		switch (getAbFocus()) {
-		case 0:
-			break;
-		case 1:
-			break;
-		case 2:
-			break;
-		case 3:
-			indicator = new int[1][2];
-			indicator[0][0] = mq;
-			indicator[0][1] = mr;
-			break;
-		case 4:// TODO
-			indicator = new int[0][0];
-			break;
-		}
-
+		qAngle = 0;
 	}
 
 	public void drawIndicator(Graphics2D g, Hextile[][] hextiles, int q, int r,
@@ -49,12 +27,13 @@ public class StarchildAbilities extends PlayerAbilities {
 
 		double theta;
 		int[] end;
-
+		ArrayList<int[]> points;
 		switch (getAbFocus()) {
 		case 0:
 			g.setColor(Color.white);
 			theta = Math.atan2((double) (my - y), (double) (mx - x))
 					% (Math.PI * 2);
+			qAngle = theta;
 			end = genLine(x, y, theta, Hextile.getBigContainHex(), hextiles);
 
 			g.drawLine(x, y, end[0], end[1]);
@@ -78,7 +57,7 @@ public class StarchildAbilities extends PlayerAbilities {
 			g.setColor(Color.white);
 			g.drawOval((int) mx - 10, (int) my - 5, 20, 10);
 
-			ArrayList<int[]> points = genHex(hextiles, 2, mq, mr);
+			points = genHex(hextiles, 2, mq, mr);
 
 			indicator = new int[points.size()][];
 
@@ -88,6 +67,16 @@ public class StarchildAbilities extends PlayerAbilities {
 
 			break;
 		case 3:
+			g.setColor(Color.white);
+			g.drawOval((int) mx - 10, (int) my - 5, 20, 10);
+
+			points = genHex(hextiles, 4, q, r);
+
+			indicator = new int[points.size()][];
+
+			for (int i = 0; i < indicator.length; i++) {
+				indicator[i] = points.get(i);
+			}
 			break;
 		case 4:
 			indicator = new int[0][0];
@@ -113,46 +102,57 @@ public class StarchildAbilities extends PlayerAbilities {
 				points.add(pointsToAdd.get(i));
 		}
 
-		int[] point;
-		int j, k;
+		int[] point = new int[2];
+		int j, k, tq = mq, tr = mr;
 
-		for (int i = 0; i < 6; i++) {
-			point = new int[2];
+		tq = mq + size;
+		tr = mr;
+		point[0] = tq;
+		point[1] = tr;
 
-			switch (i) {
-			case 0:
-				point[0] = mq + size;
-				point[1] = mr;
-				break;
-			case 1:
-				point[0] = mq;
-				point[1] = mr + size;
-				break;
-			case 2:
-				point[0] = mq - size;
-				point[1] = mr + size;
-				break;
-			case 3:
-				point[0] = mq - size;
-				point[1] = mr;
-				break;
-			case 4:
-				point[0] = mq;
-				point[1] = mr - size;
-				break;
-			case 5:
-				point[0] = mq + size;
-				point[1] = mr - size;
-				break;
+		j = point[0] + Hextile.size / 2;
+		k = point[1] + Hextile.size / 2;
 
+		if (j >= 0 && j < Hextile.size && k >= 0 && k < Hextile.size
+				&& hextiles[j][k] != null && !points.contains(point))
+			points.add(point);
+
+		for (int i = 0; i < 6; i++) {// TODO Proper hex rendering with tq,tr
+
+			for (int f = 0; f < size; f++) {
+				switch (i) {
+				case 0:
+					tq--;
+					tr++;
+					break;
+				case 1:
+					tq--;
+					break;
+				case 2:
+					tr--;
+					break;
+				case 3:
+					tq++;
+					tr--;
+					break;
+				case 4:
+					tq++;
+					break;
+				case 5:
+					tr++;
+					break;
+				}
+				point = new int[2];
+				point[0] = tq;
+				point[1] = tr;
+
+				j = point[0] + Hextile.size / 2;
+				k = point[1] + Hextile.size / 2;
+
+				if (j >= 0 && j < Hextile.size && k >= 0 && k < Hextile.size
+						&& hextiles[j][k] != null && !points.contains(point))
+					points.add(point);
 			}
-
-			j = point[0] + Hextile.size / 2;
-			k = point[1] + Hextile.size / 2;
-
-			if (j >= 0 && j < Hextile.size && k >= 0 && k < Hextile.size
-					&& hextiles[j][k] != null && !points.contains(point))
-				points.add(point);
 		}
 
 		return points;
@@ -293,9 +293,13 @@ public class StarchildAbilities extends PlayerAbilities {
 		}
 	}
 
-	public int[][] getIndicator() {
+	public static int[][] getIndicator() {
 
 		return indicator;
+	}
+
+	public static double getqAngle() {
+		return qAngle;
 	}
 
 }

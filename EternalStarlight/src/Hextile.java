@@ -164,7 +164,7 @@ public class Hextile {
 					hextiles[i][j] = new Hextile(i, j);
 
 				} else if (line[j].equals("B")) {
-					hextiles[i][j] = null; // TODO add barrier tiles
+					hextiles[i][j] = null; // TODO add barrier tiles?
 
 				} else {
 					hextiles[i][j] = null; // The space is empty
@@ -295,6 +295,14 @@ public class Hextile {
 			g.drawLine(indVerts[0][state], indVerts[1][state],
 					indVerts[0][state + 1], indVerts[1][state + 1]);
 		g.setColor(Color.gray);
+	}
+
+	public void drawCasting(Graphics2D g, double progress) {
+		drawIndicatorOcc(g);
+	}
+
+	public void drawPShot(Graphics2D g) {
+		// TODO
 	}
 
 	public int getX() {

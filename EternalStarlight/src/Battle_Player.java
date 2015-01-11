@@ -4,7 +4,9 @@ import java.awt.Polygon;
 
 public class Battle_Player {
 	private int q, r, mx, my, health, maxHealth, CDR, strength, hx, hy;
-	private double angle, speed, x, y, hpAngle;
+	private double angle, speed;
+	private static double x, y;
+	private double hpAngle;
 
 	public Battle_Player(int health) {
 		q = 0;
@@ -184,11 +186,11 @@ public class Battle_Player {
 		return health;
 	}
 
-	public int getY() {
+	public static int getY() {
 		// TODO Auto-generated method stub
 		return (int) y;
 	}
-	public int getX() {
+	public static int getX() {
 		// TODO Auto-generated method stub
 		return (int) x;
 	}

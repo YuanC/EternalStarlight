@@ -12,4 +12,13 @@ public class EnemyHandler {
 
 	}
 
+	public void update(double delta){
+		
+	}
+	
+	public static void addEnemy() {
+		// TODO Auto-generated method stub
+
+	}
+
 }
