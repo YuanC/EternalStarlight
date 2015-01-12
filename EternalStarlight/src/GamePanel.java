@@ -141,6 +141,7 @@ public class GamePanel extends JPanel implements KeyListener {
 						}
 					}
 
+					// Draws the player projectiles
 					if (search2DArray(projectiles.getPShots(), tArr)) {
 						hextiles[i][j].drawPShot(g2d, 0);
 					}
