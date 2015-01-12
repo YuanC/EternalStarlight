@@ -51,10 +51,10 @@ public class Projectile {
 		return y;
 	}
 
-	public double[] getQR() {
-		double[] pos = new double[2];
-		pos[0] = q;
-		pos[1] = r;
-		return pos;
+	public double getQ() {
+		return q;
+	}
+	public double getR() {
+		return r;
 	}
 }

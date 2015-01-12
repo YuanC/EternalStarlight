@@ -133,10 +133,22 @@ public class GamePanel extends JPanel implements KeyListener {
 					tArr[0] = hextiles[i][j].getQ();
 					tArr[1] = hextiles[i][j].getR();
 
+					// Draws the casting indicators
 					for (int k = 1; k < 4; k++) {
 						if (search2DArray(spawncast.getList(k), tArr)) {
 							hextiles[i][j].drawCasting(g2d,
 									spawncast.getProgress(k));
+						}
+					}
+
+					if (search2DArray(projectiles.getPShots(), tArr)) {
+						hextiles[i][j].drawPShot(g2d, 0);
+					}
+
+					// Drawing the spell animations
+					for (int k = 1; k < 4; k++) {
+						if (search2DArray(spells.getList(k), tArr)) {
+							hextiles[i][j].drawPShot(g2d, k);
 						}
 					}
 

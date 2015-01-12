@@ -22,8 +22,8 @@ public class Battle_Player {
 		hx = 1220;
 		hy = 60;
 
-		this.maxHealth = 7;
-		this.health = 4;
+		this.maxHealth = health;
+		this.health = health;
 
 		// TODO maxhealth, cdr, strength(damage) implementation
 

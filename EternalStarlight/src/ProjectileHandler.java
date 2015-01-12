@@ -46,11 +46,19 @@ public class ProjectileHandler {
 			enemyShots.get(i).drawE(g);
 	}
 
-	public ArrayList<Projectile> getPShots() {
-		return playerShots;
-	}
-
 	public ArrayList<Projectile> getEShots() {
 		return enemyShots;
+	}
+
+	public static int[][] getPShots() {
+
+		// System.out.println(wList.size());
+		int[][] intArray = new int[playerShots.size()][4];
+		for (int j = 0; j < playerShots.size(); j++) {
+			intArray[j][0] = (int) playerShots.get(j).getQ();
+			intArray[j][1] = (int) playerShots.get(j).getR();
+
+		}
+		return intArray;
 	}
 }

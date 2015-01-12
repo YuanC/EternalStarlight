@@ -301,8 +301,8 @@ public class Hextile {
 		drawIndicatorOcc(g);
 	}
 
-	public void drawPShot(Graphics2D g) {
-		// TODO
+	public void drawPShot(Graphics2D g, int k) {
+		drawFilled(g);
 	}
 
 	public int getX() {
