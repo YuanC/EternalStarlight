@@ -5,28 +5,37 @@ import java.util.ArrayList;
 public class EnemyHandler {
 	private static ArrayList<Enemy> enemyList;
 	private static ArrayList<double[]> deathList;
-	int enemyCnt;
+	private static int waveCnt, difficulty;
 	double spawnCD, spawnTimer;
 
 	public EnemyHandler(int difficulty) {
 		enemyList = new ArrayList<Enemy>();
 		deathList = new ArrayList<double[]>();
-		enemyCnt = difficulty * 10;
-		spawnCD = 6;
+		waveCnt =50;// difficulty * 2;
+		spawnCD = 0.5;
+		this.difficulty = difficulty;
 	}
 
 	public void drawCnt(Graphics2D g) {
 		g.setFont(new Font("Arial", Font.PLAIN, 40));
-		g.drawString(enemyCnt + SpawnAndCast.spawnSize() + enemyList.size()
-				+ "", 620, 50);
+		g.drawString(waveCnt + " Wave(s)", 600, 50);
 	}
 
 	public void update(double delta) {
 
 		if (spawnTimer <= 0) {
-			spawnTimer = spawnCD;
-			enemyCnt = Math.max(enemyCnt - 5, 0);
-		} else if (enemyCnt > 0) {
+			if (waveCnt > 0) {
+				spawnTimer = spawnCD;
+				waveCnt--;
+				if (difficulty == 1) {
+					SpawnAndCast.addEnemies((int) (Math.random() * 2 * +1));
+				} else if (difficulty == 2) {
+					SpawnAndCast.addEnemies((int) (Math.random() * 3 * +1));
+				} else {
+					SpawnAndCast.addEnemies((int) (Math.random() * 3 * +2));
+				}
+			}
+		} else if (waveCnt > 0) {
 			spawnTimer -= delta;
 		}
 
@@ -55,6 +64,8 @@ public class EnemyHandler {
 		}
 
 	}
+
+	// public static void
 
 	public static void addDeath(int q, int r) {
 

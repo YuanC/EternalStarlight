@@ -59,8 +59,8 @@ public class SpawnAndCast {
 		}
 
 		for (int i = 0; i < spawnList.size(); i++) {
-			spawnList.get(i)[2] += delta;
-			if (spawnList.get(i)[2] > spawnList.get(i)[3]) {
+			spawnList.get(i)[3] += delta;
+			if (spawnList.get(i)[3] > spawnList.get(i)[4]) {
 				// EnemyHandler.addEnemy();
 				spawnList.remove(i--);
 			}
@@ -132,27 +132,55 @@ public class SpawnAndCast {
 		return intArray;
 	}
 
+	public int[][] getSpawnList() {
+		int[][] intArray = new int[spawnList.size()][5];
+		for (int j = 0; j < spawnList.size(); j++) {
+			intArray[j][0] = (int) spawnList.get(j)[0];
+			intArray[j][1] = (int) spawnList.get(j)[1];
+			intArray[j][2] = (int) spawnList.get(j)[2];
+			intArray[j][3] = (int) spawnList.get(j)[3];
+			intArray[j][4] = (int) spawnList.get(j)[4];
+
+		}
+		return intArray;
+	}
+
 	// Adds enemies to the enemy spawning indicator
 	// [q, r, type(int), time elapsed, total spawning time]
 	public static void addEnemies(int type) {
 		double[] spawns = new double[5];
 
-		double[][] arr = null;
 		int size = Hextile.size;
 
 		if (type == 1) {// TODO this stuff
-			arr = new double[6][5];
+			double[][] arr = { { 0, -10, 1, 0, 1 }, { -10, 0, 1, 0, 1 },
+					{ -10, 10, 1, 0, 1 }, { 0, 10, 1, 0, 1 },
+					{ 10, 0, 1, 0, 1 }, { 10, -10, 1, 0, 1 } };
+			for (int i = 0; i < arr.length; i++) {
+
+				spawnList.add(arr[i]);
+			}
 
 		} else if (type == 2) {
+			double[][] arr = { { -10, 10, 2, 0, 1 }, { -10, 0, 2, 0, 1 },
+					{ 10, 0, 2, 0, 1 }, { 10, -10, 2, 0, 1 } };
+			for (int i = 0; i < arr.length; i++) {
+				spawnList.add(arr[i]);
+			}
 
 		} else if (type == 3) {
-
+			double[][] arr = { { 0, -10, 2, 0, 1 }, { 0, 10, 2, 0, 1 },
+					{ 0, 0, 3, 0, 1 } };
+			for (int i = 0; i < arr.length; i++) {
+				spawnList.add(arr[i]);
+			}
 		} else {
-
-		}
-
-		for (int i = 0; i < arr.length; i++) {
-			spawnList.add(arr[i]);
+			double[][] arr = { { 0, -10, 1, 0, 1 }, { -10, 0, 2, 0, 1 },
+					{ -10, 10, 2, 0, 1 }, { 0, 10, 1, 0, 1 },
+					{ 10, 0, 2, 0, 1 }, { 10, -10, 2, 0, 1 }, { 0, 0, 3, 0, 1 } };
+			for (int i = 0; i < arr.length; i++) {
+				spawnList.add(arr[i]);
+			}
 		}
 
 	}
@@ -170,5 +198,10 @@ public class SpawnAndCast {
 		} else {
 			return castRList.get(0)[2] / castRList.get(0)[3];
 		}
+	}
+
+	// Gets the progress of the spawning animations
+	public double getSpawningProgress() {
+		return spawnList.get(0)[3] / spawnList.get(0)[4];
 	}
 }

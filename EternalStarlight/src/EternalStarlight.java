@@ -11,7 +11,7 @@ public class EternalStarlight {
 
 		// Initializes the JFrame and the JPanels
 		JFrame gameScreen = new JFrame();
-		GamePanel gamePanel = new GamePanel(7,1,1,1);
+		GamePanel gamePanel = new GamePanel(7,1,1,3);
 		MenuPanel menuPanel = new MenuPanel();
 		MapPanel mapPanel = new MapPanel();
 

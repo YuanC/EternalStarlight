@@ -316,6 +316,10 @@ public class Hextile {
 		drawFilled(g);
 	}
 
+	public void drawSpawning(Graphics2D g, double progress) {
+		drawCasting(g, progress);
+	}
+
 	public int getX() {
 		return x;
 

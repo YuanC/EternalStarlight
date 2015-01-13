@@ -146,8 +146,17 @@ public class GamePanel extends JPanel implements KeyListener {
 									spawncast.getProgress(k));
 						}
 					}
-					g2d.setColor(Color.gray);
+
+					// Drawing the enemy spawning indicators
+					for (int k = 1; k < 4; k++) {
+						if (search2DArray(spawncast.getSpawnList(), tArr)) {
+							hextiles[i][j].drawSpawning(g2d,
+									spawncast.getSpawningProgress());
+						}
+					}
+
 					// Draws the player projectiles
+					g2d.setColor(Color.gray);
 					if (search2DArray(projectiles.getPShots(), tArr)) {
 						hextiles[i][j].drawPShot(g2d, 0);
 					}
