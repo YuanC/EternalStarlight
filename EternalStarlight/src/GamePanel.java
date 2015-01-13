@@ -46,7 +46,7 @@ public class GamePanel extends JPanel implements KeyListener {
 		player = new Battle_Player(health);
 		abilities = new StarchildAbilities(cdr);
 		projectiles = new ProjectileHandler();
-		enemies = new EnemyHandler(difficulty);
+		enemies = new EnemyHandler(difficulty, hextiles);
 		spawncast = new SpawnAndCast();
 		spells = new PlayerSpells(attack);
 

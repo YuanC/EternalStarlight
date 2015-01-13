@@ -14,16 +14,13 @@ public class SpawnAndCast {
 		castWList = new ArrayList<double[]>();
 		castEList = new ArrayList<double[]>();
 		castRList = new ArrayList<double[]>();
-
 		spawnList = new ArrayList<double[]>();
 
 	}
 
 	public void update(double delta) {
 		for (int i = 0; i < castWList.size(); i++) {
-
 			castWList.get(i)[2] += delta;
-
 			if (castWList.get(i)[2] > castWList.get(i)[3]) {
 				PlayerSpells.addSpell(1, (int) castWList.get(i)[0],
 						(int) castWList.get(i)[1]);
@@ -42,26 +39,23 @@ public class SpawnAndCast {
 				castEList.remove(i);
 				i--;
 			}
-
 		}
 
 		for (int i = 0; i < castRList.size(); i++) {
-
 			castRList.get(i)[2] += delta;
-
 			if (castRList.get(i)[2] > castRList.get(i)[3]) {
 				PlayerSpells.addSpell(3, (int) castRList.get(i)[0],
 						(int) castRList.get(i)[1]);
 				castRList.remove(i);
 				i--;
 			}
-
 		}
 
 		for (int i = 0; i < spawnList.size(); i++) {
 			spawnList.get(i)[3] += delta;
 			if (spawnList.get(i)[3] > spawnList.get(i)[4]) {
-				// EnemyHandler.addEnemy();
+				EnemyHandler.addEnemy((int) spawnList.get(i)[0],
+						(int) spawnList.get(i)[1], (int) spawnList.get(i)[2]);
 				spawnList.remove(i--);
 			}
 		}
