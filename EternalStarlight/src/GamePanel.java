@@ -44,11 +44,15 @@ public class GamePanel extends JPanel implements KeyListener {
 		}
 
 		player = new Battle_Player(health);
-		abilities = new StarchildAbilities();
+		abilities = new StarchildAbilities(cdr);
 		projectiles = new ProjectileHandler();
 		enemies = new EnemyHandler(difficulty);
 		spawncast = new SpawnAndCast();
 		spells = new PlayerSpells(attack);
+
+	}
+
+	public static void winCheck() {
 
 	}
 
@@ -99,6 +103,7 @@ public class GamePanel extends JPanel implements KeyListener {
 		spawncast.update(delta);
 		spells.update(delta);
 		enemies.update(delta);
+		winCheck();
 	}
 
 	// Paints everything
@@ -134,13 +139,14 @@ public class GamePanel extends JPanel implements KeyListener {
 					tArr[1] = hextiles[i][j].getR();
 
 					// Draws the casting indicators
+					g2d.setColor(Color.white);
 					for (int k = 1; k < 4; k++) {
 						if (search2DArray(spawncast.getList(k), tArr)) {
 							hextiles[i][j].drawCasting(g2d,
 									spawncast.getProgress(k));
 						}
 					}
-
+					g2d.setColor(Color.gray);
 					// Draws the player projectiles
 					if (search2DArray(projectiles.getPShots(), tArr)) {
 						hextiles[i][j].drawPShot(g2d, 0);
@@ -157,6 +163,7 @@ public class GamePanel extends JPanel implements KeyListener {
 					if (search2DArray(abilities.getIndicator(), tArr)) {
 						hextiles[i][j].drawIndicatorOcc(g2d);
 					}
+					g2d.setColor(Color.gray);
 				}
 			}
 		}
@@ -178,6 +185,7 @@ public class GamePanel extends JPanel implements KeyListener {
 		g2d.drawString("FPS: " + fps, 2, 12);
 		abilities.drawCooldown(g2d);
 
+		enemies.drawCnt(g2d);
 	}
 
 	public boolean search2DArray(int[][] arr2d, int[] arr) {
@@ -246,4 +254,5 @@ public class GamePanel extends JPanel implements KeyListener {
 		// TODO Auto-generated method stub
 
 	}
+
 }

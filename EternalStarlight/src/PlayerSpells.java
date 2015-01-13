@@ -23,7 +23,6 @@ public class PlayerSpells {
 		for (int i = 0; i < wList.size(); i++) {
 
 			wList.get(i)[2] += delta;
-			System.out.println(wList.get(i)[2]);
 
 			if (wList.get(i)[2] > wList.get(i)[3]) {
 				wList.remove(i);
@@ -92,7 +91,6 @@ public class PlayerSpells {
 				intArray[j][3] = (int) wList.get(j)[3];
 
 			}
-			return intArray;
 		} else if (i == 2) {
 			intArray = new int[eList.size()][4];
 			for (int j = 0; j < eList.size(); j++) {
@@ -102,16 +100,15 @@ public class PlayerSpells {
 				intArray[j][3] = (int) eList.get(j)[3];
 
 			}
-			return intArray;
-		}
+		} else {
+			intArray = new int[rList.size()][4];
+			for (int j = 0; j < rList.size(); j++) {
+				intArray[j][0] = (int) rList.get(j)[0];
+				intArray[j][1] = (int) rList.get(j)[1];
+				intArray[j][2] = (int) rList.get(j)[2];
+				intArray[j][3] = (int) rList.get(j)[3];
 
-		intArray = new int[rList.size()][4];
-		for (int j = 0; j < rList.size(); j++) {
-			intArray[j][0] = (int) rList.get(j)[0];
-			intArray[j][1] = (int) rList.get(j)[1];
-			intArray[j][2] = (int) rList.get(j)[2];
-			intArray[j][3] = (int) rList.get(j)[3];
-
+			}
 		}
 		return intArray;
 	}

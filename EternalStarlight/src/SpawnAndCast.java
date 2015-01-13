@@ -9,15 +9,14 @@ public class SpawnAndCast {
 
 	// [q, r, type(int), time elapsed, total spawning time]
 	private static ArrayList<double[]> spawnList;
-	private static double spawnCD;
 
 	public SpawnAndCast() {
 		castWList = new ArrayList<double[]>();
 		castEList = new ArrayList<double[]>();
 		castRList = new ArrayList<double[]>();
+
 		spawnList = new ArrayList<double[]>();
 
-		spawnCD = 5;
 	}
 
 	public void update(double delta) {
@@ -62,7 +61,7 @@ public class SpawnAndCast {
 		for (int i = 0; i < spawnList.size(); i++) {
 			spawnList.get(i)[2] += delta;
 			if (spawnList.get(i)[2] > spawnList.get(i)[3]) {
-				EnemyHandler.addEnemy();
+				// EnemyHandler.addEnemy();
 				spawnList.remove(i--);
 			}
 		}
@@ -76,7 +75,7 @@ public class SpawnAndCast {
 			arr[0] = q;
 			arr[1] = r;
 			arr[2] = 0;
-			arr[3] = 0.5;
+			arr[3] = 0.7;
 			castWList.add(arr);
 
 		} else if (i == 2) {
@@ -90,7 +89,7 @@ public class SpawnAndCast {
 			arr[0] = q;
 			arr[1] = r;
 			arr[2] = 0;
-			arr[3] = 0.3;
+			arr[3] = 0.5;
 			castRList.add(arr);
 		}
 
@@ -133,6 +132,36 @@ public class SpawnAndCast {
 		return intArray;
 	}
 
+	// Adds enemies to the enemy spawning indicator
+	// [q, r, type(int), time elapsed, total spawning time]
+	public static void addEnemies(int type) {
+		double[] spawns = new double[5];
+
+		double[][] arr = null;
+		int size = Hextile.size;
+
+		if (type == 1) {// TODO this stuff
+			arr = new double[6][5];
+
+		} else if (type == 2) {
+
+		} else if (type == 3) {
+
+		} else {
+
+		}
+
+		for (int i = 0; i < arr.length; i++) {
+			spawnList.add(arr[i]);
+		}
+
+	}
+
+	public static int spawnSize() {
+		return spawnList.size();
+	}
+
+	// Gives the progress of the casting animation
 	public double getProgress(int i) {
 		if (i == 1) {
 			return castWList.get(0)[2] / castWList.get(0)[3];

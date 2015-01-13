@@ -8,14 +8,14 @@ public class StarchildAbilities extends PlayerAbilities {
 	private static int[][] indicator;
 	private static double qAngle;
 
-	public StarchildAbilities() {
+	public StarchildAbilities(int cdr) {
 		super();
 
 		double[] cdList = new double[4];
-		cdList[0] = 0.5;
-		cdList[1] = 1.0;
-		cdList[2] = 0.7;
-		cdList[3] = 1.2;
+		cdList[0] = 0.5 * (1-cdr / 100);
+		cdList[1] = 4 * (1-cdr / 100.0);
+		cdList[2] = 3 * (1-cdr / 100.0);
+		cdList[3] = 15 * (1-cdr / 100.0);
 		setCDs(cdList);
 
 		indicator = new int[0][0];

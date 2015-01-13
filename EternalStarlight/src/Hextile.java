@@ -298,7 +298,18 @@ public class Hextile {
 	}
 
 	public void drawCasting(Graphics2D g, double progress) {
-		drawIndicatorOcc(g);
+		double theta = Math.PI * (1 - progress);
+		double radius = (tiles_w / 2 - tileHGap) * (1 - progress);
+		int[][] tVerts = new int[2][6];
+
+		for (int i = 0; i < 6; i++) {
+			tVerts[0][i] = (int) (x + Math.cos(theta + i * Math.PI / 3)
+					* radius);
+			tVerts[1][i] = (int) (y + Math.sin(theta + i * Math.PI / 3)
+					* radius / 2);
+		}
+
+		g.drawPolygon(new Polygon(tVerts[0], tVerts[1], 6));
 	}
 
 	public void drawPShot(Graphics2D g, int k) {
