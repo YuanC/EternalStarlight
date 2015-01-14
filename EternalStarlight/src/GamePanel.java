@@ -46,14 +46,14 @@ public class GamePanel extends JPanel implements KeyListener {
 		player = new Battle_Player(health);
 		abilities = new StarchildAbilities(cdr);
 		projectiles = new ProjectileHandler();
-		enemies = new EnemyHandler(difficulty);
+		enemies = new EnemyHandler(difficulty, hextiles);
 		spawncast = new SpawnAndCast();
 		spells = new PlayerSpells(attack);
 
 	}
 
-	public static void winCheck() {
-
+	public static boolean winCheck() {
+		return false;
 	}
 
 	// The main game loop capped at ~120 frames/second (variable timestep loop)
@@ -103,7 +103,14 @@ public class GamePanel extends JPanel implements KeyListener {
 		spawncast.update(delta);
 		spells.update(delta);
 		enemies.update(delta);
-		winCheck();
+		if (winCheck()) {
+			endGame();
+		}
+	}
+
+	private void endGame() {
+		return;
+
 	}
 
 	// Paints everything
@@ -184,6 +191,8 @@ public class GamePanel extends JPanel implements KeyListener {
 		g2d.setColor(Color.white);
 		Hextile.drawBigContainHex(g2d);
 
+		enemies.draw(g2d);
+
 		projectiles.draw(g2d);
 
 		player.draw(g2d);
@@ -193,8 +202,6 @@ public class GamePanel extends JPanel implements KeyListener {
 		// Draws the frames per second
 		g2d.drawString("FPS: " + fps, 2, 12);
 		abilities.drawCooldown(g2d);
-
-		enemies.drawCnt(g2d);
 	}
 
 	public boolean search2DArray(int[][] arr2d, int[] arr) {
@@ -210,11 +217,6 @@ public class GamePanel extends JPanel implements KeyListener {
 
 		return false;
 
-	}
-
-	// To stop the game loop
-	public void setGameRunningFalse() {
-		gameRunning = false;
 	}
 
 	@Override

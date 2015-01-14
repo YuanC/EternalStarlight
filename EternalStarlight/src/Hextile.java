@@ -256,6 +256,54 @@ public class Hextile {
 		// TODOCreate actual animation
 	}
 
+	public void drawEnemyOcc(Graphics2D g, double progress) {
+		drawCasting(g, progress);
+		//TODO create actual animation
+	}
+
+	public static void fillBigContainHex(Graphics2D g) {
+		g.fillPolygon(bigContainHex);
+	}
+
+	// Draws the ability indicators
+	public void drawIndicatorOcc(Graphics2D g) {
+		g.setColor(Color.white);
+		draw(g);
+	
+		int state = (int) PlayerAbilities.getAbFocState();
+	
+		if (state == 5)
+			g.drawLine(indVerts[0][state], indVerts[1][state], indVerts[0][0],
+					indVerts[1][0]);
+		else
+			g.drawLine(indVerts[0][state], indVerts[1][state],
+					indVerts[0][state + 1], indVerts[1][state + 1]);
+		g.setColor(Color.gray);
+	}
+
+	public void drawCasting(Graphics2D g, double progress) {
+		double theta = Math.PI * (1 - progress);
+		double radius = (tiles_w / 2 - tileHGap) * (1 - progress);
+		int[][] tVerts = new int[2][6];
+	
+		for (int i = 0; i < 6; i++) {
+			tVerts[0][i] = (int) (x + Math.cos(theta + i * Math.PI / 3)
+					* radius);
+			tVerts[1][i] = (int) (y + Math.sin(theta + i * Math.PI / 3)
+					* radius / 2);
+		}
+	
+		g.drawPolygon(new Polygon(tVerts[0], tVerts[1], 6));
+	}
+
+	public void drawPShot(Graphics2D g, int k) {
+		drawFilled(g);
+	}
+
+	public void drawSpawning(Graphics2D g, double progress) {
+		drawCasting(g, progress);
+	}
+
 	public Polygon getHexagon() {
 		return hexagon;
 	}
@@ -275,49 +323,6 @@ public class Hextile {
 
 	public void setR(int r) {
 		this.r = r;
-	}
-
-	public static void fillBigContainHex(Graphics2D g) {
-		g.fillPolygon(bigContainHex);
-	}
-
-	// Draws the ability indicators
-	public void drawIndicatorOcc(Graphics2D g) {
-		g.setColor(Color.white);
-		draw(g);
-
-		int state = (int) PlayerAbilities.getAbFocState();
-
-		if (state == 5)
-			g.drawLine(indVerts[0][state], indVerts[1][state], indVerts[0][0],
-					indVerts[1][0]);
-		else
-			g.drawLine(indVerts[0][state], indVerts[1][state],
-					indVerts[0][state + 1], indVerts[1][state + 1]);
-		g.setColor(Color.gray);
-	}
-
-	public void drawCasting(Graphics2D g, double progress) {
-		double theta = Math.PI * (1 - progress);
-		double radius = (tiles_w / 2 - tileHGap) * (1 - progress);
-		int[][] tVerts = new int[2][6];
-
-		for (int i = 0; i < 6; i++) {
-			tVerts[0][i] = (int) (x + Math.cos(theta + i * Math.PI / 3)
-					* radius);
-			tVerts[1][i] = (int) (y + Math.sin(theta + i * Math.PI / 3)
-					* radius / 2);
-		}
-
-		g.drawPolygon(new Polygon(tVerts[0], tVerts[1], 6));
-	}
-
-	public void drawPShot(Graphics2D g, int k) {
-		drawFilled(g);
-	}
-
-	public void drawSpawning(Graphics2D g, double progress) {
-		drawCasting(g, progress);
 	}
 
 	public int getX() {

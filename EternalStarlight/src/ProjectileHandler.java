@@ -31,7 +31,7 @@ public class ProjectileHandler {
 	}
 
 	public static void addPlayerShot(int x, int y, double theta) {
-		playerShots.add(new Projectile(400, x, y, theta));
+		playerShots.add(new Projectile(800, x, y, theta));
 	}
 
 	public static void addEnemyShot(int x, int y, double theta) {
@@ -46,13 +46,19 @@ public class ProjectileHandler {
 			enemyShots.get(i).drawE(g);
 	}
 
-	public ArrayList<Projectile> getEShots() {
-		return enemyShots;
+	public static int[][] getEShots() {
+		int[][] intArray = new int[enemyShots.size()][4];
+		for (int j = 0; j < enemyShots.size(); j++) {
+			intArray[j][0] = (int) enemyShots.get(j).getQ();
+			intArray[j][1] = (int) enemyShots.get(j).getR();
+
+		}
+		return intArray;
 	}
 
+	// Returns a list of the location of player projectiles
 	public static int[][] getPShots() {
 
-		// System.out.println(wList.size());
 		int[][] intArray = new int[playerShots.size()][4];
 		for (int j = 0; j < playerShots.size(); j++) {
 			intArray[j][0] = (int) playerShots.get(j).getQ();

@@ -61,7 +61,8 @@ public class SpawnAndCast {
 		for (int i = 0; i < spawnList.size(); i++) {
 			spawnList.get(i)[3] += delta;
 			if (spawnList.get(i)[3] > spawnList.get(i)[4]) {
-				// EnemyHandler.addEnemy();
+				EnemyHandler.addEnemy((int) spawnList.get(i)[0],
+						(int) spawnList.get(i)[1], (int) spawnList.get(i)[2]);
 				spawnList.remove(i--);
 			}
 		}
