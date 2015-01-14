@@ -43,8 +43,8 @@ public class EnemyHandler {
 		}
 
 		for (int i = 0; i < deathList.size(); i++) {
-			deathList.get(i)[0] += delta * 3;
-			if (deathList.get(i)[0] > 1) {
+			deathList.get(i)[2] += delta * 5;
+			if (deathList.get(i)[2] > 1) {
 				deathList.remove(i);
 				i--;
 			}
@@ -203,6 +203,7 @@ public class EnemyHandler {
 		// Updates the game for all the enemies
 		for (int i = 0; i < enemy1List.size(); i++) {
 			enemy1List.get(i).draw(g);
+			// System.out.println("yin");
 		}
 
 		for (int i = 0; i < enemy2List.size(); i++) {
@@ -219,17 +220,22 @@ public class EnemyHandler {
 
 	public void drawCnt(Graphics2D g) {
 		g.setFont(new Font("Arial", Font.PLAIN, 40));
-		g.drawString(waveCnt + " Wave(s)", 600, 50);
+		g.drawString(waveCnt + "", 620, 50);
 		g.setFont(UIManager.getDefaults().getFont("TabbedPane.font"));
 	}
 
 	public void drawDeaths(Graphics2D g) {
 
-		double width = 14;
-		double height = 7;
+		double width = 50;
+		double height = 25;
 
+		// System.out.println(deathList.size());
 		for (int i = 0; i < deathList.size(); i++) {
-			g.drawOval((int) deathList.get(i)[0], (int) deathList.get(i)[1],
+			g.drawOval(
+					(int) deathList.get(i)[0]
+							- (int) (width * deathList.get(i)[2]) / 2,
+					(int) deathList.get(i)[1]
+							- (int) (height * deathList.get(i)[2]) / 2,
 					(int) (width * deathList.get(i)[2]),
 					(int) (height * deathList.get(i)[2]));
 		}

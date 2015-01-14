@@ -1,6 +1,5 @@
 import java.awt.Graphics2D;
 
-
 public class Enemy1 extends Enemy {
 	double x, y, speed, angle, health, progress;
 	int q, r;
@@ -11,6 +10,7 @@ public class Enemy1 extends Enemy {
 		this.x = x;
 		this.y = y;
 		this.speed = 65;
+		health = 5;
 		angle = 0;
 
 	}
@@ -19,10 +19,11 @@ public class Enemy1 extends Enemy {
 		this.speed = 25;
 		angle = 0;
 		progress = Math.random();
-		health = 5;
+
 	}
 
 	public void draw(Graphics2D g) {
+		// System.out.println("yin");
 		g.drawString(1 + "", (int) x, (int) y);
 	}
 

@@ -7,14 +7,16 @@ public class EternalStarlight {
 	private static JPanel cards;
 	private static CardLayout cardLayout;
 	private static Container c;
-
+	private static GamePanel gamePanel;
+	private static GamePanel menuPanel;
+	private static MapPanel mapPanel;
 	public static void main(String args[]) throws IOException {
 
 		// Initializes the JFrame and the JPanels
 		JFrame gameScreen = new JFrame();
-		GamePanel gamePanel = new GamePanel(1, 1, 1, 3);
-		MenuPanel menuPanel = new MenuPanel();
-		MapPanel mapPanel = new MapPanel();
+		gamePanel = new GamePanel(0, 1, 1, 3);
+		menuPanel = new GamePanel(7, 1, 1, 3);
+		mapPanel = new MapPanel();
 
 		// Adds the panels to the cardlayout
 		cards = new JPanel(new CardLayout());
@@ -40,8 +42,9 @@ public class EternalStarlight {
 		gamePanel.runGameLoop();
 	}
 
-	public static void removePanel() {
-		c.remove(cards);
+	public static void changePanel() {
+		cardLayout.removeLayoutComponent(gamePanel);
+		cardLayout.show(cards,"menuPanel");
 	}
 
 	public static void addPoints(int difficulty) {

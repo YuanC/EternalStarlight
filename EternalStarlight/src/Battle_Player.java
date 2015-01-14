@@ -21,7 +21,7 @@ public class Battle_Player {
 		my = (int) y;
 		hx = 1220;
 		hy = 60;
-		recoverCD = 1;
+		recoverCD = 4;
 
 		this.maxHealth = health;
 		this.health = health;
@@ -191,6 +191,9 @@ public class Battle_Player {
 			g.drawOval((int) x - 10, (int) y - 5, 20, 10);
 			g.drawLine((int) x, (int) y, (int) (x + Math.cos(angle) * 10),
 					(int) (y + Math.sin(angle) * 5));
+		}
+		if (recoverCD >= 0) {
+			Hextile.drawShakeHex(g);
 		}
 	}
 

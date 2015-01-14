@@ -14,7 +14,7 @@ public class Enemy3 extends Enemy {
 		speed = 20;
 		angle = 0;
 		theta = Math.random() * Math.PI * 2;
-		health = 40;
+		health = 1;
 		progress = Math.random();
 	}
 
