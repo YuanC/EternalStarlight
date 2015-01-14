@@ -4,7 +4,7 @@ import java.awt.Polygon;
 
 public class Battle_Player {
 	private int q, r, mx, my, health, maxHealth, CDR, strength, hx, hy;
-	private double angle, speed;
+	private double angle, speed, recoverCD;
 	private static double x, y;
 	private double hpAngle;
 
@@ -21,6 +21,7 @@ public class Battle_Player {
 		my = (int) y;
 		hx = 1220;
 		hy = 60;
+		recoverCD = 1;
 
 		this.maxHealth = health;
 		this.health = health;
@@ -76,10 +77,53 @@ public class Battle_Player {
 
 		hpAngle = (hpAngle + 0.01) % (Math.PI * 2);
 
+		if (recoverCD > 0) {
+			recoverCD -= delta / 3;
+		}
+		System.out.println(recoverCD);
+		if (recoverCD <= 0) {
+			if (collisionCal(EnemyHandler.getList(1), EnemyHandler.getList(2),
+					EnemyHandler.getList(3), ProjectileHandler.getEShots())) {
+				startRecover();
+				health--;
+
+				EnemyHandler.removeInHex(q, r);
+				EnemyHandler.removeInHex(q + 1, r);
+				EnemyHandler.removeInHex(q + 1, r - 1);
+				EnemyHandler.removeInHex(q, r - 1);
+				EnemyHandler.removeInHex(q - 1, r);
+				EnemyHandler.removeInHex(q - 1, r + 1);
+				EnemyHandler.removeInHex(q, r + 1);
+			}
+		}
+	}
+
+	// Checks if it shares the same spot as an enemy or enemy projectile
+	private boolean collisionCal(int[][] list, int[][] list2, int[][] list3,
+			int[][] eShots) {
+
+		int[] qr = { q, r };
+
+		for (int i = 0; i < list.length; i++) {
+			if (list[i][0] == qr[0] && list[i][1] == qr[1])
+				return true;
+		}
+		for (int i = 0; i < list2.length; i++) {
+			if (list2[i][0] == qr[0] && list2[i][1] == qr[1])
+				return true;
+		}
+		for (int i = 0; i < list3.length; i++) {
+			if (list3[i][0] == qr[0] && list3[i][1] == qr[1])
+				return true;
+		}
+		for (int i = 0; i < eShots.length; i++) {
+			if (eShots[i][0] == qr[0] && eShots[i][1] == qr[1])
+				return true;
+		}
+		return false;
 	}
 
 	// Moving along a wall calculations
-
 	private double[] alternateRouteCal(double delta) {
 
 		double newx, newy;
@@ -106,6 +150,10 @@ public class Battle_Player {
 			}
 		}
 		return null;
+	}
+
+	public void startRecover() {
+		recoverCD = 1;
 	}
 
 	public int getQ() {
@@ -138,10 +186,12 @@ public class Battle_Player {
 
 	public void draw(Graphics2D g) {
 
-		// Player debug image
-		g.drawOval((int) x - 10, (int) y - 5, 20, 10);
-		g.drawLine((int) x, (int) y, (int) (x + Math.cos(angle) * 10),
-				(int) (y + Math.sin(angle) * 5));
+		if ((int) (recoverCD * 10) % 2 == 1 || recoverCD <= 0) {
+			// Player debug image
+			g.drawOval((int) x - 10, (int) y - 5, 20, 10);
+			g.drawLine((int) x, (int) y, (int) (x + Math.cos(angle) * 10),
+					(int) (y + Math.sin(angle) * 5));
+		}
 	}
 
 	public void drawhealth(Graphics2D g, int lvl, int current) {
@@ -190,6 +240,7 @@ public class Battle_Player {
 		// TODO Auto-generated method stub
 		return (int) y;
 	}
+
 	public static int getX() {
 		// TODO Auto-generated method stub
 		return (int) x;

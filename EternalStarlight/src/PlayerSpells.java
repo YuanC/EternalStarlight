@@ -6,17 +6,17 @@ public class PlayerSpells {
 	private static ArrayList<double[]> wList;
 	private static ArrayList<double[]> eList;
 	private static ArrayList<double[]> rList;
-	private static int qdmg, wdmg, edmg, rdmg;
+	private static double qdmg, wdmg, edmg, rdmg;
 
 	public PlayerSpells(int dmg) {
 		wList = new ArrayList<double[]>();
 		eList = new ArrayList<double[]>();
 		rList = new ArrayList<double[]>();
 
-		qdmg = dmg;
-		wdmg = dmg + 2;
-		edmg = dmg + 3;
-		rdmg = dmg + 5;
+		qdmg = dmg / 10 + 1;
+		wdmg = dmg / 10 + 2;
+		edmg = dmg / 10 + 2;
+		rdmg = dmg / 10 + 10;
 	}
 
 	public void update(double delta) {
@@ -38,7 +38,6 @@ public class PlayerSpells {
 				eList.remove(i);
 				i--;
 			}
-
 		}
 
 		for (int i = 0; i < rList.size(); i++) {
@@ -59,20 +58,20 @@ public class PlayerSpells {
 			arr[0] = q;
 			arr[1] = r;
 			arr[2] = 0;
-			arr[3] = 0.2;
+			arr[3] = 0.1;
 			wList.add(arr);
 
 		} else if (i == 2) {
 			arr[0] = q;
 			arr[1] = r;
 			arr[2] = 0;
-			arr[3] = 0.2;
+			arr[3] = 0.1;
 			eList.add(arr);
 		} else if (i == 3) {
 			arr[0] = q;
 			arr[1] = r;
 			arr[2] = 0;
-			arr[3] = 0.2;
+			arr[3] = 0.1;
 			rList.add(arr);
 		}
 
@@ -111,5 +110,20 @@ public class PlayerSpells {
 			}
 		}
 		return intArray;
+	}
+
+	public static double getDmg(int i) {
+		switch (i) {
+		case 0:
+			return qdmg;
+		case 1:
+			return wdmg;
+		case 2:
+			return edmg;
+		case 3:
+			return rdmg;
+		}
+		return 0;
+
 	}
 }

@@ -70,7 +70,7 @@ public class StarchildAbilities extends PlayerAbilities {
 			g.setColor(Color.white);
 			g.drawOval((int) mx - 10, (int) my - 5, 20, 10);
 
-			points = genHex(hextiles, 4, q, r);
+			points = genHex(hextiles, 6, q, r);
 
 			indicator = new int[points.size()][];
 
