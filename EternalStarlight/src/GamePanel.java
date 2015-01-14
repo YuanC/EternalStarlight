@@ -1,11 +1,13 @@
 import javax.swing.*;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.IOException;
 
-public class GamePanel extends JPanel implements KeyListener {
+public class GamePanel extends JPanel implements KeyListener, ActionListener {
 	private boolean gameRunning = true;
 	private Hextile[][] hextiles;
 	private double fps;
@@ -17,6 +19,12 @@ public class GamePanel extends JPanel implements KeyListener {
 	private static EnemyHandler enemies;
 	private static SpawnAndCast spawncast;
 	private static PlayerSpells spells;
+	long lastTime = System.nanoTime(), fpsTimer = 0, currentTime, updateLength;
+	final int optimalFPS = 60;
+	final long optimalDelta = 1000000000 / optimalFPS;
+	double delta;
+	int fpsCnt = 0;
+	private Timer timer;
 
 	public GamePanel(int health, int cdr, int attack, int difficulty)
 			throws IOException {
@@ -50,6 +58,8 @@ public class GamePanel extends JPanel implements KeyListener {
 		spawncast = new SpawnAndCast();
 		spells = new PlayerSpells(attack);
 
+		timer = new Timer(6, this);
+		timer.start();
 	}
 
 	public void winCheck() {
@@ -57,7 +67,7 @@ public class GamePanel extends JPanel implements KeyListener {
 			System.out.println("dead");
 			gameRunning = false;
 			EternalStarlight.addPoints(difficulty);
-			EternalStarlight.removePanel();
+			// EternalStarlight.removePanel();
 		}
 		// if (enemies.waveCnt == 0 && ){
 
@@ -65,41 +75,28 @@ public class GamePanel extends JPanel implements KeyListener {
 
 	// The main game loop capped at ~120 frames/second (variable timestep loop)
 	public void runGameLoop() {
-		if (gameRunning) {
-			long lastTime = System.nanoTime(), fpsTimer = 0, currentTime, updateLength;
-			final int optimalFPS = 60;
-			final long optimalDelta = 1000000000 / optimalFPS;
-			double delta;
-			int fpsCnt = 0;
-
-			while (gameRunning) {
-				currentTime = System.nanoTime();
-				updateLength = currentTime - lastTime;
-				lastTime = currentTime;
-				delta = updateLength / 1000000000.0;
-
-				fpsTimer += updateLength;
-				fpsCnt++;
-
-				if (fpsTimer >= 1000000000) {
-					fps = fpsCnt;
-					fpsTimer = 0;
-					fpsCnt = 0;
-				}
-
-				// delta is change in time in seconds
-				updateGame(delta);
-				repaint();
-
-				// limits the framerate
-				try {
-					Thread.sleep((optimalDelta - (lastTime - System.nanoTime())) / 1000000);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-
-			}
-		}
+		/*
+		 * if (gameRunning) { long lastTime = System.nanoTime(), fpsTimer = 0,
+		 * currentTime, updateLength; final int optimalFPS = 60; final long
+		 * optimalDelta = 1000000000 / optimalFPS; double delta; int fpsCnt = 0;
+		 * 
+		 * while (gameRunning) { currentTime = System.nanoTime(); updateLength =
+		 * currentTime - lastTime; lastTime = currentTime; delta = updateLength
+		 * / 1000000000.0;
+		 * 
+		 * fpsTimer += updateLength; fpsCnt++;
+		 * 
+		 * if (fpsTimer >= 1000000000) { fps = fpsCnt; fpsTimer = 0; fpsCnt = 0;
+		 * }
+		 * 
+		 * // delta is change in time in seconds updateGame(delta); repaint();
+		 * 
+		 * // limits the framerate try { Thread.sleep((optimalDelta - (lastTime
+		 * - System.nanoTime())) / 1000000); } catch (Exception e) {
+		 * e.printStackTrace(); }
+		 * 
+		 * } }
+		 */
 	}
 
 	// Updates all the units in the game, where delta is change in time
@@ -117,6 +114,7 @@ public class GamePanel extends JPanel implements KeyListener {
 	}
 
 	// Paints everything
+	@Override
 	public void paintComponent(Graphics g) {
 
 		super.paintComponent(g);
@@ -266,6 +264,39 @@ public class GamePanel extends JPanel implements KeyListener {
 	@Override
 	public void keyReleased(KeyEvent e) {
 		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if (gameRunning) {
+
+			currentTime = System.nanoTime();
+			updateLength = currentTime - lastTime;
+			lastTime = currentTime;
+			delta = updateLength / 1000000000.0;
+
+			fpsTimer += updateLength;
+			fpsCnt++;
+
+			if (fpsTimer >= 1000000000) {
+				fps = fpsCnt;
+				fpsTimer = 0;
+				fpsCnt = 0;
+			}
+
+			// delta is change in time in seconds
+			updateGame(delta);
+			repaint();
+
+			// limits the framerate
+			/*
+			 * try { Thread.sleep((optimalDelta - (lastTime -
+			 * System.nanoTime())) / 1000000); } catch (Exception e) {
+			 * e.printStackTrace(); }
+			 */
+
+		}
 
 	}
 

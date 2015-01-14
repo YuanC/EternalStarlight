@@ -66,7 +66,7 @@ public class Hextile {
 				bigContainHex.npoints);
 	}
 
-	// Calculates the verticies for the hextile
+	// Calculates the vertices for the hextile
 	private void fillverts() {
 		double h = tiles_h / 2 - tileVGap, w = tiles_w / 2 - tileHGap;
 
@@ -244,6 +244,21 @@ public class Hextile {
 
 	public static void drawBigContainHex(Graphics2D g) {
 		g.draw(bigContainHex);
+	}
+
+	public static void drawShakeHex(Graphics2D g) {
+		int addX = (int) (Math.random() * 10) - 5, addY = (int) (Math.random() * 10) - 5;
+
+		int[] newXPoints = new int[bigContainHex.xpoints.length];
+		int[] newYPoints = new int[bigContainHex.ypoints.length];
+
+		for (int i = 0; i < bigContainHex.xpoints.length; i++) {
+			newXPoints[i] = bigContainHex.xpoints[i] + addX;
+			newYPoints[i] = bigContainHex.ypoints[i] + addY;
+		}
+
+		bigShakeHex = new Polygon(newXPoints, newYPoints, newXPoints.length);
+		g.drawPolygon(bigShakeHex);
 	}
 
 	public void drawFilled(Graphics2D g) {
