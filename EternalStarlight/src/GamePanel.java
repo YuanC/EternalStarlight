@@ -54,7 +54,7 @@ public class GamePanel extends JPanel implements KeyListener {
 
 	public static boolean winCheck() {
 		if (player.getHealth() <= 0) {
-			
+			return true;
 		}
 		return false;
 	}
