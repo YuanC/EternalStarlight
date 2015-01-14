@@ -38,7 +38,6 @@ public class PlayerSpells {
 				eList.remove(i);
 				i--;
 			}
-
 		}
 
 		for (int i = 0; i < rList.size(); i++) {

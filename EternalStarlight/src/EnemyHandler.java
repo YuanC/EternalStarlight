@@ -83,11 +83,23 @@ public class EnemyHandler {
 		}
 
 		for (int i = 0; i < enemy3List.size(); i++) {
-
+			enemy3List.get(i).update(delta, hextiles, Battle_Player.getX(),
+					Battle_Player.getY());
+			enemy3List.get(i).addDamage(
+					colCheck(enemy3List.get(i).getQR(), qList, wList, eList,
+							rList));
+			if (enemy3List.get(i).getHP() <= 0) {
+				addDeath(enemy3List.get(i).getX(), enemy3List.get(i).getY());
+				enemy3List.remove(i);
+				i--;
+			}
 		}
 	}
 
-	public void removeInHex(int[] qr) {
+	public static void removeInHex(int q, int r) {
+
+		int[] qr = { q, r };
+
 		for (int i = 0; i < enemy1List.size(); i++) {
 			if (enemy1List.get(i).getQR()[0] == qr[0]
 					&& enemy1List.get(i).getQR()[1] == qr[1]) {
@@ -99,21 +111,22 @@ public class EnemyHandler {
 		}
 
 		for (int i = 0; i < enemy2List.size(); i++) {
-			/*
-			 * if (enemy2List.get(i).getQR()[0] == qr[0] &&
-			 * enemy2List.get(i).getQR()[1] == qr[1]) {
-			 * addDeath(enemy2List.get(i).getX(), enemy2List.get(i).getY());
-			 * enemy2List.remove(i); i--; }
-			 */
+			if (enemy2List.get(i).getQR()[0] == qr[0]
+					&& enemy2List.get(i).getQR()[1] == qr[1]) {
+				addDeath(enemy2List.get(i).getX(), enemy2List.get(i).getY());
+				enemy2List.remove(i);
+				i--;
+			}
+
 		}
 
 		for (int i = 0; i < enemy3List.size(); i++) {
-			/*
-			 * if (enemy3List.get(i).getQR()[0] == qr[0] &&
-			 * enemy3List.get(i).getQR()[1] == qr[1]) {
-			 * addDeath(enemy3List.get(i).getX(), enemy3List.get(i).getY());
-			 * enemy3List.remove(i); i--; }
-			 */
+			if (enemy3List.get(i).getQR()[0] == qr[0]
+					&& enemy3List.get(i).getQR()[1] == qr[1]) {
+				addDeath(enemy3List.get(i).getX(), enemy3List.get(i).getY());
+				enemy3List.remove(i);
+				i--;
+			}
 		}
 	}
 
@@ -182,7 +195,7 @@ public class EnemyHandler {
 		}
 
 		for (int i = 0; i < enemy3List.size(); i++) {
-			// enemy3List.get(i).draw(g);
+			enemy3List.get(i).draw(g);
 		}
 
 		drawDeaths(g);
@@ -207,8 +220,28 @@ public class EnemyHandler {
 		}
 	}
 
-	public static void getList(int i) {
-
+	public static int[][] getList(int i) {
+		int[][] intArray = null;
+		if (i == 1) {
+			intArray = new int[enemy1List.size()][2];
+			for (int j = 0; j < enemy1List.size(); j++) {
+				intArray[j][0] = (int) enemy1List.get(j).getQR()[0];
+				intArray[j][1] = (int) enemy1List.get(j).getQR()[1];
+			}
+		} else if (i == 2) {
+			intArray = new int[enemy2List.size()][2];
+			for (int j = 0; j < enemy2List.size(); j++) {
+				intArray[j][0] = (int) enemy2List.get(j).getQR()[0];
+				intArray[j][1] = (int) enemy2List.get(j).getQR()[1];
+			}
+		} else {
+			intArray = new int[enemy3List.size()][2];
+			for (int j = 0; j < enemy3List.size(); j++) {
+				intArray[j][0] = (int) enemy3List.get(j).getQR()[0];
+				intArray[j][1] = (int) enemy3List.get(j).getQR()[1];
+			}
+		}
+		return intArray;
 	}
 
 }

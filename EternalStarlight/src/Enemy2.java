@@ -25,7 +25,7 @@ public class Enemy2 {
 
 	public void update(double delta, Hextile[][] hextiles, int px, int py) {
 		angle = Math.atan2(py - y, px - x);
-		progress = (progress + delta / 10);
+		progress = (progress + delta / 20);
 
 		if (progress > 1) {
 			progress = 0;
@@ -130,4 +130,9 @@ public class Enemy2 {
 
 		return (int) x;
 	}
+
+	public double getProgress() {
+		return progress;
+	}
+
 }

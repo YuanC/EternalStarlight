@@ -11,7 +11,7 @@ public class Enemy1 extends Enemy {
 		this.y = y;
 		this.speed = 25;
 		angle = 0;
-		progress = 0;
+		progress = Math.random();
 		health = 1;
 	}
 
@@ -60,7 +60,11 @@ public class Enemy1 extends Enemy {
 	}
 
 	public int getX() {
-		// TODO Auto-generated method stub
 		return (int) x;
 	}
+
+	public double getProgress() {
+		return progress;
+	}
+
 }

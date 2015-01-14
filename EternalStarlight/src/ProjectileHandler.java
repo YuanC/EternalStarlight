@@ -35,7 +35,7 @@ public class ProjectileHandler {
 	}
 
 	public static void addEnemyShot(int x, int y, double theta) {
-		enemyShots.add(new Projectile(150, x, y, theta));
+		enemyShots.add(new Projectile(50, x, y, theta));
 	}
 
 	public void draw(Graphics2D g) {
