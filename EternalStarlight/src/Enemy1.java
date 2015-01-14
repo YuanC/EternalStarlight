@@ -19,7 +19,7 @@ public class Enemy1 extends Enemy {
 		this.speed = 25;
 		angle = 0;
 		progress = Math.random();
-		health = 1;
+		health = 5;
 	}
 
 	public void draw(Graphics2D g) {

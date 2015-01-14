@@ -52,47 +52,53 @@ public class GamePanel extends JPanel implements KeyListener {
 
 	}
 
-	public static boolean winCheck() {
+	public void winCheck() {
 		if (player.getHealth() <= 0) {
-			return true;
+			System.out.println("dead");
+			gameRunning = false;
+			EternalStarlight.addPoints(difficulty);
+			EternalStarlight.removePanel();
 		}
-		return false;
+		// if (enemies.waveCnt == 0 && ){
+
 	}
 
 	// The main game loop capped at ~120 frames/second (variable timestep loop)
 	public void runGameLoop() {
-		long lastTime = System.nanoTime(), fpsTimer = 0, currentTime, updateLength;
-		final int optimalFPS = 60;
-		final long optimalDelta = 1000000000 / optimalFPS;
-		double delta;
-		int fpsCnt = 0;
+		if (gameRunning) {
+			long lastTime = System.nanoTime(), fpsTimer = 0, currentTime, updateLength;
+			final int optimalFPS = 60;
+			final long optimalDelta = 1000000000 / optimalFPS;
+			double delta;
+			int fpsCnt = 0;
 
-		while (gameRunning) {
-			currentTime = System.nanoTime();
-			updateLength = currentTime - lastTime;
-			lastTime = currentTime;
-			delta = updateLength / 1000000000.0;
+			while (gameRunning) {
+				currentTime = System.nanoTime();
+				updateLength = currentTime - lastTime;
+				lastTime = currentTime;
+				delta = updateLength / 1000000000.0;
 
-			fpsTimer += updateLength;
-			fpsCnt++;
+				fpsTimer += updateLength;
+				fpsCnt++;
 
-			if (fpsTimer >= 1000000000) {
-				fps = fpsCnt;
-				fpsTimer = 0;
-				fpsCnt = 0;
+				if (fpsTimer >= 1000000000) {
+					fps = fpsCnt;
+					fpsTimer = 0;
+					fpsCnt = 0;
+				}
+
+				// delta is change in time in seconds
+				updateGame(delta);
+				repaint();
+
+				// limits the framerate
+				try {
+					Thread.sleep((optimalDelta - (lastTime - System.nanoTime())) / 1000000);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+
 			}
-
-			// delta is change in time in seconds
-			updateGame(delta);
-			repaint();
-
-			// limits the framerate
-			try {
-				Thread.sleep((optimalDelta - (lastTime - System.nanoTime())) / 1000000);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-
 		}
 	}
 

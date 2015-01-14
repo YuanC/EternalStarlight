@@ -19,7 +19,7 @@ public class EnemyHandler {
 		enemy3List = new ArrayList<Enemy3>();
 		deathList = new ArrayList<double[]>();
 		waveCnt = 50;// difficulty * 2;
-		spawnCD = 1;
+		spawnCD = 12 - difficulty;
 		this.difficulty = difficulty;
 		this.hextiles = hextiles;
 	}
@@ -31,11 +31,11 @@ public class EnemyHandler {
 				spawnTimer = spawnCD;
 				waveCnt--;
 				if (difficulty == 1) {
-					SpawnAndCast.addEnemies((int) (Math.random() * 2 * +1));
+					SpawnAndCast.addEnemies((int) (Math.random() * 2 + 1));
 				} else if (difficulty == 2) {
-					SpawnAndCast.addEnemies((int) (Math.random() * 3 * +1));
+					SpawnAndCast.addEnemies((int) (Math.random() * 3 + 1));
 				} else {
-					SpawnAndCast.addEnemies((int) (Math.random() * 3 * +2));
+					SpawnAndCast.addEnemies((int) (Math.random() * 3 + 2));
 				}
 			}
 		} else if (waveCnt > 0) {
@@ -187,12 +187,12 @@ public class EnemyHandler {
 	public int[][] getDeaths() {
 
 		int[][] intArray = new int[deathList.size()][5];
-		for (int j = 0; j < spawnList.size(); j++) {
-			intArray[j][0] = (int) spawnList.get(j)[0];
-			intArray[j][1] = (int) spawnList.get(j)[1];
-			intArray[j][2] = (int) spawnList.get(j)[2];
-			intArray[j][3] = (int) spawnList.get(j)[3];
-			intArray[j][4] = (int) spawnList.get(j)[4];
+		for (int j = 0; j < deathList.size(); j++) {
+			intArray[j][0] = (int) deathList.get(j)[0];
+			intArray[j][1] = (int) deathList.get(j)[1];
+			intArray[j][2] = (int) deathList.get(j)[2];
+			intArray[j][3] = (int) deathList.get(j)[3];
+			intArray[j][4] = (int) deathList.get(j)[4];
 
 		}
 		return intArray;

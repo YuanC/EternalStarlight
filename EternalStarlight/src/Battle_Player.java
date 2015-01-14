@@ -80,7 +80,7 @@ public class Battle_Player {
 		if (recoverCD > 0) {
 			recoverCD -= delta / 3;
 		}
-		System.out.println(recoverCD);
+		// System.out.println(recoverCD);
 		if (recoverCD <= 0) {
 			if (collisionCal(EnemyHandler.getList(1), EnemyHandler.getList(2),
 					EnemyHandler.getList(3), ProjectileHandler.getEShots())) {

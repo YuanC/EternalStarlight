@@ -13,7 +13,7 @@ public class Enemy2 {
 		speed = 30;
 		angle = 0;
 		theta = Math.random() * Math.PI * 2;
-		health = 10;
+		health = 20;
 		progress = Math.random();
 	}
 

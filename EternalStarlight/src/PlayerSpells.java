@@ -13,10 +13,10 @@ public class PlayerSpells {
 		eList = new ArrayList<double[]>();
 		rList = new ArrayList<double[]>();
 
-		qdmg = dmg / 10 + 1;
-		wdmg = dmg / 10 + 2;
-		edmg = dmg / 10 + 2;
-		rdmg = dmg / 10 + 10;
+		qdmg = dmg / 5 + 1;
+		wdmg = dmg / 5 + 2;
+		edmg = dmg / 5 + 2;
+		rdmg = dmg / 5 + 10;
 	}
 
 	public void update(double delta) {

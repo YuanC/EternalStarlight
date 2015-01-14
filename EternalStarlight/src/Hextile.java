@@ -258,7 +258,7 @@ public class Hextile {
 
 	public void drawEnemyOcc(Graphics2D g, double progress) {
 		drawCasting(g, progress);
-		//TODO create actual animation
+		// TODO create actual animation
 	}
 
 	public static void fillBigContainHex(Graphics2D g) {
@@ -269,9 +269,9 @@ public class Hextile {
 	public void drawIndicatorOcc(Graphics2D g) {
 		g.setColor(Color.white);
 		draw(g);
-	
+
 		int state = (int) PlayerAbilities.getAbFocState();
-	
+
 		if (state == 5)
 			g.drawLine(indVerts[0][state], indVerts[1][state], indVerts[0][0],
 					indVerts[1][0]);
@@ -285,14 +285,14 @@ public class Hextile {
 		double theta = Math.PI * (1 - progress);
 		double radius = (tiles_w / 2 - tileHGap) * (1 - progress);
 		int[][] tVerts = new int[2][6];
-	
+
 		for (int i = 0; i < 6; i++) {
 			tVerts[0][i] = (int) (x + Math.cos(theta + i * Math.PI / 3)
 					* radius);
 			tVerts[1][i] = (int) (y + Math.sin(theta + i * Math.PI / 3)
 					* radius / 2);
 		}
-	
+
 		g.drawPolygon(new Polygon(tVerts[0], tVerts[1], 6));
 	}
 
@@ -301,7 +301,19 @@ public class Hextile {
 	}
 
 	public void drawSpawning(Graphics2D g, double progress) {
-		drawCasting(g, progress);
+		double theta = Math.PI * (1 - progress);
+		double radius = (tiles_h * 2 / 2 - tileHGap) * (1 - progress) + Math.PI
+				/ 2;
+		int[][] tVerts = new int[2][3];
+
+		for (int i = 0; i < 3; i++) {
+			tVerts[0][i] = (int) (x + Math.cos(theta + i * 2 * Math.PI / 3)
+					* radius);
+			tVerts[1][i] = (int) (y + Math.sin(theta + i * 2 * Math.PI / 3)
+					* radius / 2);
+		}
+
+		g.drawPolygon(new Polygon(tVerts[0], tVerts[1], 3));
 	}
 
 	public Polygon getHexagon() {
