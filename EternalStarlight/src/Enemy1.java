@@ -1,12 +1,8 @@
-<<<<<<< HEAD
-public class Enemy1 extends Enemy {
-	double x, y, speed, angle, health;
-=======
 import java.awt.Graphics2D;
+
 
 public class Enemy1 extends Enemy {
 	double x, y, speed, angle, health, progress;
->>>>>>> origin/player-ablities
 	int q, r;
 
 	public Enemy1(int q, int r, int x, int y) {
@@ -14,14 +10,12 @@ public class Enemy1 extends Enemy {
 		this.r = r;
 		this.x = x;
 		this.y = y;
-<<<<<<< HEAD
 		this.speed = 65;
 		angle = 0;
 
 	}
 
 	public void update(double delta, Hextile[][] hextiles) {
-=======
 		this.speed = 25;
 		angle = 0;
 		progress = Math.random();
@@ -36,7 +30,6 @@ public class Enemy1 extends Enemy {
 		angle = Math.atan2(py - y, px - x);
 		progress = (progress + delta * 3) % 1;
 
->>>>>>> origin/player-ablities
 		x = x + Math.cos(angle) * speed * delta
 				* (1 - 0.5 * Math.abs(Math.sin(angle)));
 		y = y + Math.sin(angle) * speed * delta
@@ -45,13 +38,10 @@ public class Enemy1 extends Enemy {
 		updateTilePos(hextiles);
 	}
 
-<<<<<<< HEAD
-=======
 	public void addDamage(int dmg) {
 		health -= dmg;
 	}
 
->>>>>>> origin/player-ablities
 	private void updateTilePos(Hextile[][] hextiles) {
 		int[] pos;
 		pos = Hextile.hexContainCal(hextiles, (int) x, (int) y);
@@ -62,8 +52,6 @@ public class Enemy1 extends Enemy {
 		}
 	}
 
-<<<<<<< HEAD
-=======
 	public int getHP() {
 		return (int) health;
 	}
@@ -86,5 +74,4 @@ public class Enemy1 extends Enemy {
 		return progress;
 	}
 
->>>>>>> origin/player-ablities
 }

@@ -1,10 +1,3 @@
-<<<<<<< HEAD
-
-public class Enemy2 {
-
-	public Enemy2(int q, int r, int x, int y) {
-		// TODO Auto-generated constructor stub
-=======
 import java.awt.Graphics2D;
 
 public class Enemy2 {
@@ -140,7 +133,6 @@ public class Enemy2 {
 
 	public double getProgress() {
 		return progress;
->>>>>>> origin/player-ablities
 	}
 
 }

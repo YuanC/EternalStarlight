@@ -12,30 +12,16 @@ public class EnemyHandler {
 	private static int waveCnt, difficulty;
 	private static Hextile[][] hextiles;
 	double spawnCD, spawnTimer;
-	private static Hextile[][] hextiles;
 
 	public EnemyHandler(int difficulty, Hextile[][] hextiles) {
 		enemy1List = new ArrayList<Enemy1>();
-<<<<<<< HEAD
+		enemy2List = new ArrayList<Enemy2>();
+		enemy3List = new ArrayList<Enemy3>();
 		deathList = new ArrayList<double[]>();
 		waveCnt = 50;// difficulty * 2;
 		spawnCD = 1;
 		this.difficulty = difficulty;
 		this.hextiles = hextiles;
-	}
-
-	public void drawCnt(Graphics2D g) {
-		g.setFont(new Font("Arial", Font.PLAIN, 40));
-		g.drawString(waveCnt + " Wave(s)", 600, 50);
-=======
-		enemy2List = new ArrayList<Enemy2>();
-		enemy3List = new ArrayList<Enemy3>();
-		deathList = new ArrayList<double[]>();
-		waveCnt = 50;// difficulty * 2;
-		spawnCD = 5;
-		this.difficulty = difficulty;
-		this.hextiles = hextiles;
->>>>>>> origin/player-ablities
 	}
 
 	public void update(double delta) {
@@ -110,26 +96,6 @@ public class EnemyHandler {
 		}
 	}
 
-<<<<<<< HEAD
-	// where i is the type of spawning pattern
-	public static void addEnemy(int q, int r, int i) {
-
-		if (i == 1) {
-			enemy1List.add(new Enemy1(q, r,
-					(int) hextiles[q + Hextile.size / 2][r + Hextile.size / 2]
-							.getX(), (int) hextiles[q + Hextile.size / 2][r
-							+ Hextile.size / 2].getY()));
-		} else if (i == 2) {
-			enemy2List.add(new Enemy2(q, r,
-					(int) hextiles[q + Hextile.size / 2][r + Hextile.size / 2]
-							.getX(), (int) hextiles[q + Hextile.size / 2][r
-							+ Hextile.size / 2].getY()));
-		} else if (i == 3) {
-			enemy3List.add(new Enemy3(q, r,
-					(int) hextiles[q + Hextile.size / 2][r + Hextile.size / 2]
-							.getX(), (int) hextiles[q + Hextile.size / 2][r
-							+ Hextile.size / 2].getY()));
-=======
 	public static void removeInHex(int q, int r) {
 
 		int[] qr = { q, r };
@@ -152,7 +118,6 @@ public class EnemyHandler {
 				i--;
 			}
 
->>>>>>> origin/player-ablities
 		}
 
 		for (int i = 0; i < enemy3List.size(); i++) {
@@ -219,22 +184,21 @@ public class EnemyHandler {
 		deathList.add(arr);
 	}
 
-<<<<<<< HEAD
 	public int[][] getDeaths() {
-		
-			int[][] intArray = new int[deathList.size()][5];
-			for (int j = 0; j < spawnList.size(); j++) {
-				intArray[j][0] = (int) spawnList.get(j)[0];
-				intArray[j][1] = (int) spawnList.get(j)[1];
-				intArray[j][2] = (int) spawnList.get(j)[2];
-				intArray[j][3] = (int) spawnList.get(j)[3];
-				intArray[j][4] = (int) spawnList.get(j)[4];
 
-			}
-			return intArray;
-		
+		int[][] intArray = new int[deathList.size()][5];
+		for (int j = 0; j < spawnList.size(); j++) {
+			intArray[j][0] = (int) spawnList.get(j)[0];
+			intArray[j][1] = (int) spawnList.get(j)[1];
+			intArray[j][2] = (int) spawnList.get(j)[2];
+			intArray[j][3] = (int) spawnList.get(j)[3];
+			intArray[j][4] = (int) spawnList.get(j)[4];
+
+		}
+		return intArray;
+
 	}
-=======
+
 	public void draw(Graphics2D g) {
 		// Updates the game for all the enemies
 		for (int i = 0; i < enemy1List.size(); i++) {
@@ -295,5 +259,4 @@ public class EnemyHandler {
 		return intArray;
 	}
 
->>>>>>> origin/player-ablities
 }
