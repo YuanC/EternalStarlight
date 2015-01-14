@@ -53,6 +53,9 @@ public class GamePanel extends JPanel implements KeyListener {
 	}
 
 	public static boolean winCheck() {
+		if (player.getHealth() <= 0) {
+			return true;
+		}
 		return false;
 	}
 
@@ -103,13 +106,7 @@ public class GamePanel extends JPanel implements KeyListener {
 		spawncast.update(delta);
 		spells.update(delta);
 		enemies.update(delta);
-		if (winCheck()) {
-			endGame();
-		}
-	}
-
-	private void endGame() {
-		return;
+		winCheck();
 
 	}
 
