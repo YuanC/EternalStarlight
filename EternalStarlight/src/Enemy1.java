@@ -1,5 +1,8 @@
 import java.awt.Graphics2D;
 
+import javax.swing.ImageIcon;
+
+//The first type of enemy, follows the player
 public class Enemy1 extends Enemy {
 	double x, y, speed, angle, health, progress;
 	int q, r;
@@ -9,7 +12,7 @@ public class Enemy1 extends Enemy {
 		this.r = r;
 		this.x = x;
 		this.y = y;
-		this.speed = 65;
+		this.speed = 30;
 		health = 5;
 		angle = 0;
 
@@ -22,9 +25,14 @@ public class Enemy1 extends Enemy {
 
 	}
 
-	public void draw(Graphics2D g) {
-		// System.out.println("yin");
-		g.drawString(1 + "", (int) x, (int) y);
+	// draws the slimes
+	public void draw(Graphics2D g, ImageIcon[] slime) {
+		if (angle < Math.PI * 3 / 2 && angle > Math.PI / 2)
+			g.drawImage(slime[0].getImage(), (int) x - 20, (int) y - 22, 40,
+					25, null);
+		else
+			g.drawImage(slime[1].getImage(), (int) x - 20, (int) y - 22, 40,
+					25, null);
 	}
 
 	public void update(double delta, Hextile[][] hextiles, int px, int py) {

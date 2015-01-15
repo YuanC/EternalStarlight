@@ -1,4 +1,8 @@
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics2D;
+
+import javax.swing.ImageIcon;
 
 //The super class for the player's abilities
 public class PlayerAbilities {
@@ -7,12 +11,17 @@ public class PlayerAbilities {
 	private static double[] cdTimers;
 	private static int abFocus; // The ability being used
 	private static double abFocState;
+	private static ImageIcon qpic, wpic, epic, rpic;
 
 	public PlayerAbilities() {
 		cdTimers = new double[4];
 		resetCDs();
 		setAbFocus(4);
 		abFocState = 0;
+		qpic = new ImageIcon("lvlimages/starchildQthumb.png");
+		wpic = new ImageIcon("lvlimages/starchildWthumb.png");
+		epic = new ImageIcon("lvlimages/starchildEthumb.png");
+		rpic = new ImageIcon("lvlimages/starchildRthumb.png");
 	}
 
 	// Updates the cooldown timers
@@ -61,15 +70,59 @@ public class PlayerAbilities {
 
 	// Draws the cooldowns
 	public void drawCooldown(Graphics2D g) {
-		g.drawString("Q:\t " + Math.round(cdTimers[0] * 100) / 100.0 + " ", 5, 30);
-		g.drawString("W:\t " + Math.round(cdTimers[1] * 100) / 100.0 + " ", 5, 40);
-		g.drawString("E:\t " + Math.round(cdTimers[2] * 100) / 100.0 + " ", 5, 50);
-		g.drawString("R:\t " + "" + Math.round(cdTimers[3] * 100) / 100.0, 5, 60);
-		g.drawString("" + getAbFocus(), 5, 70);
 
-		// TODO draw animation and graphic;
+		g.setColor(Color.WHITE);
+		if (abFocus == 0) {
+			g.drawOval(95, 25, 80, 80);
+		} else if (abFocus == 1) {
+			g.drawOval(185, 25, 80, 80);
+		} else if (abFocus == 2) {
+			g.drawOval(275, 25, 80, 80);
+		} else if (abFocus == 3) {
+			g.drawOval(365, 25, 80, 80);
+		}
+
+		g.drawImage(qpic.getImage(), 100, 30, null);
+		g.drawImage(wpic.getImage(), 190, 30, null);
+		g.drawImage(epic.getImage(), 280, 30, null);
+		g.drawImage(rpic.getImage(), 370, 30, null);
+
+		g.drawOval(100, 30, 70, 70);
+		g.drawOval(190, 30, 70, 70);
+		g.drawOval(280, 30, 70, 70);
+		g.drawOval(370, 30, 70, 70);
+
+		g.drawString("Press \"i\" for instructions", 95, 680);
+
+		g.drawString("Q " + Math.round(cdTimers[0] * 100) / 100.0 + " ", 128,
+				130);
+		g.drawString("W " + Math.round(cdTimers[1] * 100) / 100.0 + " ", 218,
+				130);
+		g.drawString("E " + Math.round(cdTimers[2] * 100) / 100.0 + " ", 308,
+				130);
+		g.drawString("R " + "" + Math.round(cdTimers[3] * 100) / 100.0, 398,
+				130);
+		// g.setColor(new Color(51, 51, 51));
+		if (cdTimers[0] > 0) {
+			g.fillArc(100, 30, 70, 70, 90,
+					(int) ((360 * cdTimers[0] / qCD)) % 360);
+		}
+		if (cdTimers[1] > 0) {
+			g.fillArc(190, 30, 70, 70, 90,
+					(int) ((360 * cdTimers[1] / wCD)) % 360);
+		}
+		if (cdTimers[2] > 0) {
+			g.fillArc(280, 30, 70, 70, 90,
+					(int) ((360 * cdTimers[2] / eCD)) % 360);
+		}
+		if (cdTimers[3] > 0) {
+			g.fillArc(370, 30, 70, 70, 90,
+					(int) ((360 * cdTimers[3] / rCD)) % 360);
+		}
+
 	}
 
+	//sets the focus of the abilities
 	public static void setFoc(int i) {
 		switch (i) {
 		case 0:

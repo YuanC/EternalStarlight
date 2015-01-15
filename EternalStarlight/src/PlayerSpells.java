@@ -1,5 +1,7 @@
 import java.util.ArrayList;
+import javax.swing.ImageIcon;
 
+// Manages the active playerspells
 public class PlayerSpells {
 
 	// each int array is [q, r, time elapsed, total time]
@@ -7,6 +9,7 @@ public class PlayerSpells {
 	private static ArrayList<double[]> eList;
 	private static ArrayList<double[]> rList;
 	private static double qdmg, wdmg, edmg, rdmg;
+	private static ImageIcon wrpic, epic;
 
 	public PlayerSpells(int dmg) {
 		wList = new ArrayList<double[]>();
@@ -17,12 +20,16 @@ public class PlayerSpells {
 		wdmg = dmg / 5 + 2;
 		edmg = dmg / 5 + 2;
 		rdmg = dmg / 5 + 10;
+
+		setWrpic(new ImageIcon("lvlimages/ice.gif"));
+		setEpic(new ImageIcon("lvlimages/fire.gif"));
 	}
 
+	// updates all the spell arraylists
 	public void update(double delta) {
 		for (int i = 0; i < wList.size(); i++) {
 
-			wList.get(i)[2] += delta;
+			wList.get(i)[2] += delta / 5;
 
 			if (wList.get(i)[2] > wList.get(i)[3]) {
 				wList.remove(i);
@@ -32,7 +39,7 @@ public class PlayerSpells {
 
 		for (int i = 0; i < eList.size(); i++) {
 
-			eList.get(i)[2] += delta;
+			eList.get(i)[2] += delta / 5;
 
 			if (eList.get(i)[2] > eList.get(i)[3]) {
 				eList.remove(i);
@@ -42,7 +49,7 @@ public class PlayerSpells {
 
 		for (int i = 0; i < rList.size(); i++) {
 
-			rList.get(i)[2] += delta;
+			rList.get(i)[2] += delta / 5;
 
 			if (rList.get(i)[2] > rList.get(i)[3]) {
 				rList.remove(i);
@@ -52,6 +59,7 @@ public class PlayerSpells {
 		}
 	}
 
+	// add spells to active list
 	public static void addSpell(int i, int q, int r) {
 		double[] arr = new double[4];
 		if (i == 1) {
@@ -77,6 +85,7 @@ public class PlayerSpells {
 
 	}
 
+	// returns the arraylist of spells in int[][] form
 	public static int[][] getList(int i) {
 
 		// System.out.println(wList.size());
@@ -125,5 +134,21 @@ public class PlayerSpells {
 		}
 		return 0;
 
+	}
+
+	public static ImageIcon getWrpic() {
+		return wrpic;
+	}
+
+	public static void setWrpic(ImageIcon wrpic) {
+		PlayerSpells.wrpic = wrpic;
+	}
+
+	public static ImageIcon getEpic() {
+		return epic;
+	}
+
+	public static void setEpic(ImageIcon epic) {
+		PlayerSpells.epic = epic;
 	}
 }

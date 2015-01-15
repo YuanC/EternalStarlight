@@ -133,6 +133,7 @@ public class Hextile {
 		indVerts[1][5] = (int) (y + h);
 	}
 
+	// fills a hexagon grid
 	public static Hextile[][] fillHexGrid(int lvl) throws IOException {
 
 		Hextile[][] hextiles = null;
@@ -311,7 +312,13 @@ public class Hextile {
 		g.drawPolygon(new Polygon(tVerts[0], tVerts[1], 6));
 	}
 
+	// draws the player projectile occupation
 	public void drawPShot(Graphics2D g, int k) {
+		drawFilled(g);
+	}
+
+	// draws the enemy projectile occupation
+	public void drawEShot(Graphics2D g, int k) {
 		drawFilled(g);
 	}
 
@@ -320,15 +327,36 @@ public class Hextile {
 		double radius = (tiles_h * 2 / 2 - tileHGap) * (1 - progress) + Math.PI
 				/ 2;
 		int[][] tVerts = new int[2][3];
+		int[][] tVerts2 = new int[2][3];
 
 		for (int i = 0; i < 3; i++) {
 			tVerts[0][i] = (int) (x + Math.cos(theta + i * 2 * Math.PI / 3)
 					* radius);
 			tVerts[1][i] = (int) (y + Math.sin(theta + i * 2 * Math.PI / 3)
 					* radius / 2);
+			tVerts2[0][i] = (int) (x + Math.cos(-theta - i * 2 * Math.PI / 3)
+					* radius);
+			tVerts2[1][i] = (int) (y + Math.sin(-theta - i * 2 * Math.PI / 3)
+					* radius / 2);
 		}
 
 		g.drawPolygon(new Polygon(tVerts[0], tVerts[1], 3));
+		g.drawPolygon(new Polygon(tVerts2[0], tVerts2[1], 3));
+	}
+
+	public void drawSpells(Graphics2D g, int k) {
+
+		if (k == 1) {
+			g.drawImage(PlayerSpells.getWrpic().getImage(), x - 12, y - 40, 25,
+					50, null);
+		} else if (k == 2) {
+			g.drawImage(PlayerSpells.getEpic().getImage(), x - 25, y - 40, 50,
+					50, null);
+		} else if (k == 3) {
+			g.drawImage(PlayerSpells.getWrpic().getImage(), x - 12, y - 40, 25,
+					50, null);
+		}
+
 	}
 
 	public Polygon getHexagon() {
@@ -369,4 +397,5 @@ public class Hextile {
 	public double getTilesw() {
 		return tiles_w;
 	}
+
 }

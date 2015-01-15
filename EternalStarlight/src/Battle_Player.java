@@ -2,11 +2,15 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Polygon;
 
+import javax.swing.ImageIcon;
+
 public class Battle_Player {
 	private int q, r, mx, my, health, maxHealth, CDR, strength, hx, hy;
 	private double angle, speed, recoverCD;
 	private static double x, y;
 	private double hpAngle;
+	private ImageIcon[] down, left, right, up;
+	private boolean moving;
 
 	public Battle_Player(int health) {
 		q = 0;
@@ -16,22 +20,41 @@ public class Battle_Player {
 				/ 2;
 		x = Hextile.h_padding + (Hextile.screen_x - Hextile.h_padding * 2) / 2;
 		angle = 0;
-		speed = 80;
+		speed = 60;
 		mx = (int) x;
 		my = (int) y;
 		hx = 1220;
 		hy = 60;
-		recoverCD = 4;
+		recoverCD = 2;
 
 		this.maxHealth = health;
 		this.health = health;
 
-		// TODO maxhealth, cdr, strength(damage) implementation
+		moving = true;
+
+		// designates the images
+		down = new ImageIcon[2];
+		down[0] = new ImageIcon("lvlimages/down.gif");
+		down[1] = new ImageIcon("lvlimages/StarchildDOWN.png");
+
+		left = new ImageIcon[2];
+		left[0] = new ImageIcon("lvlimages/left.gif");
+		left[1] = new ImageIcon("lvlimages/StarchildLEFT.png");
+
+		right = new ImageIcon[2];
+		right[0] = new ImageIcon("lvlimages/right.gif");
+		right[1] = new ImageIcon("lvlimages/StarchildRIGHT.png");
+
+		up = new ImageIcon[2];
+		up[0] = new ImageIcon("lvlimages/up.gif");
+		up[1] = new ImageIcon("lvlimages/StarchildUP.png");
 
 	}
 
 	// Updates the player object position and status
 	public void update(MouseStatus mouse, Hextile[][] hextiles, double delta) {
+
+		moving = true;
 
 		if (mouse.isPressed() && my != mouse.getMy() && mx != mouse.getMx()) {
 			mx = mouse.getMx();
@@ -59,7 +82,10 @@ public class Battle_Player {
 					x = mx;
 					y = my;
 					updateTilePos(hextiles);
+					moving = false;
 				}
+			} else {
+				moving = false;
 			}
 
 		} else {
@@ -68,10 +94,12 @@ public class Battle_Player {
 				x = newx;
 				y = newy;
 				updateTilePos(hextiles);
+
 			} else {
 				x = mx;
 				y = my;
 				updateTilePos(hextiles);
+				moving = false;
 			}
 		}
 
@@ -184,19 +212,47 @@ public class Battle_Player {
 		}
 	}
 
+	// draws the player
 	public void draw(Graphics2D g) {
+
+		int stance = 1;
+		if (moving == true) {
+			stance = 0;
+		}
+
+		angle = (angle + Math.PI * 2) % (Math.PI * 2);
+
+		g.drawOval((int) x - 10, (int) y - 5, 20, 10);
+		g.drawLine((int) x, (int) y, (int) (x + Math.cos(angle) * 10),
+				(int) (y + Math.sin(angle) * 5));
 
 		if ((int) (recoverCD * 10) % 2 == 1 || recoverCD <= 0) {
 			// Player debug image
-			g.drawOval((int) x - 10, (int) y - 5, 20, 10);
-			g.drawLine((int) x, (int) y, (int) (x + Math.cos(angle) * 10),
-					(int) (y + Math.sin(angle) * 5));
+
+			if (angle < Math.PI / 4 || angle > Math.PI * 7 / 4) {
+				g.drawImage(right[stance].getImage(), (int) x - 19,
+						(int) y - 48, null);
+
+			} else if (angle < Math.PI * 3 / 4) {
+				g.drawImage(down[stance].getImage(), (int) x - 19,
+						(int) y - 48, null);
+
+			} else if (angle < Math.PI * 5 / 4) {
+				g.drawImage(left[stance].getImage(), (int) x - 19,
+						(int) y - 48, null);
+
+			} else {
+				g.drawImage(up[stance].getImage(), (int) x - 19, (int) y - 48,
+						null);
+			}
+
 		}
 		if (recoverCD >= 0) {
 			Hextile.drawShakeHex(g);
 		}
 	}
 
+	// RECURSION DRAWS HEALTH BAR THING
 	public void drawhealth(Graphics2D g, int lvl, int current) {
 		if (lvl <= 0)
 			return;

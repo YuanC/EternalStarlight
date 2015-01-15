@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 
+//managing all the spawning and casting animations and patterns
 public class SpawnAndCast {
 
 	// each int array is [q, r, time elapsed, total cast time]
@@ -18,6 +19,7 @@ public class SpawnAndCast {
 
 	}
 
+	// updates all the arraylist elements
 	public void update(double delta) {
 		for (int i = 0; i < castWList.size(); i++) {
 			castWList.get(i)[2] += delta;
@@ -54,8 +56,13 @@ public class SpawnAndCast {
 		for (int i = 0; i < spawnList.size(); i++) {
 			spawnList.get(i)[3] += delta;
 			if (spawnList.get(i)[3] > spawnList.get(i)[4]) {
-				EnemyHandler.addEnemy((int) spawnList.get(i)[0],
-						(int) spawnList.get(i)[1], (int) spawnList.get(i)[2]);
+				if (spawnList.get(i)[2] == 0) {
+					ProjectileHandler.addEnemySpell((int) spawnList.get(i)[0],
+							(int) spawnList.get(i)[1]);
+				} else
+					EnemyHandler.addEnemy((int) spawnList.get(i)[0],
+							(int) spawnList.get(i)[1],
+							(int) spawnList.get(i)[2]);
 				spawnList.remove(i--);
 			}
 		}
@@ -89,6 +96,7 @@ public class SpawnAndCast {
 
 	}
 
+	// gives the arraylist of abilities as 2d int array
 	public static int[][] getList(int i) {
 
 		// System.out.println(castWList.size());
@@ -146,32 +154,50 @@ public class SpawnAndCast {
 
 		int size = Hextile.size;
 
-		if (type == 1) {// TODO this stuff
-			double[][] arr = { { 0, -10, 1, 0, 1 }, { -10, 0, 1, 0, 1 },
-					{ -10, 10, 1, 0, 1 }, { 0, 10, 1, 0, 1 },
-					{ 10, 0, 1, 0, 1 }, { 10, -10, 1, 0, 1 } };
+		if (type == 0) {
+			Enemy3.getAngle();
+			int q = Enemy3.getQR()[0];
+			int r = Enemy3.getQR()[1];
+			double[][] arr = genDir(GamePanel.getHextiles()[q + Hextile.size
+					/ 2][r + Hextile.size / 2].getX(),
+					GamePanel.getHextiles()[q + Hextile.size / 2][r
+							+ Hextile.size / 2].getY(), q, r,
+					Enemy3.getAngle(), GamePanel.getHextiles());
 			for (int i = 0; i < arr.length; i++) {
-
+				spawnList.add(arr[i]);
+			}
+		} else if (type == 1) {
+			double[][] arr = { { 0, -10, 1, 0, 3 }, { -10, 0, 1, 0, 3 },
+					{ -10, 10, 1, 0, 3 }, { 0, 10, 1, 0, 3 },
+					{ 10, 0, 1, 0, 3 }, { 10, -10, 1, 0, 3 } };
+			for (int i = 0; i < arr.length; i++) {
 				spawnList.add(arr[i]);
 			}
 
 		} else if (type == 2) {
-			double[][] arr = { { -10, 10, 2, 0, 1 }, { -10, 0, 2, 0, 1 },
-					{ 10, 0, 2, 0, 1 }, { 10, -10, 2, 0, 1 } };
+			double[][] arr = { { -10, 10, 1, 0, 3 }, { -10, 0, 2, 0, 3 },
+					{ 10, 0, 2, 0, 3 }, { 10, -10, 2, 1, 3 } };
 			for (int i = 0; i < arr.length; i++) {
 				spawnList.add(arr[i]);
 			}
 
 		} else if (type == 3) {
-			double[][] arr = { { 0, -10, 2, 0, 1 }, { 0, 10, 2, 0, 1 },
-					{ 0, 0, 3, 0, 1 } };
+			double[][] arr = { { 0, -10, 1, 0, 3 }, { 0, 10, 1, 0, 3 },
+					{ 0, 0, 2, 0, 3 } };
+			for (int i = 0; i < arr.length; i++) {
+				spawnList.add(arr[i]);
+			}
+		} else if (EnemyHandler.getE3Size() != 1) {
+			double[][] arr = { { 0, -10, 3, 0, 3 }, { -10, 0, 2, 0, 3 },
+					{ -10, 10, 2, 0, 3 }, { 0, 10, 1, 0, 3 },
+					{ 10, 0, 1, 0, 3 }, { 10, -10, 1, 0, 3 }, { 0, 0, 2, 0, 3 } };
 			for (int i = 0; i < arr.length; i++) {
 				spawnList.add(arr[i]);
 			}
 		} else {
-			double[][] arr = { { 0, -10, 1, 0, 1 }, { -10, 0, 2, 0, 1 },
-					{ -10, 10, 2, 0, 1 }, { 0, 10, 1, 0, 1 },
-					{ 10, 0, 2, 0, 1 }, { 10, -10, 2, 0, 1 }, { 0, 0, 3, 0, 1 } };
+			double[][] arr = { { 0, -10, 1, 0, 3 }, { -10, 0, 2, 0, 3 },
+					{ -10, 10, 2, 0, 3 }, { 0, 10, 1, 0, 3 },
+					{ 10, 0, 1, 0, 3 }, { 10, -10, 2, 0, 3 }, { 0, 0, 1, 0, 3 } };
 			for (int i = 0; i < arr.length; i++) {
 				spawnList.add(arr[i]);
 			}
@@ -197,5 +223,117 @@ public class SpawnAndCast {
 	// Gets the progress of the spawning animations
 	public double getSpawningProgress() {
 		return spawnList.get(0)[3] / spawnList.get(0)[4];
+	}
+
+	// generates directional hexagonal path for dragon
+	private static double[][] genDir(int hx, int hy, int q, int r,
+			double theta, Hextile[][] hextiles) {
+
+		int i = q + Hextile.size / 2;
+		int j = r + Hextile.size / 2;
+
+		double h = hextiles[i][j].getTilesh();
+		double w = hextiles[i][j].getTilesw() / 2;
+
+		int tq = q;
+		int tr = r;
+		double[] point, point2, point3;
+
+		double[] hAngles = new double[6];
+		hAngles[0] = Math.atan2((double) (h), (double) (w));
+		hAngles[1] = Math.atan2((double) (h), (double) (-w));
+		hAngles[2] = Math.atan2((double) (0), (double) (-w * 2));
+		hAngles[3] = (Math.atan2((double) (-h), (double) (-w)) + Math.PI * 2)
+				% (Math.PI * 2);
+		hAngles[4] = (Math.atan2((double) (-h), (double) (w)) + Math.PI * 2)
+				% (Math.PI * 2);
+
+		ArrayList<double[]> points = new ArrayList<double[]>();
+
+		while (i >= 0 && i < Hextile.size && j >= 0 && j < Hextile.size
+				&& hextiles[i][j] != null) {
+
+			point = new double[5];
+			point2 = new double[5];
+			point3 = new double[5];
+
+			if (theta < hAngles[0]) {
+				point2[0] = tq + 1;
+				point2[1] = tr - 1;
+				point3[0] = tq;
+				point3[1] = tr + 1;
+				tq++;
+			} else if (theta < hAngles[1]) {
+				point2[0] = tq + 1;
+				point2[1] = tr;
+				point3[0] = tq - 1;
+				point3[1] = tr + 1;
+				tr++;
+			} else if (theta < hAngles[2]) {
+				point2[0] = tq;
+				point2[1] = tr + 1;
+				point3[0] = tq - 1;
+				point3[1] = tr;
+				tq--;
+				tr++;
+			} else if (theta < hAngles[3]) {
+				point2[0] = tq - 1;
+				point2[1] = tr + 1;
+				point3[0] = tq;
+				point3[1] = tr - 1;
+				tq--;
+			} else if (theta < hAngles[4]) {
+				point2[0] = tq + 1;
+				point2[1] = tr - 1;
+				point3[0] = tq - 1;
+				point3[1] = tr;
+				tr--;
+			} else {
+				point2[0] = tq + 1;
+				point2[1] = tr;
+				point3[0] = tq;
+				point3[1] = tr - 1;
+				tq++;
+				tr--;
+			}
+
+			point[0] = tq;
+			point[1] = tr;
+			point[2] = point2[2] = point3[2] = 0;
+			point[3] = point2[3] = point3[3] = 0;
+			point[4] = point2[4] = point3[4] = 1;
+
+			if (!points.contains(point))
+				points.add(point);
+
+			i = (int) (point2[0] + Hextile.size / 2);
+			j = (int) (point2[1] + Hextile.size / 2);
+
+			if (i >= 0 && i < Hextile.size && j >= 0 && j < Hextile.size
+					&& hextiles[i][j] != null && !points.contains(point2))
+				points.add(point2);
+
+			i = (int) (point3[0] + Hextile.size / 2);
+			j = (int) (point3[1] + Hextile.size / 2);
+
+			if (i >= 0 && i < Hextile.size && j >= 0 && j < Hextile.size
+					&& hextiles[i][j] != null && !points.contains(point3))
+				points.add(point3);
+
+			i = tq + Hextile.size / 2;
+			j = tr + Hextile.size / 2;
+
+		}
+
+		double[][] indicator = new double[points.size()][];
+
+		for (int f = 0; f < indicator.length; f++) {
+			indicator[f] = points.get(f);
+		}
+		return indicator;
+	}
+
+	public int getSpawnSize() {
+		return spawnList.size();
 	}
 }

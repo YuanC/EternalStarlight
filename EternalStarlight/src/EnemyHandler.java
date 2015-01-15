@@ -2,8 +2,10 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 
+import javax.swing.ImageIcon;
 import javax.swing.UIManager;
 
+//handles all of the lists of enemies and their behaviours
 public class EnemyHandler {
 	private static ArrayList<Enemy1> enemy1List;
 	private static ArrayList<Enemy2> enemy2List;
@@ -11,7 +13,9 @@ public class EnemyHandler {
 	private static ArrayList<double[]> deathList;
 	private static int waveCnt, difficulty;
 	private static Hextile[][] hextiles;
-	double spawnCD, spawnTimer;
+	private double spawnCD, spawnTimer;
+	private static ImageIcon[] slime, dragon;
+	private static ImageIcon golem;
 
 	public EnemyHandler(int difficulty, Hextile[][] hextiles) {
 		enemy1List = new ArrayList<Enemy1>();
@@ -22,8 +26,20 @@ public class EnemyHandler {
 		spawnCD = 12 - difficulty;
 		this.difficulty = difficulty;
 		this.hextiles = hextiles;
+
+		slime = new ImageIcon[2];
+		slime[0] = new ImageIcon("lvlimages/leftSlime.gif");
+		slime[1] = new ImageIcon("lvlimages/slimeRight.gif");
+
+		golem = new ImageIcon("lvlimages/golem.png");
+
+		dragon = new ImageIcon[2];
+		dragon[0] = new ImageIcon("lvlimages/dragon.png");
+		dragon[1] = new ImageIcon("lvlimages/dragonFast.gif");
+
 	}
 
+	// updates all the arraylists and elements
 	public void update(double delta) {
 
 		if (spawnTimer <= 0) {
@@ -43,7 +59,7 @@ public class EnemyHandler {
 		}
 
 		for (int i = 0; i < deathList.size(); i++) {
-			deathList.get(i)[2] += delta * 5;
+			deathList.get(i)[2] += delta * 2;
 			if (deathList.get(i)[2] > 1) {
 				deathList.remove(i);
 				i--;
@@ -96,6 +112,7 @@ public class EnemyHandler {
 		}
 	}
 
+	// removes all objects inside occupying the specified hexagon tile
 	public static void removeInHex(int q, int r) {
 
 		int[] qr = { q, r };
@@ -120,16 +137,16 @@ public class EnemyHandler {
 
 		}
 
-		for (int i = 0; i < enemy3List.size(); i++) {
-			if (enemy3List.get(i).getQR()[0] == qr[0]
-					&& enemy3List.get(i).getQR()[1] == qr[1]) {
-				addDeath(enemy3List.get(i).getX(), enemy3List.get(i).getY());
-				enemy3List.remove(i);
-				i--;
-			}
-		}
+		/*
+		 * for (int i = 0; i < enemy3List.size(); i++) { if
+		 * (enemy3List.get(i).getQR()[0] == qr[0] &&
+		 * enemy3List.get(i).getQR()[1] == qr[1]) {
+		 * addDeath(enemy3List.get(i).getX(), enemy3List.get(i).getY());
+		 * enemy3List.remove(i); i--; } }
+		 */
 	}
 
+	// generates the total spell damage in a specifid tile
 	private int colCheck(int[] qr, int[][] qList, int[][] wList, int[][] eList,
 			int[][] rList) {
 
@@ -199,19 +216,19 @@ public class EnemyHandler {
 
 	}
 
+	// draws all the enemies
 	public void draw(Graphics2D g) {
-		// Updates the game for all the enemies
+
 		for (int i = 0; i < enemy1List.size(); i++) {
-			enemy1List.get(i).draw(g);
-			// System.out.println("yin");
+			enemy1List.get(i).draw(g, slime);
 		}
 
 		for (int i = 0; i < enemy2List.size(); i++) {
-			enemy2List.get(i).draw(g);
+			enemy2List.get(i).draw(g, golem);
 		}
 
 		for (int i = 0; i < enemy3List.size(); i++) {
-			enemy3List.get(i).draw(g);
+			enemy3List.get(i).draw(g, dragon);
 		}
 
 		drawDeaths(g);
@@ -219,11 +236,12 @@ public class EnemyHandler {
 	}
 
 	public void drawCnt(Graphics2D g) {
-		g.setFont(new Font("Arial", Font.PLAIN, 40));
-		g.drawString(waveCnt + "", 620, 50);
-		g.setFont(UIManager.getDefaults().getFont("TabbedPane.font"));
+		g.setFont(new Font("Arial", Font.PLAIN, 60));
+		g.drawString(waveCnt + "", 600, 80);
+		g.setFont(new Font("Arial", Font.PLAIN, 20));
 	}
 
+	// draws the enemy death animations
 	public void drawDeaths(Graphics2D g) {
 
 		double width = 50;
@@ -265,4 +283,15 @@ public class EnemyHandler {
 		return intArray;
 	}
 
+	public static int getE3Size() {
+		return enemy3List.size();
+	}
+
+	public int getListCnt() {
+		return enemy1List.size() + enemy2List.size() + enemy3List.size();
+	}
+
+	public int getWaveCnt() {
+		return waveCnt;
+	}
 }

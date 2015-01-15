@@ -1,5 +1,8 @@
 import java.awt.Graphics2D;
 
+import javax.swing.ImageIcon;
+
+//second golem enemy
 public class Enemy2 {
 
 	double x, y, speed, angle, theta, health, progress;
@@ -17,12 +20,11 @@ public class Enemy2 {
 		progress = Math.random();
 	}
 
-	public void draw(Graphics2D g) {
-
-		// TODO Actual PIC LOL
-		g.drawString(2 + "", (int) x, (int) y);
+	public void draw(Graphics2D g, ImageIcon golem) {
+		g.drawImage(golem.getImage(), (int) x - 30, (int) y - 40, 60, 50, null);
 	}
 
+	// moves and updates
 	public void update(double delta, Hextile[][] hextiles, int px, int py) {
 		angle = Math.atan2(py - y, px - x);
 		progress = (progress + delta / 20);
@@ -71,6 +73,7 @@ public class Enemy2 {
 
 	}
 
+	///makes sure the golem down't go out of bounds
 	private double[] alternateRouteCal(double delta) {
 
 		double newx, newy;

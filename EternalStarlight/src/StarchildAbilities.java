@@ -4,6 +4,7 @@ import java.awt.Graphics2D;
 import java.awt.Polygon;
 import java.util.ArrayList;
 
+//Handles the abilities and generates for the player
 public class StarchildAbilities extends PlayerAbilities {
 	private static int[][] indicator;
 	private static double qAngle;
@@ -12,16 +13,17 @@ public class StarchildAbilities extends PlayerAbilities {
 		super();
 
 		double[] cdList = new double[4];
-		cdList[0] = 0.5 * (1-cdr / 100);
-		cdList[1] = 4 * (1-cdr / 100.0);
-		cdList[2] = 3 * (1-cdr / 100.0);
-		cdList[3] = 15 * (1-cdr / 100.0);
+		cdList[0] = 0.5 * (1 - cdr / 100);
+		cdList[1] = 4 * (1 - cdr / 100.0);
+		cdList[2] = 3 * (1 - cdr / 100.0);
+		cdList[3] = 15 * (1 - cdr / 100.0);
 		setCDs(cdList);
 
 		indicator = new int[0][0];
 		qAngle = 0;
 	}
 
+	// draws the indicators for all the abilities
 	public void drawIndicator(Graphics2D g, Hextile[][] hextiles, int q, int r,
 			int mq, int mr, int x, int y, int mx, int my) {
 
@@ -84,6 +86,7 @@ public class StarchildAbilities extends PlayerAbilities {
 		}
 	}
 
+	// generates path for E and R ability
 	private ArrayList<int[]> genHex(Hextile[][] hextiles, int size, int mq,
 			int mr) {
 
@@ -190,6 +193,7 @@ public class StarchildAbilities extends PlayerAbilities {
 		return end;
 	}
 
+	// generates path for W ability
 	private void genDir(int hx, int hy, int q, int r, double theta,
 			Hextile[][] hextiles) {
 
