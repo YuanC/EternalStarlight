@@ -22,7 +22,7 @@ public class EnemyHandler {
 		enemy2List = new ArrayList<Enemy2>();
 		enemy3List = new ArrayList<Enemy3>();
 		deathList = new ArrayList<double[]>();
-		waveCnt = 50;// difficulty * 2;
+		waveCnt = difficulty * 5;
 		spawnCD = 12 - difficulty;
 		this.difficulty = difficulty;
 		this.hextiles = hextiles;

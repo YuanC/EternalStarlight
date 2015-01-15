@@ -16,12 +16,14 @@ public class Enemy2 {
 		speed = 30;
 		angle = 0;
 		theta = Math.random() * Math.PI * 2;
-		health = 1;
+		health = 25;
 		progress = Math.random();
 	}
 
 	public void draw(Graphics2D g, ImageIcon golem) {
 		g.drawImage(golem.getImage(), (int) x - 30, (int) y - 40, 60, 50, null);
+		g.drawLine((int) x - 25, (int) y, (int) (x - 25 + 50 * health / 25),
+				(int) y);
 	}
 
 	// moves and updates
@@ -73,7 +75,7 @@ public class Enemy2 {
 
 	}
 
-	///makes sure the golem down't go out of bounds
+	// /makes sure the golem down't go out of bounds
 	private double[] alternateRouteCal(double delta) {
 
 		double newx, newy;

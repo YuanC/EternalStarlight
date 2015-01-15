@@ -13,10 +13,10 @@ public class StarchildAbilities extends PlayerAbilities {
 		super();
 
 		double[] cdList = new double[4];
-		cdList[0] = 0.5 * (1 - cdr / 100);
-		cdList[1] = 4 * (1 - cdr / 100.0);
-		cdList[2] = 3 * (1 - cdr / 100.0);
-		cdList[3] = 15 * (1 - cdr / 100.0);
+		cdList[0] = 0.7 * (1 - cdr / 50);
+		cdList[1] = 7 * (1 - cdr / 50.0);
+		cdList[2] = 8 * (1 - cdr / 50.0);
+		cdList[3] = 20 * (1 - cdr / 50.0);
 		setCDs(cdList);
 
 		indicator = new int[0][0];

@@ -21,7 +21,7 @@ public class Enemy3 extends Enemy {
 		this.y = y;
 		speed = 20;
 		angle = 0;
-		health = 1;
+		health = 50;
 		progress = Math.random();
 	}
 
@@ -36,6 +36,8 @@ public class Enemy3 extends Enemy {
 			g.drawImage(dragon[0].getImage(), (int) x - 35, (int) y - 45, 60,
 					60, null);
 		}
+		g.drawLine((int) x - 25, (int) y, (int) (x - 25 + 50 * health / 50),
+				(int) y);
 	}
 
 	// updates the dragon

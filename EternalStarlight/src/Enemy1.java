@@ -33,6 +33,8 @@ public class Enemy1 extends Enemy {
 		else
 			g.drawImage(slime[1].getImage(), (int) x - 20, (int) y - 22, 40,
 					25, null);
+		g.drawLine((int) x - 25, (int) y+5, (int) (x - 25 + 50 * health / 5),
+				(int) y+5);
 	}
 
 	public void update(double delta, Hextile[][] hextiles, int px, int py) {

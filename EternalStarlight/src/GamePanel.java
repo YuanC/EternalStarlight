@@ -74,14 +74,17 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 		if (player.getHealth() <= 0) {
 			System.out.println("dead");
 			gameRunning = false;
-			EternalStarlight.addPoints(difficulty);
+			EternalStarlight.addPoints(difficulty*2);
 			// EternalStarlight.removePanel();
 		}
 		if (enemies.getWaveCnt() + enemies.getListCnt()
 				+ spawncast.getSpawnSize() <= 0) {
+
+			// DANIEL DOES HIS HOCUS POCUS MAJIC STUFF HERE
+
 			System.out.println("You win");
 			gameRunning = false;
-			EternalStarlight.addPoints(difficulty);
+			EternalStarlight.addPoints(difficulty*2);
 		}
 
 	}
@@ -213,7 +216,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 		}
 	}
 
-	//searches for an array in a specified 2d array
+	// searches for an array in a specified 2d array
 	public boolean search2DArray(int[][] arr2d, int[] arr) {
 
 		if (arr2d == null || arr.length == 0) {

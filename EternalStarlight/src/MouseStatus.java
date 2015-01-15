@@ -96,6 +96,7 @@ public class MouseStatus implements MouseListener, MouseMotionListener {
 
 	}
 
+	// executes actions caused by mouse click
 	@Override
 	public void mousePressed(MouseEvent e) {
 		if (SwingUtilities.isRightMouseButton(e)) {
