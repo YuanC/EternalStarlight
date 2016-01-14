@@ -27,8 +27,8 @@ public class Battle_Player {
 		hy = 60;
 		recoverCD = 2;
 
-		this.maxHealth = health;
-		this.health = health;
+		this.maxHealth = 9;
+		this.health = 9;
 
 		moving = true;
 
